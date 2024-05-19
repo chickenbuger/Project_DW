@@ -1,0 +1,15 @@
+{
+    "Version": "1.2",
+    "Data": {
+        "Source": "c:\\project_dw\\dreamworld\\intermediate\\build\\win64\\unrealeditor\\inc\\dreamworld\\uht\\dreamworldplayercontroller.gen.cpp",
+        "ProvidedModule": "",
+        "PCH": "c:\\project_dw\\dreamworld\\intermediate\\build\\win64\\x64\\dreamworldeditor\\development\\unrealed\\sharedpch.unrealed.cpp20.h.pch",
+        "Includes": [
+            "c:\\project_dw\\dreamworld\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\dreamworld\\definitions.dreamworld.h",
+            "c:\\project_dw\\dreamworld\\source\\dreamworld\\dreamworldplayercontroller.h",
+            "c:\\project_dw\\dreamworld\\intermediate\\build\\win64\\unrealeditor\\inc\\dreamworld\\uht\\dreamworldplayercontroller.generated.h"
+        ],
+        "ImportedModules": [],
+        "ImportedHeaderUnits": []
+    }
+}

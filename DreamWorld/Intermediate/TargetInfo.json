@@ -1,0 +1,14 @@
+{
+	"Targets": [
+		{
+			"Name": "DreamWorld",
+			"Path": "..\\Source\\DreamWorld.Target.cs",
+			"Type": "Game"
+		},
+		{
+			"Name": "DreamWorldEditor",
+			"Path": "..\\Source\\DreamWorldEditor.Target.cs",
+			"Type": "Editor"
+		}
+	]
+}
