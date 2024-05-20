@@ -2,4 +2,94 @@
 
 
 #include "DreamWorld/FrameWork/Main/PC_Main.h"
+/** Input */
+#include "EnhancedInputSubsystems.h"
+#include "EnhancedInputComponent.h"
 
+/** AI Library */
+#include "Blueprint/AIBlueprintHelperLibrary.h"
+
+/** VFX */
+#include "NiagaraFunctionLibrary.h"
+
+APC_Main::APC_Main()
+{
+	bShowMouseCursor = true;
+	DefaultMouseCursor = EMouseCursor::Default;
+
+	m_CachedDestination = FVector::ZeroVector;
+	m_FollowTime = 0.0f;
+}
+
+void APC_Main::BeginPlay()
+{
+	Super::BeginPlay();
+
+	if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer()))
+	{
+		Subsystem->AddMappingContext(m_DefaultMappingContext, 0);
+	}
+}
+
+void APC_Main::SetupInputComponent()
+{
+	Super::SetupInputComponent();
+
+	// Set up action bindings
+	if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(InputComponent))
+	{
+		// Setup mouse input events
+		EnhancedInputComponent->BindAction(m_MoveClickAction, ETriggerEvent::Started, this, &APC_Main::OnInputStarted);	
+		EnhancedInputComponent->BindAction(m_MoveClickAction, ETriggerEvent::Triggered, this, &APC_Main::OnDestinationTriggered);
+		EnhancedInputComponent->BindAction(m_MoveClickAction, ETriggerEvent::Completed, this, &APC_Main::OnDestinationReleased);
+		EnhancedInputComponent->BindAction(m_MoveClickAction, ETriggerEvent::Canceled, this, &APC_Main::OnDestinationReleased);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("'%s' Failed to find an Enhanced Input Component! This template is built to use the Enhanced Input system. If you intend to use the legacy system, then you will need to update this C++ file."), *GetNameSafe(this));
+	}
+}
+
+void APC_Main::OnInputStarted()
+{
+	StopMovement();
+}
+
+void APC_Main::OnDestinationTriggered()
+{
+	FHitResult Hit;
+	bool bHitSuccessful = false;
+
+	//Hit Result 
+	bHitSuccessful = GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, true, Hit);
+
+	if (false == bHitSuccessful)
+	{
+		return;
+	}
+
+	m_CachedDestination = Hit.Location;
+	
+
+	TObjectPtr<APawn> ControlledPawn = GetPawn();
+	if (nullptr == ControlledPawn)
+	{
+		return;
+	}
+
+	FVector WorldDirection = (m_CachedDestination - ControlledPawn->GetActorLocation()).GetSafeNormal();
+	ControlledPawn->AddMovementInput(WorldDirection, 1.0, false);
+}
+
+void APC_Main::OnDestinationReleased()
+{
+	// If it was a short press
+	if (m_FollowTime <= m_ShortPressThreshold)
+	{
+		// We move there and spawn some particles
+		UAIBlueprintHelperLibrary::SimpleMoveToLocation(this, m_CachedDestination);
+		UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, m_VFX_Cursor, m_CachedDestination, FRotator::ZeroRotator, FVector(1.f, 1.f, 1.f), true, true, ENCPoolMethod::None, true);
+	}
+
+	m_FollowTime = 0.f;
+}
