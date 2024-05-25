@@ -42,7 +42,7 @@ protected:
 private:
 	/** Time Threshold to know if it was a short press */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
-	float m_ShortPressThreshold;
+	float m_ShortPressThreshold;	
 
 	/** Player Click Input VFX */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input | VFX", meta = (AllowPrivateAccess = "true"))
