@@ -40,6 +40,7 @@ protected:
 	void OnDestinationReleased(); 
 
 	//Attack
+	void OnBasicAttackStarted();
 	void OnBasicAttackTriggered();
 	void OnBasicAttackReleased();
 

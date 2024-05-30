@@ -36,5 +36,5 @@ void UAI_Player::NativeUpdateAnimation(float DeltaSeconds)
 
 	m_Velocity = PawnMovementComponent->Velocity;
 
-	m_Speed = m_Velocity.Size();
+	m_Speed = m_Velocity.Size2D();
 }

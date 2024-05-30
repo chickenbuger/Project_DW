@@ -46,7 +46,7 @@ void APC_Main::SetupInputComponent()
 		EnhancedInputComponent->BindAction(m_MoveClickAction, ETriggerEvent::Canceled, this, &APC_Main::OnDestinationReleased);
 
 		//Attack
-		EnhancedInputComponent->BindAction(m_BasicAttackAction, ETriggerEvent::Started, this, &APC_Main::OnInputStarted);
+		EnhancedInputComponent->BindAction(m_BasicAttackAction, ETriggerEvent::Started, this, &APC_Main::OnBasicAttackStarted);
 		EnhancedInputComponent->BindAction(m_BasicAttackAction, ETriggerEvent::Triggered, this, &APC_Main::OnBasicAttackTriggered);
 		EnhancedInputComponent->BindAction(m_BasicAttackAction, ETriggerEvent::Completed, this, &APC_Main::OnBasicAttackReleased);
 		EnhancedInputComponent->BindAction(m_BasicAttackAction, ETriggerEvent::Canceled, this, &APC_Main::OnBasicAttackReleased);
@@ -99,6 +99,13 @@ void APC_Main::OnDestinationReleased()
 	}
 
 	m_FollowTime = 0.f;
+}
+
+void APC_Main::OnBasicAttackStarted()
+{
+	StopMovement();
+
+	UE_LOG(LogTemp, Warning, TEXT("APC_Main::OnBasicAttackStarted"));
 }
 
 void APC_Main::OnBasicAttackTriggered()
