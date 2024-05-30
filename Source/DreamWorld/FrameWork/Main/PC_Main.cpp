@@ -39,10 +39,17 @@ void APC_Main::SetupInputComponent()
 	if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(InputComponent))
 	{
 		// Setup mouse input events
+		// Move
 		EnhancedInputComponent->BindAction(m_MoveClickAction, ETriggerEvent::Started, this, &APC_Main::OnInputStarted);	
 		EnhancedInputComponent->BindAction(m_MoveClickAction, ETriggerEvent::Triggered, this, &APC_Main::OnDestinationTriggered);
 		EnhancedInputComponent->BindAction(m_MoveClickAction, ETriggerEvent::Completed, this, &APC_Main::OnDestinationReleased);
 		EnhancedInputComponent->BindAction(m_MoveClickAction, ETriggerEvent::Canceled, this, &APC_Main::OnDestinationReleased);
+
+		//Attack
+		EnhancedInputComponent->BindAction(m_BasicAttackAction, ETriggerEvent::Started, this, &APC_Main::OnInputStarted);
+		EnhancedInputComponent->BindAction(m_BasicAttackAction, ETriggerEvent::Triggered, this, &APC_Main::OnBasicAttackTriggered);
+		EnhancedInputComponent->BindAction(m_BasicAttackAction, ETriggerEvent::Completed, this, &APC_Main::OnBasicAttackReleased);
+		EnhancedInputComponent->BindAction(m_BasicAttackAction, ETriggerEvent::Canceled, this, &APC_Main::OnBasicAttackReleased);
 	}
 	else
 	{
@@ -92,4 +99,14 @@ void APC_Main::OnDestinationReleased()
 	}
 
 	m_FollowTime = 0.f;
+}
+
+void APC_Main::OnBasicAttackTriggered()
+{
+	UE_LOG(LogTemp, Warning, TEXT("APC_Main::OnBasicAttackTriggered"));
+}
+
+void APC_Main::OnBasicAttackReleased()
+{
+	UE_LOG(LogTemp, Warning, TEXT("APC_Main::OnBasicAttackReleased"));
 }

@@ -39,6 +39,10 @@ protected:
 	void OnDestinationTriggered(); // Every Tick Checked when input is Held down
 	void OnDestinationReleased(); 
 
+	//Attack
+	void OnBasicAttackTriggered();
+	void OnBasicAttackReleased();
+
 private:
 	/** Time Threshold to know if it was a short press */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
@@ -54,6 +58,9 @@ private:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr <UInputAction> m_MoveClickAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr <UInputAction> m_BasicAttackAction;
 
 	FVector m_CachedDestination; //Player Location
 	float m_FollowTime; //How long did you press it
