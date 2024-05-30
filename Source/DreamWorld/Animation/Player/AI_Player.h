@@ -31,5 +31,5 @@ private:
 	FVector							m_Velocity;
 
 	UPROPERTY(Transient, EditAnywhere, BlueprintReadOnly, Category = "Pawn | Speed", meta = (AllowPrivateAccess = "true"))
-	float									m_Speed;
+	double								m_Speed;
 };
