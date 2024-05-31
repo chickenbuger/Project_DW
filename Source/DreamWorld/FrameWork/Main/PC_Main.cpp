@@ -2,6 +2,10 @@
 
 
 #include "DreamWorld/FrameWork/Main/PC_Main.h"
+/** character */
+#include "DreamWorld/FrameWork/Main/PS_Main.h"
+#include "DreamWorld/FrameWork/Main/C_Main.h"
+
 /** Input */
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
@@ -55,6 +59,25 @@ void APC_Main::SetupInputComponent()
 	{
 		UE_LOG(LogTemp, Error, TEXT("'%s' Failed to find an Enhanced Input Component! This template is built to use the Enhanced Input system. If you intend to use the legacy system, then you will need to update this C++ file."), *GetNameSafe(this));
 	}
+}
+
+void APC_Main::OnPossess(APawn* InPawn)
+{
+	Super::OnPossess(InPawn);
+
+	TObjectPtr<APS_Main> MainPlayerState = Cast<APS_Main>(PlayerState);
+	if (nullptr == MainPlayerState)
+	{
+		return;
+	}
+
+	MainPlayerState->Init();
+}
+
+void APC_Main::OnUnPossess()
+{
+	Super::OnUnPossess();
+
 }
 
 void APC_Main::OnInputStarted()

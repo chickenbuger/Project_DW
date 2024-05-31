@@ -33,6 +33,8 @@ public:
 protected:
 	virtual void BeginPlay();
 	virtual void SetupInputComponent() override;
+	virtual void OnPossess(APawn* InPawn) override;
+	virtual void OnUnPossess() override;
 
 	/** Input Handler for Move Action */
 	void OnInputStarted(); //Input Start
