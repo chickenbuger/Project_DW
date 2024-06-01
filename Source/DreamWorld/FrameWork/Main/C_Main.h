@@ -15,6 +15,14 @@ public:
 	// Sets default values for this character's properties
 	AC_Main();
 
+public:
+	//Offense
+	void UseSkill(int32 in_SkillID);
+	void BasicAttack();
+
+	//Animation
+	void RequestAnimationMontage(TObjectPtr<UAnimMontage> in_AnimMontage);
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

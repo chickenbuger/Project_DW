@@ -128,15 +128,28 @@ void APC_Main::OnBasicAttackStarted()
 {
 	StopMovement();
 
-	UE_LOG(LogTemp, Warning, TEXT("APC_Main::OnBasicAttackStarted"));
+	TObjectPtr<APawn> ControlledPawn = GetPawn();
+	if (nullptr == ControlledPawn)
+	{
+		return;
+	}
+
+	TObjectPtr<AC_Main> ControlledCharacter = Cast<AC_Main>(ControlledPawn);
+	if (nullptr == ControlledCharacter)
+	{
+		return;
+	}
+
+	ControlledCharacter->BasicAttack();
+	//UE_LOG(LogTemp, Warning, TEXT("APC_Main::OnBasicAttackStarted"));
 }
 
 void APC_Main::OnBasicAttackTriggered()
 {
-	UE_LOG(LogTemp, Warning, TEXT("APC_Main::OnBasicAttackTriggered"));
+	//UE_LOG(LogTemp, Warning, TEXT("APC_Main::OnBasicAttackTriggered"));
 }
 
 void APC_Main::OnBasicAttackReleased()
 {
-	UE_LOG(LogTemp, Warning, TEXT("APC_Main::OnBasicAttackReleased"));
+	//UE_LOG(LogTemp, Warning, TEXT("APC_Main::OnBasicAttackReleased"));
 }

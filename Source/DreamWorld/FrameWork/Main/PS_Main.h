@@ -4,12 +4,17 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerState.h"
+
+/** Enum */
+#include "../../ENUM/PlayerEnum.h"
+
 #include "PS_Main.generated.h"
 
 /**
  * 
  */
 class UAC_SkillManager;
+class UAC_PlayerAnimation;
 
 UCLASS()
 class DREAMWORLD_API APS_Main : public APlayerState
@@ -21,6 +26,10 @@ public:
 
 public:
 	void Init();
+	
+	//Attack
+	void RequestBasicAttack();
+	void RequestPlayerSkill(int32 in_SkillID);
 
 public:
 	//Getter
@@ -42,7 +51,13 @@ private:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Stats", meta = (AllowPrivateAccess = "true"))
 	float	m_Stamina;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State", meta = (AllowPrivateAccess = "true"))
+	EPlayerWeaponState m_WeaponState;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Skill", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UAC_SkillManager> m_SkillManager;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Animation", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UAC_PlayerAnimation> m_PlayerAnimationManager;
 };

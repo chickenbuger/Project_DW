@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "DreamWorld/Framework/Main/C_Main.h"
+#include "DreamWorld/FrameWork/Main/PS_Main.h"
 
 // Sets default values
 AC_Main::AC_Main()
@@ -8,6 +9,38 @@ AC_Main::AC_Main()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+}
+
+void AC_Main::UseSkill(int32 in_SkillID)
+{
+	TObjectPtr<APS_Main> playerstate = GetPlayerState<APS_Main>();
+	if (nullptr == playerstate)
+	{
+		return;
+	}
+
+	if (0 > in_SkillID)
+	{
+		return;
+	}
+
+	playerstate->RequestPlayerSkill(in_SkillID);
+}
+
+void AC_Main::BasicAttack()
+{
+	TObjectPtr<APS_Main> playerstate = GetPlayerState<APS_Main>();
+	if (nullptr == playerstate)
+	{
+		return;
+	}
+
+	playerstate->RequestBasicAttack();
+}
+
+void AC_Main::RequestAnimationMontage(TObjectPtr<UAnimMontage> in_AnimMontage)
+{
+	PlayAnimMontage(in_AnimMontage);
 }
 
 // Called when the game starts or when spawned
