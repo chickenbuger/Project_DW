@@ -31,6 +31,12 @@ public:
 	void RequestBasicAttack();
 	void RequestPlayerSkill(int32 in_SkillID);
 
+	//Animation
+	void EndAnimation();
+
+	//Move
+	bool PlayerMoveable();
+
 public:
 	//Getter
 	float GetHealth() const		{ return m_Health; }

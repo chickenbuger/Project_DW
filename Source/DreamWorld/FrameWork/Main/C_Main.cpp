@@ -40,7 +40,22 @@ void AC_Main::BasicAttack()
 
 void AC_Main::RequestAnimationMontage(TObjectPtr<UAnimMontage> in_AnimMontage)
 {
-	PlayAnimMontage(in_AnimMontage);
+	if (nullptr == in_AnimMontage)
+	{
+		return;
+	}
+
+	if (!(GetMesh() && GetMesh()->GetAnimInstance()))
+	{
+		return;
+	}
+
+	FOnMontageEnded EndDelegate;
+	EndDelegate.BindUObject(this, &AC_Main::OnMontageEnded);
+
+	GetMesh()->GetAnimInstance()->Montage_Play(in_AnimMontage);
+
+	GetMesh()->GetAnimInstance()->Montage_SetEndDelegate(EndDelegate, in_AnimMontage);
 }
 
 // Called when the game starts or when spawned
@@ -48,6 +63,19 @@ void AC_Main::BeginPlay()
 {
 	Super::BeginPlay();
 	
+}
+
+void AC_Main::OnMontageEnded(UAnimMontage* in_Montage, bool bInterrupted)
+{
+	UE_LOG(LogTemp, Warning, TEXT("Call OnMontageEnded"));
+
+	TObjectPtr<APS_Main> playerstate = GetPlayerState<APS_Main>();
+	if (nullptr == playerstate)
+	{
+		return;
+	}
+
+	playerstate->EndAnimation();
 }
 
 // Called every frame

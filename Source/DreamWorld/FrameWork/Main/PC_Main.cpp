@@ -87,6 +87,17 @@ void APC_Main::OnInputStarted()
 
 void APC_Main::OnDestinationTriggered()
 {
+	TObjectPtr<APS_Main> MainPlayerState = Cast<APS_Main>(PlayerState);
+	if (nullptr == MainPlayerState)
+	{
+		return;
+	}
+
+	if (!MainPlayerState->PlayerMoveable())
+	{
+		return;
+	}
+
 	FHitResult Hit;
 	bool bHitSuccessful = false;
 
@@ -113,6 +124,17 @@ void APC_Main::OnDestinationTriggered()
 
 void APC_Main::OnDestinationReleased()
 {
+	TObjectPtr<APS_Main> MainPlayerState = Cast<APS_Main>(PlayerState);
+	if (nullptr == MainPlayerState)
+	{
+		return;
+	}
+
+	if (!MainPlayerState->PlayerMoveable())
+	{
+		return;
+	}
+
 	// If it was a short press
 	if (m_FollowTime <= m_ShortPressThreshold)
 	{

@@ -23,10 +23,6 @@ public:
 	//Animation
 	void RequestAnimationMontage(TObjectPtr<UAnimMontage> in_AnimMontage);
 
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -34,4 +30,11 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+protected:
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
+
+private:
+	UFUNCTION()
+	void OnMontageEnded(UAnimMontage* in_Montage, bool bInterrupted);
 };

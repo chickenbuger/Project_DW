@@ -24,10 +24,17 @@ public:
 
 	//Basic Attack
 	void RequestBasicAttack(EPlayerWeaponState in_WeaponState);
+	
+	//Animation Using Check
+	bool AnimationCanUsing();
+	void AnimationStart();
+	void AnimationFinish();
+
 
 public:
 	/** Getter */
-	TObjectPtr<APawn> GetOwnerCharacter() const { return m_OwnerCharacter; }
+	TObjectPtr<APawn>	GetOwnerCharacter() const		{ return m_OwnerCharacter; }
+	bool								GetUseAnimaton() const				{ return m_UseAnimation; }
 
 	/** Setter */
 	void SetOwnerCharacter(TObjectPtr<APawn> in_OwnerChacter) { m_OwnerCharacter = in_OwnerChacter; }
@@ -39,6 +46,9 @@ protected:
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Animation", meta = (AllowPrivateAccess = "true"))
 	TMap<EPlayerWeaponState, TObjectPtr<UAnimMontage>> m_BasicAttackAnimation;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Animation", meta = (AllowPrivateAccess = "true"))
+	bool m_UseAnimation;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Owner", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<APawn> m_OwnerCharacter;

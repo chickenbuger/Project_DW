@@ -17,6 +17,8 @@ UAC_PlayerAnimation::UAC_PlayerAnimation()
 	PrimaryComponentTick.bCanEverTick = false;
 	
 	Init();
+
+	m_UseAnimation = false;
 }
 
 void UAC_PlayerAnimation::Init()
@@ -27,6 +29,11 @@ void UAC_PlayerAnimation::Init()
 
 void UAC_PlayerAnimation::RequestBasicAttack(EPlayerWeaponState in_WeaponState)
 {
+	if (false == AnimationCanUsing())
+	{
+		return;
+	}
+
 	if (nullptr == m_BasicAttackAnimation.Find(in_WeaponState))
 	{
 		return;
@@ -44,7 +51,27 @@ void UAC_PlayerAnimation::RequestBasicAttack(EPlayerWeaponState in_WeaponState)
 		return;
 	}
 
+	UAC_PlayerAnimation::AnimationStart();
 	ownerCharacter->RequestAnimationMontage(m_BasicAttackAnimation[in_WeaponState]);
+}
+
+/** 
+* Can Use -> True
+* Can't Use -> False
+*/
+bool UAC_PlayerAnimation::AnimationCanUsing()
+{
+	return !m_UseAnimation;
+}
+
+void UAC_PlayerAnimation::AnimationStart()
+{
+	m_UseAnimation = true;
+}
+
+void UAC_PlayerAnimation::AnimationFinish()
+{
+	m_UseAnimation = false;
 }
 
 // Called when the game starts

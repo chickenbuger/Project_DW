@@ -51,3 +51,19 @@ void APS_Main::RequestBasicAttack()
 void APS_Main::RequestPlayerSkill(int32 in_SkillID)
 {
 }
+
+void APS_Main::EndAnimation()
+{
+	m_PlayerAnimationManager->AnimationFinish();
+}
+
+bool APS_Main::PlayerMoveable()
+{
+	// 애니메이션이 사용이 가능하지 않은 경우
+	if (!m_PlayerAnimationManager->AnimationCanUsing())
+	{
+		return false;
+	}
+
+	return true;
+}
