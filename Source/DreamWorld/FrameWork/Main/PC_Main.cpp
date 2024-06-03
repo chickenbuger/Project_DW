@@ -110,7 +110,6 @@ void APC_Main::OnDestinationTriggered()
 	}
 
 	m_CachedDestination = Hit.Location;
-	
 
 	TObjectPtr<APawn> ControlledPawn = GetPawn();
 	if (nullptr == ControlledPawn)
