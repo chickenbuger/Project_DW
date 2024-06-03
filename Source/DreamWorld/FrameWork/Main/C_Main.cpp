@@ -3,12 +3,16 @@
 #include "DreamWorld/Framework/Main/C_Main.h"
 #include "DreamWorld/FrameWork/Main/PS_Main.h"
 
+/** Components */
+#include "Components/CapsuleComponent.h"
+
 // Sets default values
 AC_Main::AC_Main()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	GetCapsuleComponent()->SetCollisionProfileName(TEXT("PlayerCharacter"));
 }
 
 void AC_Main::UseSkill(int32 in_SkillID)
