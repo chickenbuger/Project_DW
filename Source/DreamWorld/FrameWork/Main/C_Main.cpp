@@ -5,12 +5,20 @@
 
 /** Components */
 #include "Components/CapsuleComponent.h"
+#include "DreamWorld/FrameWork/ActorComponent/AC_AttackManager.h"
 
 // Sets default values
 AC_Main::AC_Main()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+
+	m_AttackManager = CreateDefaultSubobject<UAC_AttackManager>(TEXT("AttackManager"));
+	if (nullptr == m_AttackManager)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("AC_Main :: m_AttackManager is NULL"));
+		return;
+	}
 
 	GetCapsuleComponent()->SetCollisionProfileName(TEXT("PlayerCharacter"));
 }
@@ -39,7 +47,13 @@ void AC_Main::BasicAttack()
 		return;
 	}
 
-	playerstate->RequestBasicAttack();
+	if (nullptr == m_AttackManager)
+	{
+		return;
+	}
+
+	m_AttackManager->CallAttemptAttack(this, 10.f);
+	playerstate->RequestBasicAttackAnimation();
 }
 
 void AC_Main::RequestAnimationMontage(TObjectPtr<UAnimMontage> in_AnimMontage)
@@ -67,6 +81,7 @@ void AC_Main::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	m_AttackManager->SetOwnerCharacter(this);
 }
 
 void AC_Main::OnMontageEnded(UAnimMontage* in_Montage, bool bInterrupted)

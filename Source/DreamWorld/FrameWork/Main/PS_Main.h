@@ -28,7 +28,7 @@ public:
 	void Init();
 	
 	//Attack
-	void RequestBasicAttack();
+	void RequestBasicAttackAnimation();
 	void RequestPlayerSkill(int32 in_SkillID);
 
 	//Animation

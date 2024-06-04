@@ -43,7 +43,7 @@ void APS_Main::Init()
 	m_PlayerAnimationManager->Init();
 }
 
-void APS_Main::RequestBasicAttack()
+void APS_Main::RequestBasicAttackAnimation()
 {
 	m_PlayerAnimationManager->RequestBasicAttack(m_WeaponState);
 }

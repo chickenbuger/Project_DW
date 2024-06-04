@@ -6,6 +6,8 @@
 #include "GameFramework/Character.h"
 #include "C_Main.generated.h"
 
+class UAC_AttackManager;
+
 UCLASS()
 class DREAMWORLD_API AC_Main : public ACharacter
 {
@@ -33,6 +35,10 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+private:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Manager", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UAC_AttackManager> m_AttackManager;
 
 private:
 	UFUNCTION()
