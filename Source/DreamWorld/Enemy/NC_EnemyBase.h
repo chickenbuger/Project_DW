@@ -15,6 +15,13 @@ public:
 	// Sets default values for this pawn's properties
 	ANC_EnemyBase();
 
+public:
+	void TakeDamage(float In_Damage);
+
+public:
+	/** Getter */
+	float GetHP() const { return m_Hp; }
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -26,4 +33,10 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	/** (float)Hp, () */
+	virtual void Init(float in_Hp = 0.0f);
+
+private:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	float m_Hp;
 };

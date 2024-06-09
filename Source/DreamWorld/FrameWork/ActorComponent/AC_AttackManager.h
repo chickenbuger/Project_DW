@@ -21,7 +21,7 @@ public:
 	* 인자 : 공격 시도자, 데미지
 	* 공격 범위 체크 및 데미지 처리
 	*/
-	void CallAttemptAttack(TObjectPtr<AActor> in_Player, uint32 in_Damage);
+	void CallAttemptAttack(TObjectPtr<AActor> in_Player, float in_Damage);
 
 public:
 	/** Getter */

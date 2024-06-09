@@ -86,8 +86,6 @@ void AC_Main::BeginPlay()
 
 void AC_Main::OnMontageEnded(UAnimMontage* in_Montage, bool bInterrupted)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Call OnMontageEnded"));
-
 	TObjectPtr<APS_Main> playerstate = GetPlayerState<APS_Main>();
 	if (nullptr == playerstate)
 	{

@@ -1,7 +1,12 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
+/** Manager */
 #include "DreamWorld/FrameWork/ActorComponent/AC_AttackManager.h"
+
+/** Enemy */
+#include "DreamWorld/Enemy/NC_EnemyBase.h"
+
+/** Draw */
 #include "DrawDebugHelpers.h"
 
 // Sets default values for this component's properties
@@ -14,11 +19,27 @@ UAC_AttackManager::UAC_AttackManager()
 	// ...
 }
 
-void UAC_AttackManager::CallAttemptAttack(TObjectPtr<AActor> in_Player, uint32 in_Damage)
+void UAC_AttackManager::CallAttemptAttack(TObjectPtr<AActor> in_Player, float in_Damage)
 {
 	TArray<FHitResult> OutHits;
 
-	CheckTheScopeOfTheAttack(100.f, OutHits);
+	if (!CheckTheScopeOfTheAttack(100.f, OutHits))
+	{
+		return;
+	}
+
+	UE_LOG(LogTemp, Warning, TEXT("How much Attack %d"), OutHits.Num());
+
+	for (const FHitResult& OutHit : OutHits)
+	{
+		TObjectPtr<ANC_EnemyBase> enemy = Cast<ANC_EnemyBase>(OutHit.GetActor());
+		if (nullptr == enemy)
+		{
+			continue;
+		}
+
+		enemy->TakeDamage(10.0f);
+	}
 }
 
 // Called when the game starts

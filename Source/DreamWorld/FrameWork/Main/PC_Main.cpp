@@ -147,6 +147,17 @@ void APC_Main::OnDestinationReleased()
 
 void APC_Main::OnBasicAttackStarted()
 {
+	TObjectPtr<APS_Main> MainPlayerState = Cast<APS_Main>(PlayerState);
+	if (nullptr == MainPlayerState)
+	{
+		return;
+	}
+
+	if (!MainPlayerState->PlayerMoveable())
+	{
+		return;
+	}
+
 	StopMovement();
 
 	TObjectPtr<APawn> ControlledPawn = GetPawn();
