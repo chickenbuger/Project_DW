@@ -3,11 +3,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Pawn.h"
+#include "GameFramework/Character.h"
 #include "NC_EnemyBase.generated.h"
 
+class UWidgetComponent;
+
 UCLASS()
-class DREAMWORLD_API ANC_EnemyBase : public APawn
+class DREAMWORLD_API ANC_EnemyBase : public ACharacter
 {
 	GENERATED_BODY()
 
@@ -20,7 +22,8 @@ public:
 
 public:
 	/** Getter */
-	float GetHP() const { return m_Hp; }
+	float GetHP()			const { return m_Hp; }
+	float GetMaxHP()	const { return m_MaxHp; }
 
 public:	
 	// Called every frame
@@ -33,10 +36,16 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	/** (float)Hp, () */
-	virtual void Init(float in_Hp = 0.0f);
+	/** (float)MaxHp, () */
+	virtual void Init(float in_MaxHp = 0.0f);
 
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	float m_Hp;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	float m_MaxHp;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UWidgetComponent> m_HpBar;
 };

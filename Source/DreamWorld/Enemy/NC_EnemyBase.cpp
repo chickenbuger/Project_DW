@@ -2,12 +2,30 @@
 
 
 #include "DreamWorld/Enemy/NC_EnemyBase.h"
+#include "Components/WidgetComponent.h"
 
 // Sets default values
 ANC_EnemyBase::ANC_EnemyBase()
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
+
+	m_HpBar = CreateDefaultSubobject<UWidgetComponent>(TEXT("HpWidget"));
+	if (nullptr == m_HpBar)
+	{
+		return;
+	}
+	m_HpBar->SetupAttachment(GetMesh());
+	m_HpBar->SetRelativeLocation(FVector{ 0.f,0.f,180.f });
+
+	static ConstructorHelpers::FClassFinder<UUserWidget> HpBarWidgetRef = TEXT("WidgetBlueprint'/Game/Widget/UW_EnemyHpBar.UW_EnemyHpBar_C'");
+	if (HpBarWidgetRef.Class)
+	{
+		m_HpBar->SetWidgetClass(HpBarWidgetRef.Class);
+		m_HpBar->SetWidgetSpace(EWidgetSpace::Screen);
+		m_HpBar->SetDrawSize(FVector2D{ 100.f,10.0f });
+		m_HpBar->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	}
 
 	m_Hp = 100.0f;
 }
@@ -26,11 +44,11 @@ void ANC_EnemyBase::BeginPlay()
 	
 }
 
-void ANC_EnemyBase::Init(float in_Hp)
+void ANC_EnemyBase::Init(float in_MaxHp)
 {
-	m_Hp = in_Hp;
+	m_MaxHp = in_MaxHp;
+	m_Hp = in_MaxHp;
 }
-
 
 // Called to bind functionality to input
 void ANC_EnemyBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
