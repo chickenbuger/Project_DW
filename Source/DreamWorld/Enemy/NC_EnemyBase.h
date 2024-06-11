@@ -8,6 +8,8 @@
 
 class UWidgetComponent;
 
+DECLARE_MULTICAST_DELEGATE(FOnHpChanged);
+
 UCLASS()
 class DREAMWORLD_API ANC_EnemyBase : public ACharacter
 {
@@ -16,6 +18,10 @@ class DREAMWORLD_API ANC_EnemyBase : public ACharacter
 public:
 	// Sets default values for this pawn's properties
 	ANC_EnemyBase();
+
+public:
+	//HpChanged
+	FOnHpChanged DeleMuti_Func_HpChanged;
 
 public:
 	void TakeDamage(float In_Damage);
@@ -38,6 +44,9 @@ protected:
 
 	/** (float)MaxHp, () */
 	virtual void Init(float in_MaxHp = 0.0f);
+
+	UFUNCTION()
+	virtual void CallDeleMuti_Func_HpChanged();
 
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))

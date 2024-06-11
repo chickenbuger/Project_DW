@@ -28,8 +28,6 @@ void UAC_AttackManager::CallAttemptAttack(TObjectPtr<AActor> in_Player, float in
 		return;
 	}
 
-	UE_LOG(LogTemp, Warning, TEXT("How much Attack %d"), OutHits.Num());
-
 	for (const FHitResult& OutHit : OutHits)
 	{
 		TObjectPtr<ANC_EnemyBase> enemy = Cast<ANC_EnemyBase>(OutHit.GetActor());
@@ -61,8 +59,6 @@ bool UAC_AttackManager::CheckTheScopeOfTheAttack(uint32 in_Range, TArray<FHitRes
 	FVector BoxHalfSize = FVector(50.f, 50.f, 50.f);
 	FRotator Orientation = m_OwnerCharacter->GetActorRotation();
 
-	UE_LOG(LogTemp, Warning, TEXT("Check Rot %s"), *Orientation.ToString());
-
 	ECollisionChannel TraceChannel = ECC_GameTraceChannel4;
 
 	FCollisionQueryParams Params;
@@ -84,7 +80,6 @@ bool UAC_AttackManager::CheckTheScopeOfTheAttack(uint32 in_Range, TArray<FHitRes
 	{
 		for (const FHitResult& OutHit : OutHits)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("CheckTheScopeOfTheAttack %s"),*OutHit.ToString());
 			DrawDebugBox(GetWorld(), OutHit.ImpactPoint, BoxHalfSize, Orientation.Quaternion(), FColor::Red, false, 2.0f);
 		}
 		return true;

@@ -13,9 +13,4 @@ void UW_EnemyHPBar::NativeConstruct()
 {
 	Super::NativeConstruct();
 
-	m_HPProgressBar = Cast<UProgressBar>(GetWidgetFromName(TEXT("PB_HpBar")));
-	if (nullptr == m_HPProgressBar)
-	{
-		return;
-	}
 }

@@ -2,6 +2,7 @@
 
 
 #include "DreamWorld/Enemy/NC_EnemyBase.h"
+#include "DreamWorld/Widget/Enemy/W_EnemyHPBar.h"
 #include "Components/WidgetComponent.h"
 
 // Sets default values
@@ -27,7 +28,8 @@ ANC_EnemyBase::ANC_EnemyBase()
 		m_HpBar->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	}
 
-	m_Hp = 100.0f;
+	m_MaxHp		= 100.0f;
+	m_Hp			= 100.0f;
 }
 
 void ANC_EnemyBase::TakeDamage(float In_Damage)
@@ -35,6 +37,7 @@ void ANC_EnemyBase::TakeDamage(float In_Damage)
 	m_Hp -= In_Damage;
 
 	UE_LOG(LogTemp, Warning, TEXT("Current Enemy HP : %f"), m_Hp);
+	DeleMuti_Func_HpChanged.Broadcast();
 }
 
 // Called when the game starts or when spawned
@@ -42,12 +45,29 @@ void ANC_EnemyBase::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	DeleMuti_Func_HpChanged.AddUFunction(this, FName("CallDeleMuti_Func_HpChanged"));
+
+	Init(100.0f);
 }
 
 void ANC_EnemyBase::Init(float in_MaxHp)
 {
 	m_MaxHp = in_MaxHp;
 	m_Hp = in_MaxHp;
+
+	DeleMuti_Func_HpChanged.Broadcast();
+}
+
+void ANC_EnemyBase::CallDeleMuti_Func_HpChanged()
+{
+	UE_LOG(LogTemp, Warning, TEXT("CallDeleMuti_Func_HpChanged"));
+	TObjectPtr<UW_EnemyHPBar> hpbar = Cast<UW_EnemyHPBar>(m_HpBar->GetUserWidgetObject());
+	if (nullptr == hpbar)
+	{
+		return;
+	}
+
+	hpbar->UpdateHPBar(m_Hp, m_MaxHp);
 }
 
 // Called to bind functionality to input

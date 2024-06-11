@@ -19,11 +19,12 @@ class DREAMWORLD_API UW_EnemyHPBar : public UUserWidget
 public:
 	void UpdateHPBar(float In_CurrentHp, float In_MaxHp);
 
-protected:
+public:
 	virtual void NativeConstruct() override;
 	//virtual void NativeDestruct() override;
 	//virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 
 private:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true", BindWidget))
 	TObjectPtr<UProgressBar> m_HPProgressBar;
 };
