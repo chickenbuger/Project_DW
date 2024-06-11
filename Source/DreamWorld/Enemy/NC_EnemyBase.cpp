@@ -32,7 +32,7 @@ ANC_EnemyBase::ANC_EnemyBase()
 	m_Hp			= 100.0f;
 }
 
-void ANC_EnemyBase::TakeDamage(float In_Damage)
+void ANC_EnemyBase::RecieveDamage(float In_Damage)
 {
 	m_Hp -= In_Damage;
 

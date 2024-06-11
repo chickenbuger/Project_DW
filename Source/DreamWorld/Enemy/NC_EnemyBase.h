@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Character.h"
+#include "../FrameWork/Appearance/C_Appearance.h"
 #include "NC_EnemyBase.generated.h"
 
 class UWidgetComponent;
@@ -11,7 +11,7 @@ class UWidgetComponent;
 DECLARE_MULTICAST_DELEGATE(FOnHpChanged);
 
 UCLASS()
-class DREAMWORLD_API ANC_EnemyBase : public ACharacter
+class DREAMWORLD_API ANC_EnemyBase : public AC_Appearance
 {
 	GENERATED_BODY()
 
@@ -24,7 +24,7 @@ public:
 	FOnHpChanged DeleMuti_Func_HpChanged;
 
 public:
-	void TakeDamage(float In_Damage);
+	void RecieveDamage(float In_Damage);
 
 public:
 	/** Getter */

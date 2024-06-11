@@ -3,13 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "../Appearance/C_Appearance.h"
 #include "GameFramework/Character.h"
 #include "C_Main.generated.h"
 
 class UAC_AttackManager;
 
 UCLASS()
-class DREAMWORLD_API AC_Main : public ACharacter
+class DREAMWORLD_API AC_Main : public AC_Appearance
 {
 	GENERATED_BODY()
 
