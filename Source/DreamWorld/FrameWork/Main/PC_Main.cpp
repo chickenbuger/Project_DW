@@ -9,6 +9,7 @@
 /** Input */
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
+#include "InputAction.h"
 
 /** AI Library */
 #include "Blueprint/AIBlueprintHelperLibrary.h"
@@ -48,6 +49,8 @@ void APC_Main::SetupInputComponent()
 		EnhancedInputComponent->BindAction(m_MoveClickAction, ETriggerEvent::Triggered, this, &APC_Main::OnDestinationTriggered);
 		EnhancedInputComponent->BindAction(m_MoveClickAction, ETriggerEvent::Completed, this, &APC_Main::OnDestinationReleased);
 		EnhancedInputComponent->BindAction(m_MoveClickAction, ETriggerEvent::Canceled, this, &APC_Main::OnDestinationReleased);
+		//JoyStick
+		EnhancedInputComponent->BindAction(m_MoveAction, ETriggerEvent::Triggered, this, &APC_Main::CharacterMove);
 
 		//Attack
 		EnhancedInputComponent->BindAction(m_BasicAttackAction, ETriggerEvent::Started, this, &APC_Main::OnBasicAttackStarted);
@@ -184,4 +187,28 @@ void APC_Main::OnBasicAttackTriggered()
 void APC_Main::OnBasicAttackReleased()
 {
 	//UE_LOG(LogTemp, Warning, TEXT("APC_Main::OnBasicAttackReleased"));
+}
+
+void APC_Main::CharacterMove(const FInputActionValue& Value)
+{
+	FVector2D MoveValue = Value.Get<FVector2D>();
+
+	if (TObjectPtr<APawn> ControlledPawn = GetPawn())
+	{
+		if (MoveValue.Y != 0.0f)
+		{
+			const FRotator Rotation = ControlledPawn->GetControlRotation();
+			const FRotator YawRotation(0, Rotation.Yaw, 0);
+			const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
+			ControlledPawn->AddMovementInput(Direction, MoveValue.Y);
+		}
+
+		if (MoveValue.X != 0.0f)
+		{
+			const FRotator Rotation = ControlledPawn->GetControlRotation();
+			const FRotator YawRotation(0, Rotation.Yaw, 0);
+			const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
+			ControlledPawn->AddMovementInput(Direction, MoveValue.X);
+		}
+	}
 }

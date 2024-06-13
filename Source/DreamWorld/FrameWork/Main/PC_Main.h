@@ -13,6 +13,7 @@ class UNiagaraSystem;
 
 class UInputMappingContext;
 class UInputAction;
+struct FInputActionValue;
 
 UCLASS()
 class DREAMWORLD_API APC_Main : public APlayerController
@@ -41,6 +42,9 @@ protected:
 	void OnDestinationTriggered(); // Every Tick Checked when input is Held down
 	void OnDestinationReleased(); 
 
+	//JoyStick
+	void CharacterMove(const FInputActionValue& Value);
+
 	//Attack
 	void OnBasicAttackStarted();
 	void OnBasicAttackTriggered();
@@ -59,8 +63,13 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UInputMappingContext> m_DefaultMappingContext;
 
+	//Mouse Click
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr <UInputAction> m_MoveClickAction;
+
+	//JoyStick
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr <UInputAction> m_MoveAction;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr <UInputAction> m_BasicAttackAction;
