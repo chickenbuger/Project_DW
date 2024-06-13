@@ -95,8 +95,10 @@ void AC_Main::RequestAnimationMontage(TObjectPtr<UAnimMontage> in_AnimMontage)
 		}
 	}
 
-	GetMesh()->GetAnimInstance()->Montage_SetEndDelegate(EndDelegate, in_AnimMontage);
 	GetMesh()->GetAnimInstance()->Montage_Play(in_AnimMontage);
+	GetMesh()->GetAnimInstance()->Montage_SetEndDelegate(EndDelegate, in_AnimMontage);
+	
+	UE_LOG(LogTemp, Warning, TEXT("EndDelegate Set"));
 }
 
 // Called when the game starts or when spawned
