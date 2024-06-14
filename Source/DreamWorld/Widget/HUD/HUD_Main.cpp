@@ -42,14 +42,11 @@ void AHUD_Main::BeginPlay()
 		if (nullptr == newWidget) { return; }
 
 		newWidget->AddToViewport();
-		newWidget->SetVisibility(ESlateVisibility::Visible);
+		newWidget->SetVisibility(ESlateVisibility::Collapsed);
 		m_Widgets.Add(newWidget);
 
 		//Widget에 대한 이름 추가
 		FString newWidgetName = newWidget->GetClass()->GetName();
-
-		UE_LOG(LogTemp, Warning, TEXT("Hud Main %s"), *newWidget.GetClass()->GetName());
-
 		newWidgetName.RemoveAt(0, 3);
 		newWidgetName.RemoveAt(newWidgetName.Len() - 2, newWidgetName.Len());
 		m_WidgetNames.Add(newWidgetName);
