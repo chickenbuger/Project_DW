@@ -46,6 +46,7 @@ protected:
 	void CharacterMove(const FInputActionValue& Value);
 
 	//Attack
+	UFUNCTION(BlueprintCallable)
 	void OnBasicAttackStarted();
 	void OnBasicAttackTriggered();
 	void OnBasicAttackReleased();

@@ -19,7 +19,7 @@ ANC_EnemyBase::ANC_EnemyBase()
 	m_HpBar->SetupAttachment(GetMesh());
 	m_HpBar->SetRelativeLocation(FVector{ 0.f,0.f,180.f });
 
-	static ConstructorHelpers::FClassFinder<UUserWidget> HpBarWidgetRef = TEXT("WidgetBlueprint'/Game/Widget/UW_EnemyHpBar.UW_EnemyHpBar_C'");
+	static ConstructorHelpers::FClassFinder<UUserWidget> HpBarWidgetRef = TEXT("WidgetBlueprint'/Game/Widget/Enemy/UW_EnemyHpBar.UW_EnemyHpBar_C'");
 	if (HpBarWidgetRef.Class)
 	{
 		m_HpBar->SetWidgetClass(HpBarWidgetRef.Class);
