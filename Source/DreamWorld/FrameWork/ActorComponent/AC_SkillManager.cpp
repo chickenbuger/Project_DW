@@ -16,7 +16,6 @@ UAC_SkillManager::UAC_SkillManager()
 
 void UAC_SkillManager::Init()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Collect Init From SkillManager"));
 }
 
 // Called when the game starts

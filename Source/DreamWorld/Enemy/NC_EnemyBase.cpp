@@ -60,7 +60,6 @@ void ANC_EnemyBase::Init(float in_MaxHp)
 
 void ANC_EnemyBase::CallDeleMuti_Func_HpChanged()
 {
-	UE_LOG(LogTemp, Warning, TEXT("CallDeleMuti_Func_HpChanged"));
 	TObjectPtr<UW_EnemyHPBar> hpbar = Cast<UW_EnemyHPBar>(m_HpBar->GetUserWidgetObject());
 	if (nullptr == hpbar)
 	{

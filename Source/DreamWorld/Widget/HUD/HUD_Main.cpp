@@ -125,8 +125,6 @@ void AHUD_Main::BeginPlay()
 {
 	Super::BeginPlay();
 
-	UE_LOG(LogTemp, Warning, TEXT("Hud Main BeginPlay"));
-
 	TObjectPtr<AGameModeBase> gamemode = GetWorld()->GetAuthGameMode();
 	if (nullptr == gamemode) { return; }
 
@@ -153,8 +151,6 @@ void AHUD_Main::BeginPlay()
 	m_UsingWidget.Init(false, m_Widgets.Num());
 
 	ShowWidgetFromName(TEXT("PlayerMain"));
-
-	UE_LOG(LogTemp, Warning, TEXT("Hud Main %d"), m_UiWidgets.Num());
 }
 
 void AHUD_Main::EndPlay(const EEndPlayReason::Type EndPlayReason)
