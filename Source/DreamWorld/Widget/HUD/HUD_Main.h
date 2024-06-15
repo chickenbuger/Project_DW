@@ -23,14 +23,25 @@ public:
 	TArray<TSubclassOf<UUserWidget>> m_UiWidgets;
 
 public:
+	//EX) Widget Name : BW_Main -> Param(Main)
 	UFUNCTION(BlueprintCallable)
-	UUserWidget* GetWidgetFromName(const FString& inWidgetName);
+	UUserWidget* GetWidgetFromName(const FString& In_WidgetName);
 
 	UFUNCTION(BlueprintCallable)
-	void	ShowWidgetFromName(const FString& inWidgetName);
+	void	ShowWidgetFromName(const FString& In_WidgetName);
 
 	UFUNCTION(BlueprintCallable)
-	void	CleanWidgetFromName(const FString& inWidgetName);
+	void	CleanWidgetFromName(const FString& In_WidgetName);
+
+protected:
+	UFUNCTION(BlueprintCallable)
+	UUserWidget* GetWidgetInfo(const FString& In_WidgetName, int32& Out_Number);
+
+	UFUNCTION(BlueprintCallable)
+	void	CollapsedWidget(UUserWidget* In_Widget);
+
+	UFUNCTION(BlueprintCallable)
+	void	SelfHitTestInvisibleWidget(UUserWidget* In_Widget);
 
 protected:
 	virtual void BeginPlay() override;
@@ -39,8 +50,11 @@ protected:
 
 private:
 	UPROPERTY()
-	TArray<TObjectPtr<UUserWidget>> m_Widgets;
+	TArray<TObjectPtr<UUserWidget>>		m_Widgets;
 
 	UPROPERTY()
-	TArray<FString> m_WidgetNames;
+	TArray<FString>										m_WidgetNames;
+
+	UPROPERTY()
+	TArray<bool>											m_UsingWidget;
 };
