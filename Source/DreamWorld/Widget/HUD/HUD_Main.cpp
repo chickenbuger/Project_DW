@@ -1,7 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "DreamWorld/Widget/HUD/HUD_Main.h"
+#include "DreamWorld/Widget/Player/W_PlayerMain.h"
+
 #include "DreamWorld/FrameWork/Main/GM_Main.h"
 
 #include "Blueprint/UserWidget.h"
@@ -149,6 +150,14 @@ void AHUD_Main::BeginPlay()
 	}
 
 	m_UsingWidget.Init(false, m_Widgets.Num());
+
+	TObjectPtr<UUserWidget> mainwidget =  GetWidgetFromName(TEXT("PlayerMain"));
+	if (nullptr == mainwidget) { return; }
+
+	TObjectPtr<UW_PlayerMain> playermainwidget = Cast<UW_PlayerMain>(mainwidget);
+	if (nullptr == playermainwidget) { return; }
+
+	playermainwidget->Init();
 
 	ShowWidgetFromName(TEXT("PlayerMain"));
 }

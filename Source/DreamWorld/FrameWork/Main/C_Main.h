@@ -20,8 +20,7 @@ public:
 
 public:
 	//Offense
-	void UseSkill(int32 in_SkillID);
-	void BasicAttack();
+	void RequestedAttack(const int32 in_SkillID);
 
 	//Animation
 	void RequestAnimationMontage(TObjectPtr<UAnimMontage> in_AnimMontage);

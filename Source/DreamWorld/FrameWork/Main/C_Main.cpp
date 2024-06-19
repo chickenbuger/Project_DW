@@ -23,7 +23,7 @@ AC_Main::AC_Main()
 	GetCapsuleComponent()->SetCollisionProfileName(TEXT("PlayerCharacter"));
 }
 
-void AC_Main::UseSkill(int32 in_SkillID)
+void AC_Main::RequestedAttack(const int32 in_SkillID)
 {
 	TObjectPtr<APS_Main> playerstate = GetPlayerState<APS_Main>();
 	if (nullptr == playerstate)
@@ -36,24 +36,21 @@ void AC_Main::UseSkill(int32 in_SkillID)
 		return;
 	}
 
-	playerstate->RequestPlayerSkill(in_SkillID);
-}
-
-void AC_Main::BasicAttack()
-{
-	TObjectPtr<APS_Main> playerstate = GetPlayerState<APS_Main>();
-	if (nullptr == playerstate)
-	{
-		return;
-	}
-
 	if (nullptr == m_AttackManager)
 	{
 		return;
 	}
 
-	m_AttackManager->CallAttemptAttack(this, 10.f);
-	playerstate->RequestBasicAttackAnimation();
+	//Basic Attack
+	if (0 == in_SkillID)
+	{
+		m_AttackManager->CallAttemptAttack(this, 10.f);
+		playerstate->RequestBasicAttackAnimation();
+	}
+	else
+	{
+		playerstate->RequestPlayerSkill(in_SkillID);
+	}
 }
 
 void AC_Main::RequestAnimationMontage(TObjectPtr<UAnimMontage> in_AnimMontage)

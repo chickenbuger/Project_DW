@@ -15,5 +15,8 @@ class DREAMWORLD_API UW_PlayerMain : public UUserWidget
 	GENERATED_BODY()
 	
 public:
+	void Init();
+
+public:
 	virtual void NativeConstruct() override;
 };
