@@ -18,6 +18,7 @@ class DREAMWORLD_API UW_Skill  : public UUserWidget
 	GENERATED_BODY()
 	
 public:
+	UFUNCTION(BlueprintCallable)
 	void RequestUsingSkillToPlayer();
 
 	/** Setter */

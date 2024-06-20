@@ -19,8 +19,6 @@
 
 APC_Main::APC_Main()
 {
-	PrimaryActorTick.bCanEverTick = false;
-
 	bShowMouseCursor = true;
 	DefaultMouseCursor = EMouseCursor::Default;
 

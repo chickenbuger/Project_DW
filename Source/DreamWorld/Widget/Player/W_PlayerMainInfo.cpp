@@ -21,7 +21,7 @@ void UW_PlayerMainInfo::NativeConstruct()
 	playerstate->Dele_Changed_Mana.AddUFunction(this, FName("DetectedChangeMp"));
 	playerstate->Dele_Changed_Stamina.AddUFunction(this, FName("DetectedChangeStamina"));
 
-	playerstate->PlayerInfoInit();
+	playerstate->PlayerInfoWidgetInit();
 }
 
 void UW_PlayerMainInfo::DetectedChangeHp()

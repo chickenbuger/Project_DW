@@ -25,16 +25,19 @@ void UAC_PlayerAnimation::Init()
 {
 	//Basic Attack Animation
 	InitBasicAttackAnimation();
+	
+	//Skill Animation
+	InitSkillAnimation();
 }
 
-void UAC_PlayerAnimation::RequestBasicAttack(EPlayerWeaponState in_WeaponState)
+void UAC_PlayerAnimation::RequestBasicAttack(EPlayerWeaponState In_WeaponState)
 {
 	if (false == AnimationCanUsing())
 	{
 		return;
 	}
 
-	if (nullptr == m_BasicAttackAnimation.Find(in_WeaponState))
+	if (nullptr == m_BasicAttackAnimation.Find(In_WeaponState))
 	{
 		return;
 	}
@@ -52,7 +55,35 @@ void UAC_PlayerAnimation::RequestBasicAttack(EPlayerWeaponState in_WeaponState)
 	}
 
 	UAC_PlayerAnimation::AnimationStart();
-	ownerCharacter->RequestAnimationMontage(m_BasicAttackAnimation[in_WeaponState]);
+	ownerCharacter->RequestAnimationMontage(m_BasicAttackAnimation[In_WeaponState]);
+}
+
+void UAC_PlayerAnimation::RequestSkill(EPlayerWeaponState In_WeaponState, int32 In_SkillID)
+{
+	if (false == AnimationCanUsing())
+	{
+		return;
+	}
+
+	if (nullptr == m_SkillAnimation[In_SkillID - 1])
+	{
+		return;
+	}
+
+	TObjectPtr<APawn> ownerPawn = GetOwnerCharacter();
+	if (nullptr == ownerPawn)
+	{
+		return;
+	}
+
+	TObjectPtr<AC_Main> ownerCharacter = Cast<AC_Main>(ownerPawn);
+	if (nullptr == ownerCharacter)
+	{
+		return;
+	}
+
+	UAC_PlayerAnimation::AnimationStart();
+	ownerCharacter->RequestAnimationMontage(m_SkillAnimation[In_SkillID - 1]);
 }
 
 /** 
@@ -92,6 +123,15 @@ void UAC_PlayerAnimation::InitBasicAttackAnimation()
 	if (NoWeaponBaiscAttackObject.Succeeded())
 	{
 		m_BasicAttackAnimation.Add(EPlayerWeaponState::NoWeapon, NoWeaponBaiscAttackObject.Object);
+	}
+}
+
+void UAC_PlayerAnimation::InitSkillAnimation()
+{
+	static ConstructorHelpers::FObjectFinder<UAnimMontage> SkillID_1(TEXT("/Script/Engine.AnimMontage'/Game/Animation/Player/Anim/Montage/AS_PlayerKick1_Montage.AS_PlayerKick1_Montage'"));
+	if(SkillID_1.Succeeded())
+	{
+		m_SkillAnimation.Add(SkillID_1.Object);
 	}
 }
 

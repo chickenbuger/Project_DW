@@ -62,11 +62,20 @@ void APS_Main::PlayerInfoWidgetInit()
 
 void APS_Main::RequestBasicAttackAnimation()
 {
+	if (nullptr == m_PlayerAnimationManager) { return; }
+
+	if (!PlayerMoveable()) { return; }
+
+	m_PlayerAnimationManager->RequestBasicAttack(m_WeaponState);
 }
 
 void APS_Main::RequestPlayerSkill(int32 In_SkillID)
 {
+	if (nullptr == m_PlayerAnimationManager) { return; }
 
+	if (!PlayerMoveable()) { return; }
+
+	m_PlayerAnimationManager->RequestSkill(m_WeaponState, In_SkillID);
 }
 
 void APS_Main::ReceiveDamage(float In_Damage)

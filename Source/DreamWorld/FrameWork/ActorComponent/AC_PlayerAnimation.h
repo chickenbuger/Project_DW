@@ -23,13 +23,15 @@ public:
 	void Init();
 
 	//Basic Attack
-	void RequestBasicAttack(EPlayerWeaponState in_WeaponState);
+	void RequestBasicAttack(EPlayerWeaponState In_WeaponState);
+
+	//Skill
+	void RequestSkill(EPlayerWeaponState In_WeaponState, int32 In_SkillID);
 	
 	//Animation Using Check
 	bool AnimationCanUsing();
 	void AnimationStart();
 	void AnimationFinish();
-
 
 public:
 	/** Getter */
@@ -37,7 +39,7 @@ public:
 	bool								GetUseAnimaton() const				{ return m_UseAnimation; }
 
 	/** Setter */
-	void SetOwnerCharacter(TObjectPtr<APawn> in_OwnerChacter) { m_OwnerCharacter = in_OwnerChacter; }
+	void SetOwnerCharacter(TObjectPtr<APawn> In_OwnerChacter) { m_OwnerCharacter = In_OwnerChacter; }
 
 protected:
 	// Called when the game starts
@@ -48,6 +50,9 @@ private:
 	TMap<EPlayerWeaponState, TObjectPtr<UAnimMontage>> m_BasicAttackAnimation;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Animation", meta = (AllowPrivateAccess = "true"))
+	TArray<TObjectPtr<UAnimMontage>> m_SkillAnimation;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Animation | Check", meta = (AllowPrivateAccess = "true"))
 	bool m_UseAnimation;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Owner", meta = (AllowPrivateAccess = "true"))
@@ -55,6 +60,7 @@ private:
 
 private:
 	void InitBasicAttackAnimation();
+	void InitSkillAnimation();
 };
 
 /*

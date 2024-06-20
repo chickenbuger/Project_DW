@@ -39,6 +39,8 @@ void AC_Main::RequestedAttack(const int32 in_SkillID)
 	}
 	else
 	{
+		//To Do.. 데미지 체크
+		/* --------------- */
 		playerstate->RequestPlayerSkill(in_SkillID);
 	}
 }
