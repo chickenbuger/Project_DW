@@ -22,6 +22,9 @@ public:
 	//Offense
 	void RequestedAttack(const int32 in_SkillID);
 
+	//Take Damage
+	void ReceiveDamage(float In_Damage);
+
 	//Animation
 	void RequestAnimationMontage(TObjectPtr<UAnimMontage> in_AnimMontage);
 

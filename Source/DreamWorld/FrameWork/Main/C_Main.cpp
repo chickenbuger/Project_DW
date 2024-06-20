@@ -11,7 +11,7 @@
 AC_Main::AC_Main()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 
 	m_AttackManager = CreateDefaultSubobject<UAC_AttackManager>(TEXT("AttackManager"));
 	if (nullptr == m_AttackManager)
@@ -26,20 +26,10 @@ AC_Main::AC_Main()
 void AC_Main::RequestedAttack(const int32 in_SkillID)
 {
 	TObjectPtr<APS_Main> playerstate = GetPlayerState<APS_Main>();
-	if (nullptr == playerstate)
-	{
-		return;
-	}
-
-	if (0 > in_SkillID)
-	{
-		return;
-	}
-
-	if (nullptr == m_AttackManager)
-	{
-		return;
-	}
+	if (nullptr == playerstate) { return; }
+	//Skill ID가 올바른지 확인 Default : -1
+	if (0 > in_SkillID) { return; }
+	if (nullptr == m_AttackManager) { return; }
 
 	//Basic Attack
 	if (0 == in_SkillID)
@@ -51,6 +41,14 @@ void AC_Main::RequestedAttack(const int32 in_SkillID)
 	{
 		playerstate->RequestPlayerSkill(in_SkillID);
 	}
+}
+
+void AC_Main::ReceiveDamage(float In_Damage)
+{
+	TObjectPtr<APS_Main> playerstate = GetPlayerState<APS_Main>();
+	if (nullptr == playerstate) { return; }
+
+	playerstate->ReceiveDamage(In_Damage);
 }
 
 void AC_Main::RequestAnimationMontage(TObjectPtr<UAnimMontage> in_AnimMontage)

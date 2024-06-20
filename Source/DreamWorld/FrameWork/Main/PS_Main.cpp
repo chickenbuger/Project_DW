@@ -9,9 +9,16 @@
 
 APS_Main::APS_Main()
 {
-	m_Health			= 0.0f;
-	m_Mana			= 0.0f;
-	m_Stamina		= 0.0f;
+	PrimaryActorTick.bCanEverTick = false;
+
+	m_PlayerName = FName(TEXT("JS"));
+
+	m_MaxHealth			= 100.0f;
+	m_MaxMana				= 100.0f;
+	m_MaxStamina		= 100.0f;
+	m_Health					= 100.0f;
+	m_Mana					= 100.0f;
+	m_Stamina				= 100.0f;
 
 	m_WeaponState = EPlayerWeaponState::NoWeapon;
 }
@@ -43,13 +50,37 @@ void APS_Main::Init()
 	m_PlayerAnimationManager->Init();
 }
 
-void APS_Main::RequestBasicAttackAnimation()
+void APS_Main::PlayerInfoWidgetInit()
 {
-	m_PlayerAnimationManager->RequestBasicAttack(m_WeaponState);
+	if ((Dele_Changed_Hp.IsBound()) && (Dele_Changed_Mana.IsBound()) && (Dele_Changed_Stamina.IsBound()))
+	{
+		Dele_Changed_Hp.Broadcast();
+		Dele_Changed_Mana.Broadcast();
+		Dele_Changed_Stamina.Broadcast();
+	}
 }
 
-void APS_Main::RequestPlayerSkill(int32 in_SkillID)
+void APS_Main::RequestBasicAttackAnimation()
 {
+}
+
+void APS_Main::RequestPlayerSkill(int32 In_SkillID)
+{
+
+}
+
+void APS_Main::ReceiveDamage(float In_Damage)
+{
+	//데미지가 비정상적인지 확인
+	if (0 > In_Damage) { return; }
+
+	//데미지가 체력보다 높은지 확인
+	if (In_Damage >= m_Health)
+	{
+		m_Health = 0;
+	}
+
+	m_Health -= In_Damage;
 }
 
 void APS_Main::EndAnimation()

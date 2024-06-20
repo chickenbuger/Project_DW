@@ -25,6 +25,10 @@ public:
 	APC_Main();
 
 public:
+	//Connect Skill Ui Button
+	void RequestAttackToCharacter(const int32 In_SkillID);
+
+public:
 	/** Getter */
 	TObjectPtr<UNiagaraSystem> GetCursorEffect() const { return m_VFX_Cursor; }
 
@@ -46,6 +50,7 @@ protected:
 	void CharacterMove(const FInputActionValue& Value);
 
 	//Attack
+	// Delete
 	UFUNCTION(BlueprintCallable)
 	void OnBasicAttackStarted();
 	void OnBasicAttackTriggered();

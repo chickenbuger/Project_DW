@@ -19,6 +19,8 @@
 
 APC_Main::APC_Main()
 {
+	PrimaryActorTick.bCanEverTick = false;
+
 	bShowMouseCursor = true;
 	DefaultMouseCursor = EMouseCursor::Default;
 
@@ -34,6 +36,36 @@ void APC_Main::BeginPlay()
 	{
 		Subsystem->AddMappingContext(m_DefaultMappingContext, 0);
 	}
+}
+
+void APC_Main::RequestAttackToCharacter(const int32 In_SkillID)
+{
+	TObjectPtr<APS_Main> MainPlayerState = Cast<APS_Main>(PlayerState);
+	if (nullptr == MainPlayerState)
+	{
+		return;
+	}
+
+	if (!MainPlayerState->PlayerMoveable())
+	{
+		return;
+	}
+
+	StopMovement();
+
+	TObjectPtr<APawn> ControlledPawn = GetPawn();
+	if (nullptr == ControlledPawn)
+	{
+		return;
+	}
+
+	TObjectPtr<AC_Main> ControlledCharacter = Cast<AC_Main>(ControlledPawn);
+	if (nullptr == ControlledCharacter)
+	{
+		return;
+	}
+
+	ControlledCharacter->RequestedAttack(In_SkillID);
 }
 
 void APC_Main::SetupInputComponent()

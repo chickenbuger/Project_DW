@@ -3,8 +3,8 @@
 
 #include "DreamWorld/Widget/Player/W_Skill.h"
 
-/** Character */
-#include "DreamWorld/FrameWork/Main/C_Main.h"
+/** Controller */
+#include "DreamWorld/FrameWork/Main/PC_Main.h"
 
 void UW_Skill::RequestUsingSkillToPlayer()
 {
@@ -14,25 +14,13 @@ void UW_Skill::RequestUsingSkillToPlayer()
 		return;
 	}
 
-	//check controlling character
-	if (nullptr == GetOwningPlayer()->GetCharacter())
+	TObjectPtr<APC_Main> Controller = Cast<APC_Main>(GetOwningPlayer());
+	if(nullptr == Controller)
 	{
 		return;
 	}
 
-	TObjectPtr<ACharacter> Character = GetOwningPlayer()->GetCharacter();
-	if (nullptr == Character)
-	{
-		return;
-	}
-
-	TObjectPtr<AC_Main> ControllingCharacter = Cast<AC_Main>(Character);
-	if(nullptr == ControllingCharacter)
-	{
-		return;
-	}
-
-	ControllingCharacter->RequestedAttack(m_Skill_ID);
+	Controller->RequestAttackToCharacter(m_Skill_ID);
 }
 
 void UW_Skill::NativeConstruct()
@@ -41,6 +29,4 @@ void UW_Skill::NativeConstruct()
 
 	//Init
 	m_Skill_ID = -1;
-
-	UE_LOG(LogTemp, Warning, TEXT("Skill Init %d"),m_Skill_ID);
 }
