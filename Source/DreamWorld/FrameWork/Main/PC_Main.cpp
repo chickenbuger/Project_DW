@@ -44,7 +44,7 @@ void APC_Main::RequestAttackToCharacter(const int32 In_SkillID)
 		return;
 	}
 
-	if (!MainPlayerState->PlayerMoveable())
+	if (!MainPlayerState->PlayerMovable())
 	{
 		return;
 	}
@@ -126,7 +126,7 @@ void APC_Main::OnDestinationTriggered()
 		return;
 	}
 
-	if (!MainPlayerState->PlayerMoveable())
+	if (!MainPlayerState->PlayerMovable())
 	{
 		return;
 	}
@@ -162,7 +162,7 @@ void APC_Main::OnDestinationReleased()
 		return;
 	}
 
-	if (!MainPlayerState->PlayerMoveable())
+	if (!MainPlayerState->PlayerMovable())
 	{
 		return;
 	}
@@ -186,7 +186,7 @@ void APC_Main::OnBasicAttackStarted()
 		return;
 	}
 
-	if (!MainPlayerState->PlayerMoveable())
+	if (!MainPlayerState->PlayerMovable())
 	{
 		return;
 	}

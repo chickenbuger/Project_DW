@@ -29,7 +29,7 @@ public:
 	void RequestSkill(EPlayerWeaponState In_WeaponState, int32 In_SkillID);
 	
 	//Animation Using Check
-	bool AnimationCanUsing();
+	bool AnimationCanUsing() const;
 	void AnimationStart();
 	void AnimationFinish();
 

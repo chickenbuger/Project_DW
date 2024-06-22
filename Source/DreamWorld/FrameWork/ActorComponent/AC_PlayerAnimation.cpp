@@ -90,7 +90,7 @@ void UAC_PlayerAnimation::RequestSkill(EPlayerWeaponState In_WeaponState, int32 
 * Can Use -> True
 * Can't Use -> False
 */
-bool UAC_PlayerAnimation::AnimationCanUsing()
+bool UAC_PlayerAnimation::AnimationCanUsing() const
 {
 	return !m_UseAnimation;
 }

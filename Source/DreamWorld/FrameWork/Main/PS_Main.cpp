@@ -50,7 +50,7 @@ void APS_Main::Init()
 	m_PlayerAnimationManager->Init();
 }
 
-void APS_Main::PlayerInfoWidgetInit()
+void APS_Main::PlayerInfoWidgetInit() const
 {
 	if ((Dele_Changed_Hp.IsBound()) && (Dele_Changed_Mana.IsBound()) && (Dele_Changed_Stamina.IsBound()))
 	{
@@ -64,7 +64,7 @@ void APS_Main::RequestBasicAttackAnimation()
 {
 	if (nullptr == m_PlayerAnimationManager) { return; }
 
-	if (!PlayerMoveable()) { return; }
+	if (!PlayerMovable()) { return; }
 
 	m_PlayerAnimationManager->RequestBasicAttack(m_WeaponState);
 }
@@ -73,7 +73,7 @@ void APS_Main::RequestPlayerSkill(int32 In_SkillID)
 {
 	if (nullptr == m_PlayerAnimationManager) { return; }
 
-	if (!PlayerMoveable()) { return; }
+	if (!PlayerMovable()) { return; }
 
 	m_PlayerAnimationManager->RequestSkill(m_WeaponState, In_SkillID);
 }
@@ -90,6 +90,53 @@ void APS_Main::ReceiveDamage(float In_Damage)
 	}
 
 	m_Health -= In_Damage;
+
+	if (Dele_Changed_Hp.IsBound())
+	{
+		Dele_Changed_Hp.Broadcast();
+	}
+}
+
+bool APS_Main::CanUseMana(const float In_Mana)
+{
+	if (In_Mana > m_Mana) { return false; }
+	return true;
+}
+
+void APS_Main::UsingMana(const float In_Mana)
+{
+	if (!CanUseMana(In_Mana))
+	{
+		return;
+	}
+
+	m_Mana -= In_Mana;
+
+	if (Dele_Changed_Mana.IsBound())
+	{
+		Dele_Changed_Mana.Broadcast();
+	}
+}
+
+bool APS_Main::CanUseStamina(const float In_Stamina)
+{
+	if (In_Stamina > m_Stamina) { return false; }
+	return true;
+}
+
+void APS_Main::UsingStamina(const float In_Stamina)
+{
+	if (!CanUseStamina(In_Stamina))
+	{
+		return;
+	}
+
+	m_Stamina -= In_Stamina;
+
+	if (Dele_Changed_Stamina.IsBound())
+	{
+		Dele_Changed_Stamina.Broadcast();
+	}
 }
 
 void APS_Main::EndAnimation()
@@ -97,7 +144,7 @@ void APS_Main::EndAnimation()
 	m_PlayerAnimationManager->AnimationFinish();
 }
 
-bool APS_Main::PlayerMoveable()
+bool APS_Main::PlayerMovable()
 {
 	// 애니메이션이 사용이 가능하지 않은 경우
 	if (!m_PlayerAnimationManager->AnimationCanUsing())

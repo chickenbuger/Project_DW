@@ -36,7 +36,7 @@ public:
 public:
 	//Init
 	void Init();
-	void PlayerInfoWidgetInit();
+	void PlayerInfoWidgetInit() const;
 	
 	//Attack
 	void RequestBasicAttackAnimation();
@@ -45,11 +45,17 @@ public:
 	//Take Damage
 	void ReceiveDamage(float In_Damage);
 
+	//Mana
+	void UsingMana(const float In_Mana);
+
+	//Stamina
+	void UsingStamina(const float In_Stamina);
+
 	//Animation
 	void EndAnimation();
 
 	//Move
-	bool PlayerMoveable();
+	bool PlayerMovable();
 
 public:
 	//Getter
@@ -102,4 +108,11 @@ private:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Animation", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UAC_PlayerAnimation> m_PlayerAnimationManager;
+
+private:
+	//Mana
+	bool CanUseMana(const float In_Mana);
+
+	//Stamina
+	bool CanUseStamina(const float In_Stamina);
 };

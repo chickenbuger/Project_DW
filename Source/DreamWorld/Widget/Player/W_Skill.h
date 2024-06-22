@@ -18,8 +18,7 @@ class DREAMWORLD_API UW_Skill  : public UUserWidget
 	GENERATED_BODY()
 	
 public:
-	UFUNCTION(BlueprintCallable)
-	void RequestUsingSkillToPlayer();
+	void RequestUsingSkillToPlayer() const;
 
 	/** Setter */
 	void SetSkillID(const int32 In_SkillID) { m_Skill_ID = In_SkillID; }
@@ -43,4 +42,11 @@ private:
 	//Default -> -1 (not Binding)
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 	int32 m_Skill_ID;
+
+private:
+	UFUNCTION()
+	FEventReply MouseButtonDownFunc(FGeometry MyGeometry, const FPointerEvent& MouseEvent);
+
+	UFUNCTION()
+	FEventReply MouseButtonOnFunc(FGeometry MyGeometry, const FPointerEvent& MouseEvent);
 };
