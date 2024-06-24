@@ -40,6 +40,8 @@ void UW_Skill::NativeConstruct()
 FEventReply UW_Skill::MouseButtonDownFunc(FGeometry MyGeometry, const FPointerEvent& MouseEvent)
 {
 	UE_LOG(LogTemp, Warning, TEXT("Check Calling MouseButtonDownFunc"));
+	
+	RequestUsingSkillToPlayer();
 
 	return FEventReply();
 }
