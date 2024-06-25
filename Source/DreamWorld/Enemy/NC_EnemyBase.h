@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "../FrameWork/Appearance/C_Appearance.h"
+#include "GameFramework/Character.h"
 #include "NC_EnemyBase.generated.h"
 
 class UWidgetComponent;
@@ -11,7 +11,7 @@ class UWidgetComponent;
 DECLARE_MULTICAST_DELEGATE(FOnHpChanged);
 
 UCLASS()
-class DREAMWORLD_API ANC_EnemyBase : public AC_Appearance
+class DREAMWORLD_API ANC_EnemyBase : public ACharacter
 {
 	GENERATED_BODY()
 
