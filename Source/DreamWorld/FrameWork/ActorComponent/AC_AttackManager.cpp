@@ -36,7 +36,7 @@ void UAC_AttackManager::CallAttemptAttack(TObjectPtr<AActor> in_Player, float in
 			continue;
 		}
 
-		enemy->RecieveDamage(10.0f);
+		enemy->RecieveDamage(in_Damage);
 	}
 }
 

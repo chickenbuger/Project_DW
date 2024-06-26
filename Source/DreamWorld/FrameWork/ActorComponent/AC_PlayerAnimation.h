@@ -23,10 +23,10 @@ public:
 	void Init();
 
 	//Basic Attack
-	void RequestBasicAttack(EPlayerWeaponState In_WeaponState);
+	void RequestBasicAttack(EPlayerWeaponState In_WeaponState, float In_AttackSpeed);
 
 	//Skill
-	void RequestSkill(EPlayerWeaponState In_WeaponState, int32 In_SkillID);
+	void RequestSkill(EPlayerWeaponState In_WeaponState, int32 In_SkillID, float In_AttackSpeed);
 	
 	//Animation Using Check
 	bool AnimationCanUsing() const;
@@ -35,8 +35,8 @@ public:
 
 public:
 	/** Getter */
-	TObjectPtr<APawn>	GetOwnerCharacter() const		{ return m_OwnerCharacter; }
-	bool								GetUseAnimaton() const				{ return m_UseAnimation; }
+	TObjectPtr<APawn>	GetOwnerCharacter() const			{ return m_OwnerCharacter; }
+	bool				GetUseAnimaton() const				{ return m_UseAnimation; }
 
 	/** Setter */
 	void SetOwnerCharacter(TObjectPtr<APawn> In_OwnerChacter) { m_OwnerCharacter = In_OwnerChacter; }

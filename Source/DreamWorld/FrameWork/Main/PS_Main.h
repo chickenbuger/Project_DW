@@ -59,19 +59,19 @@ public:
 
 public:
 	//Getter
-	FName		GetCharacterName() const				{ return m_PlayerName; }
+	FName			GetCharacterName() const					{ return m_PlayerName; }
 	float			GetMaxHealth() const						{ return m_MaxHealth; }
-	float			GetMaxMana() const						{ return m_MaxMana; }
-	float			GetMaxStamina() const					{ return m_MaxStamina; }
+	float			GetMaxMana() const							{ return m_MaxMana; }
+	float			GetMaxStamina() const						{ return m_MaxStamina; }
 	float			GetHealth() const							{ return m_Health; }
 	float			GetMana() const								{ return m_Mana; }
 	float			GetStamina() const							{ return m_Stamina; }
 
 	//Setter
-	void			SetCharacterName(FName In_PlayerName)		{ m_PlayerName = In_PlayerName; }
-	void			SetMaxHealth(float In_MaxHelath)					{ m_MaxHealth = In_MaxHelath; }
-	void			SetMaxMana(float In_MaxMana)							{ m_MaxMana = In_MaxMana; }
-	void			SetMaxStamina(float In_MaxStamina)				{ m_MaxStamina = In_MaxStamina; }
+	void			SetCharacterName(FName In_PlayerName)						{ m_PlayerName = In_PlayerName; }
+	void			SetMaxHealth(float In_MaxHelath)							{ m_MaxHealth = In_MaxHelath; }
+	void			SetMaxMana(float In_MaxMana)								{ m_MaxMana = In_MaxMana; }
+	void			SetMaxStamina(float In_MaxStamina)							{ m_MaxStamina = In_MaxStamina; }
 	void			SetHealth(float In_Helath)									{ m_Health	= In_Helath; }
 	void			SetMana(float In_Mana)										{ m_Mana	= In_Mana; }
 	void			SetStamina(float In_Stamina)								{ m_Stamina = In_Stamina;  }
@@ -90,6 +90,9 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Stats", meta = (AllowPrivateAccess = "true"))
 	float	m_MaxStamina;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Stats", meta = (AllowPrivateAccess = "true"))
+	float	m_MaxAttackSpeed;
+
 	/** Current */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Stats", meta = (AllowPrivateAccess = "true"))
 	float	m_Health;
@@ -99,6 +102,9 @@ private:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Stats", meta = (AllowPrivateAccess = "true"))
 	float	m_Stamina;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Stats", meta = (AllowPrivateAccess = "true"))
+	float	m_AttackSpeed;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State", meta = (AllowPrivateAccess = "true"))
 	EPlayerWeaponState m_WeaponState;

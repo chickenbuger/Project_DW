@@ -27,6 +27,7 @@ public:
 
 	//Animation
 	void RequestAnimationMontage(TObjectPtr<UAnimMontage> in_AnimMontage);
+	void RequestAnimationMontage(TObjectPtr<UAnimMontage> in_AnimMontage, float In_AttackSpeed);
 
 public:	
 	// Called every frame

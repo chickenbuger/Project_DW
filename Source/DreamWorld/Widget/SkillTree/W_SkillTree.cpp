@@ -2,9 +2,9 @@
 
 
 #include "DreamWorld/Widget/SkillTree/W_SkillTree.h"
-
 #include "DreamWorld/Widget/HUD/HUD_Main.h"
 
+#include "Components/WidgetSwitcher.h"
 #include "Components/Border.h"
 
 void UW_SkillTree::NativeConstruct()
@@ -33,6 +33,7 @@ FEventReply UW_SkillTree::ExitButtonDownFunc(FGeometry MyGeometry, const FPointe
 	}
 
 	hud->CleanWidgetFromName("SkillTree");
+	m_WidgetSwitcher_L->SetActiveWidgetIndex(0);
 
 	return FEventReply();
 }

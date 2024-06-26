@@ -30,7 +30,7 @@ void UAC_PlayerAnimation::Init()
 	InitSkillAnimation();
 }
 
-void UAC_PlayerAnimation::RequestBasicAttack(EPlayerWeaponState In_WeaponState)
+void UAC_PlayerAnimation::RequestBasicAttack(EPlayerWeaponState In_WeaponState, float In_AttackSpeed)
 {
 	if (false == AnimationCanUsing())
 	{
@@ -55,10 +55,10 @@ void UAC_PlayerAnimation::RequestBasicAttack(EPlayerWeaponState In_WeaponState)
 	}
 
 	UAC_PlayerAnimation::AnimationStart();
-	ownerCharacter->RequestAnimationMontage(m_BasicAttackAnimation[In_WeaponState]);
+	ownerCharacter->RequestAnimationMontage(m_BasicAttackAnimation[In_WeaponState], In_AttackSpeed);
 }
 
-void UAC_PlayerAnimation::RequestSkill(EPlayerWeaponState In_WeaponState, int32 In_SkillID)
+void UAC_PlayerAnimation::RequestSkill(EPlayerWeaponState In_WeaponState, int32 In_SkillID, float In_AttackSpeed)
 {
 	if (false == AnimationCanUsing())
 	{
@@ -83,7 +83,7 @@ void UAC_PlayerAnimation::RequestSkill(EPlayerWeaponState In_WeaponState, int32 
 	}
 
 	UAC_PlayerAnimation::AnimationStart();
-	ownerCharacter->RequestAnimationMontage(m_SkillAnimation[In_SkillID - 1]);
+	ownerCharacter->RequestAnimationMontage(m_SkillAnimation[In_SkillID - 1], In_AttackSpeed);
 }
 
 /** 

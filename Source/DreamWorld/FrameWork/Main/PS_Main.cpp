@@ -13,14 +13,17 @@ APS_Main::APS_Main()
 
 	m_PlayerName = FName(TEXT("JS"));
 
-	m_MaxHealth			= 100.0f;
+	m_MaxHealth				= 100.0f;
 	m_MaxMana				= 100.0f;
-	m_MaxStamina		= 100.0f;
-	m_Health					= 100.0f;
+	m_MaxStamina			= 100.0f;
+	m_MaxAttackSpeed		= 1.5f;
+
+	m_Health				= 100.0f;
 	m_Mana					= 100.0f;
 	m_Stamina				= 100.0f;
+	m_AttackSpeed			= 1.0f;
 
-	m_WeaponState = EPlayerWeaponState::NoWeapon;
+	m_WeaponState			= EPlayerWeaponState::NoWeapon;
 }
 
 void APS_Main::Init()
@@ -66,7 +69,7 @@ void APS_Main::RequestBasicAttackAnimation()
 
 	if (!PlayerMovable()) { return; }
 
-	m_PlayerAnimationManager->RequestBasicAttack(m_WeaponState);
+	m_PlayerAnimationManager->RequestBasicAttack(m_WeaponState, m_AttackSpeed);
 }
 
 void APS_Main::RequestPlayerSkill(int32 In_SkillID)
@@ -75,7 +78,7 @@ void APS_Main::RequestPlayerSkill(int32 In_SkillID)
 
 	if (!PlayerMovable()) { return; }
 
-	m_PlayerAnimationManager->RequestSkill(m_WeaponState, In_SkillID);
+	m_PlayerAnimationManager->RequestSkill(m_WeaponState, In_SkillID, m_AttackSpeed);
 }
 
 void APS_Main::ReceiveDamage(float In_Damage)

@@ -9,6 +9,7 @@
 /**
  * 
  */
+class UWidgetSwitcher;
 class UBorder;
 
 UCLASS()
@@ -22,6 +23,9 @@ public:
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true", BindWidget))
 	TObjectPtr<UBorder>	m_Border_Exit;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true", BindWidget))
+	TObjectPtr<UWidgetSwitcher> m_WidgetSwitcher_L;
 
 private:
 	UFUNCTION()
