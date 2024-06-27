@@ -23,7 +23,7 @@ void UAC_AttackManager::CallAttemptAttack(TObjectPtr<AActor> in_Player, float in
 {
 	TArray<FHitResult> OutHits;
 
-	if (!CheckTheScopeOfTheAttack(100.f, OutHits))
+	if (!CheckTheScopeOfTheAttack(FVector{ 50.f, 50.f, 50.f }, 100.f, OutHits))
 	{
 		return;
 	}
@@ -49,15 +49,16 @@ void UAC_AttackManager::BeginPlay()
 	
 }
 
-bool UAC_AttackManager::CheckTheScopeOfTheAttack(uint32 in_Range, TArray<FHitResult>& OutHits)
+//Box
+bool UAC_AttackManager::CheckTheScopeOfTheAttack(const FVector In_BoxHalfSize, const uint32 In_Range, TArray<FHitResult>& OutHits)
 {
-	FVector Location= m_OwnerCharacter->GetActorLocation();
-	FVector Forward	= m_OwnerCharacter->GetActorForwardVector();
-	FVector Start		= Location + Forward * 100.f;
-	FVector End		= Start + Forward * in_Range;
+	const FVector Location= m_OwnerCharacter->GetActorLocation();
+	const FVector Forward	= m_OwnerCharacter->GetActorForwardVector();
+	const FVector Start		= Location + Forward * 100.f;
+	const FVector End		= Start + Forward * In_Range;
 
-	FVector BoxHalfSize = FVector(50.f, 50.f, 50.f);
-	FRotator Orientation = m_OwnerCharacter->GetActorRotation();
+	const FVector BoxHalfSize = In_BoxHalfSize;
+	const FRotator Orientation = m_OwnerCharacter->GetActorRotation();
 
 	ECollisionChannel TraceChannel = ECC_GameTraceChannel4;
 

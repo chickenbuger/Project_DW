@@ -36,7 +36,7 @@ public:
 public:
 	/** Getter */
 	TObjectPtr<APawn>	GetOwnerCharacter() const			{ return m_OwnerCharacter; }
-	bool				GetUseAnimaton() const				{ return m_UseAnimation; }
+	bool				GetUseAnimaton() const									{ return m_UseAnimation; }
 
 	/** Setter */
 	void SetOwnerCharacter(TObjectPtr<APawn> In_OwnerChacter) { m_OwnerCharacter = In_OwnerChacter; }

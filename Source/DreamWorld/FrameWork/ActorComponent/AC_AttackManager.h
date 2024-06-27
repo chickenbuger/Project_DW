@@ -1,4 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
@@ -43,5 +42,5 @@ private:
 	TObjectPtr<APawn> m_OwnerCharacter;
 
 private:
-	bool CheckTheScopeOfTheAttack(uint32 in_Range, TArray<FHitResult>& OutHits);
+	bool CheckTheScopeOfTheAttack(const FVector In_BoxHalfSize, const uint32 In_Range, TArray<FHitResult>& OutHits);
 };
