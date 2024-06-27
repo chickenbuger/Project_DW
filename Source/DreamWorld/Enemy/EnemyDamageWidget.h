@@ -18,8 +18,11 @@ public:
 	AEnemyDamageWidget();
 
 public:
-	/** Setter */
-	void SetDamage(const float In_Damage) { m_Damage = In_Damage; }
+	void DetectedDamage(const float In_Damage) 
+	{ 
+		m_Damage = In_Damage; 
+		InitDamage();
+	}
 
 public:
 	// Called every frame
@@ -35,4 +38,7 @@ private:
 
 	UPROPERTY()
 	float m_Damage;
+
+private:
+	void InitDamage() const;
 };

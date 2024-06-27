@@ -19,6 +19,9 @@ class DREAMWORLD_API UW_EnemyDamageText : public UUserWidget
 public:
 	virtual void NativeConstruct() override;
 
+public:
+	void SetDamage(const float In_Damage);
+
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true", BindWidget))
 	TObjectPtr<UTextBlock> m_Text_Damage;

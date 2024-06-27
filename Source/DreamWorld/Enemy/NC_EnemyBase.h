@@ -7,6 +7,7 @@
 #include "NC_EnemyBase.generated.h"
 
 class UWidgetComponent;
+class AEnemyDamageWidget;
 
 DECLARE_MULTICAST_DELEGATE(FOnHpChanged);
 
@@ -57,4 +58,7 @@ private:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UWidgetComponent> m_HpBar;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<AActor> m_DamageIndicatorClass;
 };

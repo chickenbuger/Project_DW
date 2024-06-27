@@ -1,8 +1,10 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 
 #include "DreamWorld/Enemy/NC_EnemyBase.h"
+#include "DreamWorld/Enemy/EnemyDamageWidget.h"
 #include "DreamWorld/Widget/Enemy/W_EnemyHPBar.h"
+
 #include "Components/WidgetComponent.h"
 
 // Sets default values
@@ -28,15 +30,37 @@ ANC_EnemyBase::ANC_EnemyBase()
 		m_HpBar->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	}
 
+	static ConstructorHelpers::FClassFinder<AActor> DamageIndicatorRef = TEXT("Blueprint'/Game/Enemy/BA_EnemyDamageWidget.BA_EnemyDamageWidget_C'");
+	if (DamageIndicatorRef.Class)
+	{
+		m_DamageIndicatorClass = DamageIndicatorRef.Class;
+	}
+
 	m_MaxHp		= 100.0f;
 	m_Hp			= 100.0f;
 }
 
 void ANC_EnemyBase::RecieveDamage(float In_Damage)
 {
-	m_Hp -= In_Damage;
+	FActorSpawnParameters SpawnParam;
+	FRotator SpawnRotator;
+	FVector SpawnLoaction;
 
-	UE_LOG(LogTemp, Warning, TEXT("Current Enemy HP : %f"), m_Hp);
+	if (nullptr == GetWorld()) { return; }
+	if (nullptr == GetWorld()->GetFirstPlayerController()) { return; }
+	if (nullptr == GetWorld()->GetFirstPlayerController()->AcknowledgedPawn) { return; }
+
+	TObjectPtr<APawn> pawn = GetWorld()->GetFirstPlayerController()->GetPawn();
+	const FVector headLoc = GetMesh()->GetSocketLocation(FName("head"));
+
+	SpawnLoaction = headLoc + pawn->GetActorUpVector() * 20.f + pawn->GetActorRightVector() * 20.f;
+
+	//Spawn Widget
+	TObjectPtr<AEnemyDamageWidget> damageindicator = GetWorld()->SpawnActor<AEnemyDamageWidget>(m_DamageIndicatorClass, SpawnLoaction, SpawnRotator, SpawnParam);
+	damageindicator->DetectedDamage(In_Damage);
+
+	//Damage
+	m_Hp -= In_Damage;
 	DeleMuti_Func_HpChanged.Broadcast();
 }
 

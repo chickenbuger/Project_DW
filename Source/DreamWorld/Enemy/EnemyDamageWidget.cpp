@@ -31,14 +31,17 @@ AEnemyDamageWidget::AEnemyDamageWidget()
 void AEnemyDamageWidget::BeginPlay()
 {
 	Super::BeginPlay();
-	
+}
+
+void AEnemyDamageWidget::InitDamage() const
+{
 	TObjectPtr<UW_EnemyDamageText> damagetext = Cast<UW_EnemyDamageText>(m_DamageWidget->GetUserWidgetObject());
 	if (nullptr == damagetext)
 	{
 		return;
 	}
 
-	damagetext->Set
+	damagetext->SetDamage(m_Damage);
 }
 
 // Called every frame
