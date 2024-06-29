@@ -20,7 +20,7 @@ public:
 	* 인자 : 공격 시도자, 데미지
 	* 공격 범위 체크 및 데미지 처리
 	*/
-	void CallAttemptAttack(TObjectPtr<AActor> in_Player, float in_Damage);
+	void CallAttemptBoxAttack(TObjectPtr<AActor> in_Player, const FVector in_AttackArea,  float in_Damage);
 
 public:
 	/** Getter */
@@ -42,5 +42,5 @@ private:
 	TObjectPtr<APawn> m_OwnerCharacter;
 
 private:
-	bool CheckTheScopeOfTheAttack(const FVector In_BoxHalfSize, const uint32 In_Range, TArray<FHitResult>& OutHits);
+	bool CheckTheScopeOfTheBoxAttack(const FVector In_BoxHalfSize, const uint32 In_Range, TArray<FHitResult>& OutHits);
 };

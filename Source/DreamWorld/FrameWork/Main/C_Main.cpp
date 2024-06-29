@@ -34,7 +34,7 @@ void AC_Main::RequestedAttack(const int32 in_SkillID)
 	//Basic Attack
 	if (0 == in_SkillID)
 	{
-		m_AttackManager->CallAttemptAttack(this, 10.f);
+		m_AttackManager->CallAttemptBoxAttack(this, FVector{ 50.f,50.f,50.f }, 10.f);
 		playerstate->RequestBasicAttackAnimation();
 	}
 	else

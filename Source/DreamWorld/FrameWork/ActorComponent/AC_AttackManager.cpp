@@ -19,11 +19,11 @@ UAC_AttackManager::UAC_AttackManager()
 	// ...
 }
 
-void UAC_AttackManager::CallAttemptAttack(TObjectPtr<AActor> in_Player, float in_Damage)
+void UAC_AttackManager::CallAttemptBoxAttack(TObjectPtr<AActor> in_Player,const FVector in_AttackArea, float in_Damage)
 {
 	TArray<FHitResult> OutHits;
 
-	if (!CheckTheScopeOfTheAttack(FVector{ 50.f, 50.f, 50.f }, 100.f, OutHits))
+	if (!CheckTheScopeOfTheBoxAttack(in_AttackArea, 100.f, OutHits))
 	{
 		return;
 	}
@@ -50,7 +50,7 @@ void UAC_AttackManager::BeginPlay()
 }
 
 //Box
-bool UAC_AttackManager::CheckTheScopeOfTheAttack(const FVector In_BoxHalfSize, const uint32 In_Range, TArray<FHitResult>& OutHits)
+bool UAC_AttackManager::CheckTheScopeOfTheBoxAttack(const FVector In_BoxHalfSize, const uint32 In_Range, TArray<FHitResult>& OutHits)
 {
 	const FVector Location= m_OwnerCharacter->GetActorLocation();
 	const FVector Forward	= m_OwnerCharacter->GetActorForwardVector();
@@ -63,7 +63,7 @@ bool UAC_AttackManager::CheckTheScopeOfTheAttack(const FVector In_BoxHalfSize, c
 	ECollisionChannel TraceChannel = ECC_GameTraceChannel4;
 
 	FCollisionQueryParams Params;
-
+	
 	bool bHit = GetWorld()->SweepMultiByChannel(
 		OutHits,
 		Start,
@@ -75,7 +75,7 @@ bool UAC_AttackManager::CheckTheScopeOfTheAttack(const FVector In_BoxHalfSize, c
 	);
 
 	DrawDebugBox(GetWorld(), Start, BoxHalfSize, Orientation.Quaternion(), FColor::Green, false, 2.0f);
-	//DrawDebugBox(GetWorld(), End, BoxHalfSize, Orientation.Quaternion(), FColor::Blue, false, 2.0f);
+	//DrawDebugBox(GetWorld(), End, BoxHalfSize, Orientation.Quaternion(), FColor::Blue, false, 2.0f);z
 
 	if (bHit)
 	{
