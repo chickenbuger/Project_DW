@@ -119,7 +119,7 @@ void UAC_PlayerAnimation::InitBasicAttackAnimation()
 	//none is null
 	m_BasicAttackAnimation.Add(EPlayerWeaponState::None, nullptr);
 
-	static ConstructorHelpers::FObjectFinder<UAnimMontage> NoWeaponBaiscAttackObject(TEXT("/Script/Engine.AnimMontage'/Game/Animation/Player/Anim/Montage/AS_PlayerLeftJab_Montage.AS_PlayerLeftJab_Montage'"));
+	static ConstructorHelpers::FObjectFinder<UAnimMontage> NoWeaponBaiscAttackObject(TEXT("AnimMontage'/Game/Animation/Player/Anim/Montage/Attack/AS_PlayerLeftJab_Montage.AS_PlayerLeftJab_Montage'"));
 	if (NoWeaponBaiscAttackObject.Succeeded())
 	{
 		m_BasicAttackAnimation.Add(EPlayerWeaponState::NoWeapon, NoWeaponBaiscAttackObject.Object);
@@ -128,7 +128,7 @@ void UAC_PlayerAnimation::InitBasicAttackAnimation()
 
 void UAC_PlayerAnimation::InitSkillAnimation()
 {
-	static ConstructorHelpers::FObjectFinder<UAnimMontage> SkillID_1(TEXT("/Script/Engine.AnimMontage'/Game/Animation/Player/Anim/Montage/AS_PlayerKick1_Montage.AS_PlayerKick1_Montage'"));
+	static ConstructorHelpers::FObjectFinder<UAnimMontage> SkillID_1(TEXT("AnimMontage'/Game/Animation/Player/Anim/Montage/Attack/AS_PlayerKick1_Montage.AS_PlayerKick1_Montage'"));
 	if(SkillID_1.Succeeded())
 	{
 		m_SkillAnimation.Add(SkillID_1.Object);

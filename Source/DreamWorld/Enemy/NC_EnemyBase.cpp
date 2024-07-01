@@ -30,7 +30,7 @@ ANC_EnemyBase::ANC_EnemyBase()
 		m_HpBar->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	}
 
-	static ConstructorHelpers::FClassFinder<AActor> DamageIndicatorRef = TEXT("Blueprint'/Game/Enemy/BA_EnemyDamageWidget.BA_EnemyDamageWidget_C'");
+	static ConstructorHelpers::FClassFinder<AActor> DamageIndicatorRef = TEXT("Blueprint'/Game/Character/Enemy/BA_EnemyDamageWidget.BA_EnemyDamageWidget_C'");
 	if (DamageIndicatorRef.Class)
 	{
 		m_DamageIndicatorClass = DamageIndicatorRef.Class;
