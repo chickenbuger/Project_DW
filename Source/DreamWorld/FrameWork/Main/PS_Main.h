@@ -3,11 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/PlayerState.h"
-
-/** Enum */
-#include "../../ENUM/PlayerEnum.h"
-
+#include "../../FrameWork/ParentPlayerState/PS_CharacterStatusDetail.h"
 #include "PS_Main.generated.h"
 
 /**
@@ -16,12 +12,8 @@
 class UAC_SkillManager;
 class UAC_PlayerAnimation;
 
-DECLARE_MULTICAST_DELEGATE(FOnChanged_Hp);
-DECLARE_MULTICAST_DELEGATE(FOnChanged_Mana);
-DECLARE_MULTICAST_DELEGATE(FOnChanged_Stamina);
-
 UCLASS()
-class DREAMWORLD_API APS_Main : public APlayerState
+class DREAMWORLD_API APS_Main : public APS_CharacterStatusDetail
 {
 	GENERATED_BODY()
 	
@@ -29,27 +21,12 @@ public:
 	APS_Main();
 
 public:
-	FOnChanged_Hp Dele_Changed_Hp;
-	FOnChanged_Mana Dele_Changed_Mana;
-	FOnChanged_Stamina Dele_Changed_Stamina;
-
-public:
 	//Init
 	void Init();
-	void PlayerInfoWidgetInit() const;
 	
 	//Attack
 	void RequestBasicAttackAnimation();
 	void RequestPlayerSkill(int32 In_SkillID);
-
-	//Take Damage
-	void ReceiveDamage(float In_Damage);
-
-	//Mana
-	void UsingMana(const float In_Mana);
-
-	//Stamina
-	void UsingStamina(const float In_Stamina);
 
 	//Animation
 	void EndAnimation();
@@ -59,55 +36,14 @@ public:
 
 public:
 	//Getter
-	FName			GetCharacterName() const					{ return m_PlayerName; }
-	float				GetMaxHealth() const						{ return m_MaxHealth; }
-	float				GetMaxMana() const							{ return m_MaxMana; }
-	float				GetMaxStamina() const						{ return m_MaxStamina; }
-	float				GetHealth() const							{ return m_Health; }
-	float				GetMana() const								{ return m_Mana; }
-	float				GetStamina() const							{ return m_Stamina; }
+	FName			GetCharacterName() const				{ return m_PlayerName; }
 
 	//Setter
-	void				SetCharacterName(FName In_PlayerName)						{ m_PlayerName = In_PlayerName; }
-	void				SetMaxHealth(float In_MaxHelath)							{ m_MaxHealth = In_MaxHelath; }
-	void				SetMaxMana(float In_MaxMana)								{ m_MaxMana = In_MaxMana; }
-	void				SetMaxStamina(float In_MaxStamina)							{ m_MaxStamina = In_MaxStamina; }
-	void				SetHealth(float In_Helath)									{ m_Health	= In_Helath; }
-	void				SetMana(float In_Mana)										{ m_Mana	= In_Mana; }
-	void				SetStamina(float In_Stamina)								{ m_Stamina = In_Stamina;  }
+	void				SetCharacterName(FName In_PlayerName)			{ m_PlayerName = In_PlayerName; }
 
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Name", meta = (AllowPrivateAccess = "true"))
 	FName m_PlayerName;
-
-	/** Max */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Stats", meta = (AllowPrivateAccess = "true"))
-	float	m_MaxHealth;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Stats", meta = (AllowPrivateAccess = "true"))
-	float	m_MaxMana;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Stats", meta = (AllowPrivateAccess = "true"))
-	float	m_MaxStamina;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Stats", meta = (AllowPrivateAccess = "true"))
-	float	m_MaxAttackSpeed;
-
-	/** Current */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Stats", meta = (AllowPrivateAccess = "true"))
-	float	m_Health;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Stats", meta = (AllowPrivateAccess = "true"))
-	float	m_Mana;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Stats", meta = (AllowPrivateAccess = "true"))
-	float	m_Stamina;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Stats", meta = (AllowPrivateAccess = "true"))
-	float	m_AttackSpeed;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State", meta = (AllowPrivateAccess = "true"))
-	EPlayerWeaponState m_WeaponState;
 	
 	/** Actor Components */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Skill", meta = (AllowPrivateAccess = "true"))
@@ -115,11 +51,4 @@ private:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Animation", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UAC_PlayerAnimation> m_PlayerAnimationManager;
-
-private:
-	//Mana
-	bool CanUseMana(const float In_Mana);
-
-	//Stamina
-	bool CanUseStamina(const float In_Stamina);
 };
