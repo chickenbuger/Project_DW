@@ -30,35 +30,37 @@ ANC_EnemyBase::ANC_EnemyBase()
 		m_HpBar->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	}
 
-	static ConstructorHelpers::FClassFinder<AActor> DamageIndicatorRef = TEXT("Blueprint'/Game/Character/Enemy/BA_EnemyDamageWidget.BA_EnemyDamageWidget_C'");
-	if (DamageIndicatorRef.Class)
-	{
-		m_DamageIndicatorClass = DamageIndicatorRef.Class;
-	}
-
 	m_MaxHp		= 100.0f;
 	m_Hp			= 100.0f;
 }
 
 void ANC_EnemyBase::RecieveDamage(float In_Damage)
 {
-	FActorSpawnParameters SpawnParam;
-	FRotator SpawnRotator;
-	FVector SpawnLoaction;
+	/*
+	if ()
+	{
+		if (nullptr == GetWorld()) { return; }
+		if (nullptr == GetWorld()->GetFirstPlayerController()) { return; }
+		if (nullptr == GetWorld()->GetFirstPlayerController()->AcknowledgedPawn) { return; }
 
-	if (nullptr == GetWorld()) { return; }
-	if (nullptr == GetWorld()->GetFirstPlayerController()) { return; }
-	if (nullptr == GetWorld()->GetFirstPlayerController()->AcknowledgedPawn) { return; }
+		TObjectPtr<APawn> pawn = GetWorld()->GetFirstPlayerController()->GetPawn();
+		const FVector headLoc = GetMesh()->GetSocketLocation(FName("head"));
 
-	TObjectPtr<APawn> pawn = GetWorld()->GetFirstPlayerController()->GetPawn();
-	const FVector headLoc = GetMesh()->GetSocketLocation(FName("head"));
+		FActorSpawnParameters SpawnParam;
+		FRotator SpawnRotator;
+		FVector SpawnLoaction;
 
-	SpawnLoaction = headLoc + pawn->GetActorUpVector() * 20.f + pawn->GetActorRightVector() * 20.f;
+		SpawnLoaction = headLoc + pawn->GetActorUpVector() * 20.f + pawn->GetActorRightVector() * 20.f;
 
-	//Spawn Widget
-	TObjectPtr<AEnemyDamageWidget> damageindicator = GetWorld()->SpawnActor<AEnemyDamageWidget>(m_DamageIndicatorClass, SpawnLoaction, SpawnRotator, SpawnParam);
-	damageindicator->DetectedDamage(In_Damage);
+		//Spawn Widget -> 자동으로 삭제 예정(Polling 이용)
+		TObjectPtr<AEnemyDamageWidget> damageindicator = GetWorld()->SpawnActor<AEnemyDamageWidget>(m_DamageIndicatorClass, SpawnLoaction, SpawnRotator, SpawnParam);
+		damageindicator->DetectedDamage(In_Damage);
+	}
+	else
+	{
 
+	}
+	*/
 	//Damage
 	m_Hp -= In_Damage;
 	DeleMuti_Func_HpChanged.Broadcast();
