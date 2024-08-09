@@ -4,6 +4,7 @@
 #include "DreamWorld/Enemy/NC_EnemyBase.h"
 #include "DreamWorld/Enemy/EnemyDamageWidget.h"
 #include "DreamWorld/Widget/Enemy/W_EnemyHPBar.h"
+#include "DreamWorld/FrameWork/Main/GI_Main.h"
 
 #include "Components/WidgetComponent.h"
 
@@ -61,6 +62,30 @@ void ANC_EnemyBase::RecieveDamage(float In_Damage)
 
 	}
 	*/
+	//Pawn 데이터 확인(싱글 게임이라 첫 번째 플레이어 컨트롤러가 플레이어
+	if (nullptr == GetWorld()) { return; }
+	if (nullptr == GetWorld()->GetFirstPlayerController()) { return; }
+	if (nullptr == GetWorld()->GetFirstPlayerController()->AcknowledgedPawn) { return; }
+
+	//GameInstance 가져오기
+	if (nullptr == GetGameInstance()) return;
+	TObjectPtr<UGI_Main> gameInstance = Cast<UGI_Main>(GetGameInstance());
+	//Damage Indicator 받아오기(Pooling)
+	TObjectPtr<AEnemyDamageWidget> damageIndicator = gameInstance->RequestDamageIndicator();
+
+	//플레이어와 head소켓 위치 준비
+	TObjectPtr<APawn> pawn = GetWorld()->GetFirstPlayerController()->GetPawn();
+	const FVector headLoc = GetMesh()->GetSocketLocation(FName("head"));
+
+	//위치 조정
+	FVector SpawnLoaction;
+	SpawnLoaction = headLoc + pawn->GetActorUpVector() * 20.f + pawn->GetActorRightVector() * 20.f;
+
+	damageIndicator->SetActorLocation(SpawnLoaction);
+	damageIndicator->RequestStartMove();
+	damageIndicator->DetectedDamage(In_Damage);
+	damageIndicator->RequestAnimationPlay();
+
 	//Damage
 	m_Hp -= In_Damage;
 	DeleMuti_Func_HpChanged.Broadcast();

@@ -10,6 +10,7 @@
  * 
  */
 class UTextBlock;
+class AEnemyDamageWidget;
 
 UCLASS()
 class DREAMWORLD_API UW_EnemyDamageText : public UUserWidget
@@ -21,8 +22,19 @@ public:
 
 public:
 	void SetDamage(const float In_Damage);
+	void SetOwnerActor(AEnemyDamageWidget& In_OwnerActor);
+
+public:
+	TObjectPtr<AEnemyDamageWidget> GetOwnerActor();
+
+public:
+	UFUNCTION(BlueprintImplementableEvent)
+	void RequestAnimationPlay();
 
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true", BindWidget))
 	TObjectPtr<UTextBlock> m_Text_Damage;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<AEnemyDamageWidget> m_OwnerActor;
 };

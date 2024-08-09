@@ -3,6 +3,7 @@
 
 #include "DreamWorld/Enemy/EnemyDamageWidget.h"
 #include "DreamWorld/Widget/Enemy/W_EnemyDamageText.h"
+#include "DreamWorld/FrameWork/Main/GI_Main.h"
 
 #include "Components/WidgetComponent.h"
 
@@ -27,10 +28,42 @@ AEnemyDamageWidget::AEnemyDamageWidget()
 	}
 }
 
+void AEnemyDamageWidget::DetectedDamage(const float In_Damage)
+{
+	m_Damage = In_Damage;
+	InitDamage();
+}
+
+void AEnemyDamageWidget::RequestAnimationPlay()
+{
+	TObjectPtr<UW_EnemyDamageText> damagetext = Cast<UW_EnemyDamageText>(m_DamageWidget->GetUserWidgetObject());
+	if (nullptr == damagetext)
+	{
+		return;
+	}
+
+	damagetext->RequestAnimationPlay();
+}
+
+void AEnemyDamageWidget::ReturnSelf()
+{
+	if (nullptr == GetGameInstance()) return;
+	TObjectPtr<UGI_Main> gameInstance = Cast<UGI_Main>(GetGameInstance());
+	gameInstance->ReturnDamageIndicator(this);
+}
+
 // Called when the game starts or when spawned
 void AEnemyDamageWidget::BeginPlay()
 {
 	Super::BeginPlay();
+
+	TObjectPtr<UW_EnemyDamageText> damagetext = Cast<UW_EnemyDamageText>(m_DamageWidget->GetUserWidgetObject());
+	if (nullptr == damagetext)
+	{
+		return;
+	}
+
+	damagetext->SetOwnerActor(*this);
 }
 
 void AEnemyDamageWidget::InitDamage() const
@@ -42,12 +75,5 @@ void AEnemyDamageWidget::InitDamage() const
 	}
 
 	damagetext->SetDamage(m_Damage);
-}
-
-// Called every frame
-void AEnemyDamageWidget::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
 }
 

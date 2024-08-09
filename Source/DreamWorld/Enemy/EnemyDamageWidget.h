@@ -18,15 +18,15 @@ public:
 	AEnemyDamageWidget();
 
 public:
-	void DetectedDamage(const float In_Damage) 
-	{ 
-		m_Damage = In_Damage; 
-		InitDamage();
-	}
+	void DetectedDamage(const float In_Damage);
+	void RequestAnimationPlay();
 
 public:
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+	UFUNCTION(BlueprintCallable)
+	void ReturnSelf();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void RequestStartMove();
 
 protected:
 	// Called when the game starts or when spawned
