@@ -179,4 +179,5 @@ void AHUD_Main::EndPlay(const EEndPlayReason::Type EndPlayReason)
 
 void AHUD_Main::DrawHUD()
 {
+	Super::DrawHUD();
 }
