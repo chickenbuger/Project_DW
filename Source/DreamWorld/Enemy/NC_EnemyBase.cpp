@@ -37,31 +37,6 @@ ANC_EnemyBase::ANC_EnemyBase()
 
 void ANC_EnemyBase::RecieveDamage(float In_Damage)
 {
-	/*
-	if ()
-	{
-		if (nullptr == GetWorld()) { return; }
-		if (nullptr == GetWorld()->GetFirstPlayerController()) { return; }
-		if (nullptr == GetWorld()->GetFirstPlayerController()->AcknowledgedPawn) { return; }
-
-		TObjectPtr<APawn> pawn = GetWorld()->GetFirstPlayerController()->GetPawn();
-		const FVector headLoc = GetMesh()->GetSocketLocation(FName("head"));
-
-		FActorSpawnParameters SpawnParam;
-		FRotator SpawnRotator;
-		FVector SpawnLoaction;
-
-		SpawnLoaction = headLoc + pawn->GetActorUpVector() * 20.f + pawn->GetActorRightVector() * 20.f;
-
-		//Spawn Widget -> 자동으로 삭제 예정(Polling 이용)
-		TObjectPtr<AEnemyDamageWidget> damageindicator = GetWorld()->SpawnActor<AEnemyDamageWidget>(m_DamageIndicatorClass, SpawnLoaction, SpawnRotator, SpawnParam);
-		damageindicator->DetectedDamage(In_Damage);
-	}
-	else
-	{
-
-	}
-	*/
 	//Pawn 데이터 확인(싱글 게임이라 첫 번째 플레이어 컨트롤러가 플레이어
 	if (nullptr == GetWorld()) { return; }
 	if (nullptr == GetWorld()->GetFirstPlayerController()) { return; }
