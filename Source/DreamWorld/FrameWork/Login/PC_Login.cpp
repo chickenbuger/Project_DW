@@ -12,6 +12,6 @@ void APC_Login::BeginPlay()
 {
 	Super::BeginPlay();
 
-	UE_LOG(LogTemp, Warning, TEXT("LOGIN PC : BeginPlay"));
+	//로그인에서 조이스틱 비 활성화
 	SetVirtualJoystickVisibility(false);
 }

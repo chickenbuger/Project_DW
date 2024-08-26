@@ -17,8 +17,16 @@ class DREAMWORLD_API AHUD_Login : public AHUD
 public:
 	AHUD_Login();
 
+public:
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<UUserWidget> m_LoginWidget;
+
 protected:
 	virtual void BeginPlay() override;
 	virtual void EndPlay(const EEndPlayReason::Type EEndPlayReason) override;
 	virtual void DrawHUD() override;
+
+private:
+	UPROPERTY()
+	TArray<TObjectPtr<UUserWidget>>		m_UsingWidgets;
 };

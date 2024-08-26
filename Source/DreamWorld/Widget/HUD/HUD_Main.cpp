@@ -14,10 +14,10 @@ AHUD_Main::AHUD_Main()
 UUserWidget* AHUD_Main::GetWidgetFromName(const FString& In_WidgetName)
 {
 	const int32 findPos = m_WidgetNames.Find(In_WidgetName);
-	if (findPos == INDEX_NONE) { return nullptr; }
+	if (findPos == INDEX_NONE) return nullptr;
 
 	TObjectPtr<UUserWidget> findWidget = m_Widgets[findPos];
-	if (nullptr == findWidget) { return nullptr; }
+	if (nullptr == findWidget) return nullptr;
 
 	return findWidget;
 }
@@ -26,7 +26,7 @@ void AHUD_Main::ShowWidgetFromName(const FString& In_WidgetName)
 {
 	int32 number = INDEX_NONE;
 	TObjectPtr<UUserWidget> widget = GetWidgetInfo(In_WidgetName, number);
-	if (widget == nullptr || number == INDEX_NONE) { return; }
+	if (widget == nullptr || number == INDEX_NONE) return;
 
 	if (m_UsingWidget[number] == false)
 	{
@@ -39,7 +39,7 @@ void AHUD_Main::CleanWidgetFromName(const FString& In_WidgetName)
 {
 	int32 number = INDEX_NONE;
 	TObjectPtr<UUserWidget> widget = GetWidgetInfo(In_WidgetName, number);
-	if (widget == nullptr || number == INDEX_NONE) { return; }
+	if (widget == nullptr || number == INDEX_NONE) return;
 
 	if (m_UsingWidget[number] == true)
 	{
@@ -51,11 +51,11 @@ void AHUD_Main::CleanWidgetFromName(const FString& In_WidgetName)
 UUserWidget* AHUD_Main::GetWidgetInfo(const FString& In_WidgetName, int32& Out_Number)
 {
 	const int32 findPos = m_WidgetNames.Find(In_WidgetName);
-	if (INDEX_NONE == findPos) { return nullptr; }
+	if (INDEX_NONE == findPos) return nullptr;
 	Out_Number = findPos;
 
 	TObjectPtr<UUserWidget> findWidget = m_Widgets[findPos];
-	if (nullptr == findWidget) { return nullptr; }
+	if (nullptr == findWidget) return nullptr;
 
 	return findWidget;
 }
@@ -127,16 +127,16 @@ void AHUD_Main::BeginPlay()
 	Super::BeginPlay();
 
 	TObjectPtr<AGameModeBase> gamemode = GetWorld()->GetAuthGameMode();
-	if (nullptr == gamemode) { return; }
+	if (nullptr == gamemode) return; 
 
 	TObjectPtr<AGM_Main> maingamemode = Cast<AGM_Main>(gamemode);
-	if (nullptr == maingamemode) { return; }
+	if (nullptr == maingamemode) return; 
 
 	for(TSubclassOf<UUserWidget> widgetclass : m_UiWidgets)
 	{
 		//설정된 Widget 추가
 		TObjectPtr<UUserWidget> newWidget = CreateWidget<UUserWidget>(GetWorld(), widgetclass);
-		if (nullptr == newWidget) { return; }
+		if (nullptr == newWidget) return;
 
 		newWidget->AddToViewport();
 		newWidget->SetVisibility(ESlateVisibility::Collapsed);
@@ -152,10 +152,10 @@ void AHUD_Main::BeginPlay()
 	m_UsingWidget.Init(false, m_Widgets.Num());
 
 	TObjectPtr<UUserWidget> mainwidget =  GetWidgetFromName(TEXT("PlayerMain"));
-	if (nullptr == mainwidget) { return; }
+	if (nullptr == mainwidget) return;
 
 	TObjectPtr<UW_PlayerMain> playermainwidget = Cast<UW_PlayerMain>(mainwidget);
-	if (nullptr == playermainwidget) { return; }
+	if (nullptr == playermainwidget) return;
 
 	playermainwidget->Init();
 

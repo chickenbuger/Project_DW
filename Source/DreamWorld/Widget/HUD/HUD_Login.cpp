@@ -2,6 +2,7 @@
 
 
 #include "DreamWorld/Widget/HUD/HUD_Login.h"
+#include "Blueprint/UserWidget.h"
 
 AHUD_Login::AHUD_Login()
 {
@@ -17,11 +18,29 @@ void AHUD_Login::BeginPlay()
 	* 있음 -> 기존의 데이터 불러오기 (캐릭터 선택 창)
 	* 
 	*/
+	//로그인 위젯 생성
+	TObjectPtr<UUserWidget> loginwidget = CreateWidget<UUserWidget>(GetWorld(), m_LoginWidget);
+	if (nullptr == loginwidget) return;
+
+	//위젯 추가
+	loginwidget->AddToViewport();
+
+	m_UsingWidgets.Add(loginwidget);
 }
 
 void AHUD_Login::EndPlay(const EEndPlayReason::Type EEndPlayReason)
 {
 	Super::EndPlay(EEndPlayReason);
+
+	for (auto& widget : m_UsingWidgets)
+	{
+		if (widget)
+		{
+			widget->RemoveFromParent();
+			widget = nullptr;
+		}
+	}
+	m_UsingWidgets.Empty();
 }
 
 void AHUD_Login::DrawHUD()
