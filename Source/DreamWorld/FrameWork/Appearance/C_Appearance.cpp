@@ -32,8 +32,8 @@ AC_Appearance::AC_Appearance()
 	m_SM_Hair = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Hair"));
 	if (nullptr == m_SM_Hair) { return; }
 
-	m_SM_HeadDress	= CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("HeadDress"));
-	if (nullptr == m_SM_HeadDress) { return; }
+	m_SM_Helm	= CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Helm"));
+	if (nullptr == m_SM_Helm) { return; }
 	
 	/** Attach */
 	m_SM_Shoes->SetupAttachment(GetMesh());
@@ -43,7 +43,7 @@ AC_Appearance::AC_Appearance()
 	m_SM_Shoulder->SetupAttachment(GetMesh());
 	m_SM_Face->SetupAttachment(GetMesh());
 	m_SM_Hair->SetupAttachment(GetMesh());
-	m_SM_HeadDress->SetupAttachment(GetMesh());
+	m_SM_Helm->SetupAttachment(GetMesh());
 }
 
 // Called when the game starts or when spawned

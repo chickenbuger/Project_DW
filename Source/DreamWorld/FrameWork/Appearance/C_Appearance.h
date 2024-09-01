@@ -28,7 +28,7 @@ protected:
 
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Appearance", meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<USkeletalMeshComponent> m_SM_HeadDress;
+	TObjectPtr<USkeletalMeshComponent> m_SM_Helm;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Appearance", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<USkeletalMeshComponent> m_SM_Hair;
