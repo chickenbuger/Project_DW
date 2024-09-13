@@ -20,6 +20,10 @@ class DREAMWORLD_API UW_PlayerMainInfo : public UUserWidget
 public:
 	virtual void NativeConstruct() override;
 
+public:
+	UFUNCTION(BlueprintCallable)
+	void SetPlayerName(const FString In_PlayerName);
+
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true", BindWidget))
 	TObjectPtr<UTextBlock>		m_TextBlock_PlayerName;

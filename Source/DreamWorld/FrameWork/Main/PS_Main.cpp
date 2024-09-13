@@ -10,8 +10,6 @@
 APS_Main::APS_Main()
 {
 	PrimaryActorTick.bCanEverTick = false;
-
-	m_PlayerName = FName(TEXT("JS"));
 }
 
 void APS_Main::Init()

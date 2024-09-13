@@ -14,4 +14,6 @@ class DREAMWORLD_API AGM_Main : public AGameModeBase
 {
 	GENERATED_BODY()
 	
+protected:
+	virtual void BeginPlay();
 };

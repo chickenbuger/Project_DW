@@ -24,6 +24,11 @@ void UW_PlayerMainInfo::NativeConstruct()
 	playerstate->PlayerInfoWidgetInit();
 }
 
+void UW_PlayerMainInfo::SetPlayerName(FString In_PlayerName)
+{
+	m_TextBlock_PlayerName->SetText(FText::FromString(In_PlayerName));
+}
+
 void UW_PlayerMainInfo::DetectedChangeHp()
 {
 	TObjectPtr<APS_Main> playerstate = GetOwningPlayer()->GetPlayerState<APS_Main>();

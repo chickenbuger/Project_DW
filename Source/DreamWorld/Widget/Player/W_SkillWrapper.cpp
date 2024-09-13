@@ -8,8 +8,7 @@ void UW_SkillWrapper::NativeConstruct()
 {
 	Super::NativeConstruct();
 
-	UW_Skill_Slot1->SetSkillID(0);
-	UW_Skill_Slot2->SetSkillID(1);
+	ResetSkillSlotID();
 }
 
 void UW_SkillWrapper::ResetSkillSlotID()

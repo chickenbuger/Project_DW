@@ -20,6 +20,16 @@ public:
 	UGI_Main();
 
 public:
+	//Getter
+	FString GetPlayerName() const { return m_PlayerName; }
+
+
+	//Setter
+	UFUNCTION(BlueprintCallable)
+	void SetPlayerName(const FString In_PlayerName) { m_PlayerName = In_PlayerName; }
+
+
+public:
 	TObjectPtr<AEnemyDamageWidget> RequestDamageIndicator();
 	void ReturnDamageIndicator(TObjectPtr<AEnemyDamageWidget> In_Object);
 
@@ -29,4 +39,7 @@ private:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<AActor> m_DamageIndicatorClass;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	FString m_PlayerName;
 };
