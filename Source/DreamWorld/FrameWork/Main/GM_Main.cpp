@@ -5,9 +5,6 @@
 #include "DreamWorld/FrameWork/Main/GI_Main.h"
 #include "DreamWorld/FrameWork/Main/PS_Main.h"
 
-#include "DreamWorld/Widget/HUD/HUD_Main.h"
-#include "DreamWorld/Widget/Player/W_PlayerMain.h"
-
 #include "Kismet/GameplayStatics.h"
 
 void AGM_Main::BeginPlay()
@@ -21,12 +18,4 @@ void AGM_Main::BeginPlay()
 
 	const FName name = FName(*(gameinstance->GetPlayerName()));
 	playerstate->SetCharacterName(name);
-
-	/*
-	TObjectPtr<AHUD_Main> hud = controller->GetHUD<AHUD_Main>();
-	TObjectPtr<UUserWidget> widget = hud->GetWidgetFromName("PlayerMain");
-	TObjectPtr<UW_PlayerMain> playermainwidget = Cast<UW_PlayerMain>(widget);
-
-	playermainwidget->SetPlayerName(gameinstance->GetPlayerName());
-	*/
 }
