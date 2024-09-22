@@ -45,6 +45,14 @@ void AEnemyDamageWidget::RequestAnimationPlay()
 	damagetext->RequestAnimationPlay();
 }
 
+void AEnemyDamageWidget::RequestStart(const FVector In_loc, float In_damage)
+{
+	SetActorLocation(In_loc);
+	RequestStartMove();
+	DetectedDamage(In_damage);
+	RequestAnimationPlay();
+}
+
 void AEnemyDamageWidget::ReturnSelf()
 {
 	if (nullptr == GetGameInstance()) return;

@@ -20,6 +20,7 @@ public:
 public:
 	void DetectedDamage(const float In_Damage);
 	void RequestAnimationPlay();
+	void RequestStart(const FVector In_loc, float In_damage);
 
 public:
 	UFUNCTION(BlueprintCallable)

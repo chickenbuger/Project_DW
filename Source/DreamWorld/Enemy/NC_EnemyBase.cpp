@@ -56,10 +56,7 @@ void ANC_EnemyBase::RecieveDamage(float In_Damage)
 	FVector SpawnLoaction;
 	SpawnLoaction = headLoc + pawn->GetActorUpVector() * 20.f + pawn->GetActorRightVector() * 20.f;
 
-	damageIndicator->SetActorLocation(SpawnLoaction);
-	damageIndicator->RequestStartMove();
-	damageIndicator->DetectedDamage(In_Damage);
-	damageIndicator->RequestAnimationPlay();
+	damageIndicator->RequestStart(SpawnLoaction, In_Damage);
 
 	//Damage
 	m_Hp -= In_Damage;
