@@ -40,6 +40,7 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<AActor> m_DamageIndicatorClass;
 
+	//캐릭터 이름 지정(남은 데이터 파일을 찾는데 사용)
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	FString m_PlayerName;
 };
