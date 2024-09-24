@@ -4,6 +4,10 @@
 #include "DreamWorld/FrameWork/Main/GI_Main.h"
 #include "DreamWorld/Enemy/EnemyDamageWidget.h"
 
+#include "Misc/FileHelper.h"
+#include "Misc/Paths.h"
+#include "HAL/PlatformFileManager.h"
+
 UGI_Main::UGI_Main()
 {
 	static ConstructorHelpers::FClassFinder<AActor> DamageIndicatorRef = TEXT("Blueprint'/Game/Character/Enemy/BA_EnemyDamageWidget.BA_EnemyDamageWidget_C'");
