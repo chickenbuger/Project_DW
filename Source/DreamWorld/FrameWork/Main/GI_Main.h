@@ -22,12 +22,12 @@ public:
 public:
 	//Getter
 	FString GetPlayerName() const { return m_PlayerName; }
-
+	FString GetSavePath() const { return m_SavePath; }
 
 	//Setter
 	UFUNCTION(BlueprintCallable)
 	void SetPlayerName(const FString In_PlayerName) { m_PlayerName = In_PlayerName; }
-
+	void SetSavePath(const FString In_SavePath) { m_SavePath = In_SavePath; }
 
 public:
 	TObjectPtr<AEnemyDamageWidget> RequestDamageIndicator();
@@ -43,4 +43,7 @@ private:
 	//캐릭터 이름 지정(남은 데이터 파일을 찾는데 사용)
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	FString m_PlayerName;
+
+	UPROPERTY()
+	FString m_SavePath;
 };

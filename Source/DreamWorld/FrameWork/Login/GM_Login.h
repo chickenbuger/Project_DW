@@ -13,5 +13,14 @@ UCLASS()
 class DREAMWORLD_API AGM_Login : public AGameModeBase
 {
 	GENERATED_BODY()
+
+public:
+	AGM_Login();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString PATH;
 	
+protected:
+	virtual void BeginPlay();
+
 };
