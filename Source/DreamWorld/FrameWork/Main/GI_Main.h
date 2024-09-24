@@ -10,6 +10,7 @@
  * 
  */
 class AEnemyDamageWidget;
+class USaveGame;
 
 UCLASS()
 class DREAMWORLD_API UGI_Main : public UGameInstance
@@ -33,6 +34,10 @@ public:
 	TObjectPtr<AEnemyDamageWidget> RequestDamageIndicator();
 	void ReturnDamageIndicator(TObjectPtr<AEnemyDamageWidget> In_Object);
 
+	UFUNCTION(BlueprintCallable)
+	bool SaveGameToSlotCustom(USaveGame* SaveGameObject, const FString& SlotName, const int32 UserIndex);
+
+	
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	TArray<TObjectPtr<AEnemyDamageWidget>> m_DamageIndicatorWidgetPooling;

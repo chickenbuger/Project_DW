@@ -8,6 +8,8 @@
 #include "Misc/Paths.h"
 #include "HAL/PlatformFileManager.h"
 
+#include "Kismet/GameplayStatics.h"
+
 UGI_Main::UGI_Main()
 {
 	static ConstructorHelpers::FClassFinder<AActor> DamageIndicatorRef = TEXT("Blueprint'/Game/Character/Enemy/BA_EnemyDamageWidget.BA_EnemyDamageWidget_C'");
@@ -33,4 +35,24 @@ void UGI_Main::ReturnDamageIndicator(TObjectPtr<AEnemyDamageWidget> In_Object)
 {
 	if (nullptr == In_Object) return;
 	m_DamageIndicatorWidgetPooling.Push(In_Object);
+}
+
+bool UGI_Main::SaveGameToSlotCustom(USaveGame* SaveGameObject, const FString& SlotName, const int32 UserIndex)
+{
+	/*
+	TArray<uint8> ObjectBytes;
+	if (SaveGameToMemory(SaveGameObject, ObjectBytes))
+	{
+		return SaveDataToSlot(ObjectBytes, SlotName, UserIndex);
+	}
+	return false;
+	*/
+	TArray<uint8> ObjectBytes;
+	if (UGameplayStatics::SaveGameToMemory(SaveGameObject, ObjectBytes))
+	{
+		FString savepath = FString::Printf(TEXT("%sSaveGames/%s.sav"), *m_SavePath, *SlotName);
+		return FFileHelper::SaveArrayToFile(ObjectBytes,*savepath);
+	}
+
+	return false;
 }

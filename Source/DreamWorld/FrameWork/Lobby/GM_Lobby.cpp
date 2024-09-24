@@ -2,6 +2,7 @@
 
 
 #include "DreamWorld/FrameWork/Lobby/GM_Lobby.h"
+#include "DreamWorld/FrameWork/Main/GI_Main.h"
 
 #include "DreamWorld/SaveGame/Sav_CharacterNames.h"
 #include "GameFramework/Character.h"
@@ -34,12 +35,15 @@ void AGM_Lobby::Request_Save_CharacterName()
 		UGameplayStatics::AsyncSaveGameToSlot(m_Sav_CharacterNames, "CharactersSlot", 0, delegate);
 		*/
 		//m_Sav_CharacterNames = Cast<USav_CharacterNames>(UGameplayStatics::CreateSaveGameObject(USav_CharacterNames::StaticClass()));
-		UGameplayStatics::SaveGameToSlot(m_Sav_CharacterNames, "CharactersSlot", 0);
+		
+		//UGameplayStatics::SaveGameToSlot(m_Sav_CharacterNames, "CharactersSlot", 0);
+		Cast<UGI_Main>(GetGameInstance())->SaveGameToSlotCustom(m_Sav_CharacterNames, "CharactersSlot", 0);
 	}
 	else
 	{
 		m_Sav_CharacterNames = Cast<USav_CharacterNames>(UGameplayStatics::CreateSaveGameObject(USav_CharacterNames::StaticClass()));
-		UGameplayStatics::SaveGameToSlot(m_Sav_CharacterNames, "CharactersSlot", 0);
+		//UGameplayStatics::SaveGameToSlot(m_Sav_CharacterNames, "CharactersSlot", 0);
+		Cast<UGI_Main>(GetGameInstance())->SaveGameToSlotCustom(m_Sav_CharacterNames, "CharactersSlot", 0);
 	}
 }
 
