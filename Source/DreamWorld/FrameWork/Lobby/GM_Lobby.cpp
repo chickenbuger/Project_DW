@@ -27,16 +27,25 @@ void AGM_Lobby::Request_Save_CharacterName()
 {
 	if (UGameplayStatics::DoesSaveGameExist("CharactersSlot", 0))
 	{
+		/*
 		FAsyncSaveGameToSlotDelegate delegate = FAsyncSaveGameToSlotDelegate::CreateUObject(this, &AGM_Lobby::SaveCompleted);
 
 		m_Sav_CharacterNames = Cast<USav_CharacterNames>(UGameplayStatics::CreateSaveGameObject(USav_CharacterNames::StaticClass()));
 		UGameplayStatics::AsyncSaveGameToSlot(m_Sav_CharacterNames, "CharactersSlot", 0, delegate);
+		*/
+		//m_Sav_CharacterNames = Cast<USav_CharacterNames>(UGameplayStatics::CreateSaveGameObject(USav_CharacterNames::StaticClass()));
+		UGameplayStatics::SaveGameToSlot(m_Sav_CharacterNames, "CharactersSlot", 0);
+	}
+	else
+	{
+		m_Sav_CharacterNames = Cast<USav_CharacterNames>(UGameplayStatics::CreateSaveGameObject(USav_CharacterNames::StaticClass()));
+		UGameplayStatics::SaveGameToSlot(m_Sav_CharacterNames, "CharactersSlot", 0);
 	}
 }
 
 ACharacter* AGM_Lobby::Request_Create_Character(const int In_Pos)
 {
-	TObjectPtr<ACharacter> character =GetWorld()->SpawnActor<ACharacter>(m_AppearCharacterClass, m_PlayerSpawnTransform[In_Pos]);
+	TObjectPtr<ACharacter> character = GetWorld()->SpawnActor<ACharacter>(m_AppearCharacterClass, m_PlayerSpawnTransform[In_Pos]);
 	return character;
 }
 
@@ -60,14 +69,16 @@ bool AGM_Lobby::Request_Add_NewPlayer_In_SaveData(const FString In_Name, const i
 		}
 	}
 
-	m_NewPlayerPos = In_Pos;
-
+	/*
 	FAsyncSaveGameToSlotDelegate delegate = FAsyncSaveGameToSlotDelegate::CreateUObject(this, &AGM_Lobby::SaveCompleted);
 
 	m_Sav_CharacterNames = Cast<USav_CharacterNames>(UGameplayStatics::CreateSaveGameObject(USav_CharacterNames::StaticClass()));
 	UGameplayStatics::AsyncSaveGameToSlot(m_Sav_CharacterNames, In_Name, 0, delegate);
+	*/
+	m_Sav_CharacterNames->TotalPlayerNames.Add(In_Pos, In_Name);
+	UGameplayStatics::SaveGameToSlot(m_Sav_CharacterNames, In_Name, 0);
 
-	return false;
+	return true;
 }
 
 void AGM_Lobby::BeginPlay()
@@ -75,19 +86,31 @@ void AGM_Lobby::BeginPlay()
 	//슬롯 데이터 확인
 	if (UGameplayStatics::DoesSaveGameExist("CharactersSlot", 0))
 	{
+		UE_LOG(LogTemp, Log, TEXT("AGM_Lobby::Load Data"));
+		/*
 		FAsyncLoadGameFromSlotDelegate delegate = FAsyncLoadGameFromSlotDelegate::CreateUObject(this, &AGM_Lobby::LoadCompleted);
 
 		UGameplayStatics::AsyncLoadGameFromSlot("CharactersSlot", 0, delegate);
+		*/
+		m_Sav_CharacterNames = Cast<USav_CharacterNames>(UGameplayStatics::LoadGameFromSlot("CharactersSlot", 0));
 	}
 	else
 	{
+		UE_LOG(LogTemp, Log, TEXT("AGM_Lobby::Create Data"));
+		/*
 		FAsyncSaveGameToSlotDelegate delegate = FAsyncSaveGameToSlotDelegate::CreateUObject(this, &AGM_Lobby::SaveCompleted);
 
 		m_Sav_CharacterNames = Cast<USav_CharacterNames>(UGameplayStatics::CreateSaveGameObject(USav_CharacterNames::StaticClass()));
 		UGameplayStatics::AsyncSaveGameToSlot(m_Sav_CharacterNames, "CharactersSlot", 0, delegate);
+		*/
+		m_Sav_CharacterNames = Cast<USav_CharacterNames>(UGameplayStatics::CreateSaveGameObject(USav_CharacterNames::StaticClass()));
+		UGameplayStatics::SaveGameToSlot(m_Sav_CharacterNames, "CharactersSlot", 0);
 	}
 }
 
+
+
+/*
 void AGM_Lobby::SaveCompleted(const FString& SlotName, const int32 UserIndex, bool bSuccess)
 {
 	UE_LOG(LogTemp, Log, TEXT("AGM_Lobby::SaveCompleted() : [%s][%d][%d]"), *SlotName, UserIndex, bSuccess);
@@ -109,7 +132,7 @@ void AGM_Lobby::NewPlayerSaveCompleted(const FString& SlotName, const int32 User
 	if (bSuccess)
 	{
 		UE_LOG(LogTemp, Log, TEXT("success : AsyncSaveGameToSlot()"));
-		m_Sav_CharacterNames->TotalPlayerNames.Add(m_NewPlayerPos, SlotName);
+		//m_Sav_CharacterNames->TotalPlayerNames.Add(m_NewPlayerPos, SlotName);
 	}
 	else
 	{
@@ -123,6 +146,7 @@ void AGM_Lobby::LoadCompleted(const FString& SlotName, const int32 UserIndex, US
 
 	if (SaveGame)
 	{
+		UE_LOG(LogTemp, Log, TEXT("success : AsyncLoadGameToSlot()"));
 		TObjectPtr<USav_CharacterNames> data = Cast<USav_CharacterNames>(SaveGame);
 
 		//ToDo : 데이터 저장
@@ -133,3 +157,4 @@ void AGM_Lobby::LoadCompleted(const FString& SlotName, const int32 UserIndex, US
 		UE_LOG(LogTemp, Log, TEXT("failed : AsyncLoadGameToSlot()"));
 	}
 }
+*/

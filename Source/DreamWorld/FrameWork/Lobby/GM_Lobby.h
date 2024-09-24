@@ -37,6 +37,14 @@ protected:
 	virtual void BeginPlay();
 
 private:
+	TArray<FTransform> m_PlayerSpawnTransform;
+
+	UPROPERTY()
+	TObjectPtr<UClass> m_AppearCharacterClass;
+};
+
+/*
+private:
 	UFUNCTION()
 	void SaveCompleted(const FString& SlotName, const int32 UserIndex, bool bSuccess);
 
@@ -45,14 +53,4 @@ private:
 
 	UFUNCTION()
 	void LoadCompleted(const FString& SlotName, const int32 UserIndex, USaveGame* SaveGame);
-
-private:
-	UPROPERTY()
-	TArray<FTransform> m_PlayerSpawnTransform;
-
-	UPROPERTY()
-	TObjectPtr<UClass> m_AppearCharacterClass;
-
-	UPROPERTY()
-	int m_NewPlayerPos;
-};
+	*/
