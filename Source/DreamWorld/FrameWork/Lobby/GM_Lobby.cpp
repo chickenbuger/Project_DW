@@ -26,7 +26,13 @@ AGM_Lobby::AGM_Lobby()
 
 void AGM_Lobby::Request_Save_CharacterName()
 {
-	if (UGameplayStatics::DoesSaveGameExist("CharactersSlot", 0))
+	 TObjectPtr<UGI_Main> gameinstance = Cast<UGI_Main>(GetGameInstance());
+	 if (nullptr == gameinstance)
+	 {
+		 return;
+	 }
+
+	if (gameinstance->DoesSaveGameExistCustom("CharactersSlot", 0))
 	{
 		/*
 		FAsyncSaveGameToSlotDelegate delegate = FAsyncSaveGameToSlotDelegate::CreateUObject(this, &AGM_Lobby::SaveCompleted);
@@ -37,13 +43,13 @@ void AGM_Lobby::Request_Save_CharacterName()
 		//m_Sav_CharacterNames = Cast<USav_CharacterNames>(UGameplayStatics::CreateSaveGameObject(USav_CharacterNames::StaticClass()));
 		
 		//UGameplayStatics::SaveGameToSlot(m_Sav_CharacterNames, "CharactersSlot", 0);
-		Cast<UGI_Main>(GetGameInstance())->SaveGameToSlotCustom(m_Sav_CharacterNames, "CharactersSlot", 0);
+		gameinstance->SaveGameToSlotCustom(m_Sav_CharacterNames, "CharactersSlot", 0);
 	}
 	else
 	{
 		m_Sav_CharacterNames = Cast<USav_CharacterNames>(UGameplayStatics::CreateSaveGameObject(USav_CharacterNames::StaticClass()));
 		//UGameplayStatics::SaveGameToSlot(m_Sav_CharacterNames, "CharactersSlot", 0);
-		Cast<UGI_Main>(GetGameInstance())->SaveGameToSlotCustom(m_Sav_CharacterNames, "CharactersSlot", 0);
+		gameinstance->SaveGameToSlotCustom(m_Sav_CharacterNames, "CharactersSlot", 0);
 	}
 }
 
@@ -87,8 +93,13 @@ bool AGM_Lobby::Request_Add_NewPlayer_In_SaveData(const FString In_Name, const i
 
 void AGM_Lobby::BeginPlay()
 {
+	TObjectPtr<UGI_Main> gameinstance = Cast<UGI_Main>(GetGameInstance());
+	if (nullptr == gameinstance)
+	{
+		return;
+	}
 	//슬롯 데이터 확인
-	if (UGameplayStatics::DoesSaveGameExist("CharactersSlot", 0))
+	if (gameinstance->DoesSaveGameExistCustom("CharactersSlot", 0))
 	{
 		UE_LOG(LogTemp, Log, TEXT("AGM_Lobby::Load Data"));
 		/*
@@ -108,7 +119,7 @@ void AGM_Lobby::BeginPlay()
 		UGameplayStatics::AsyncSaveGameToSlot(m_Sav_CharacterNames, "CharactersSlot", 0, delegate);
 		*/
 		m_Sav_CharacterNames = Cast<USav_CharacterNames>(UGameplayStatics::CreateSaveGameObject(USav_CharacterNames::StaticClass()));
-		UGameplayStatics::SaveGameToSlot(m_Sav_CharacterNames, "CharactersSlot", 0);
+		gameinstance->SaveGameToSlotCustom(m_Sav_CharacterNames, "CharactersSlot", 0);
 	}
 }
 

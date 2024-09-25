@@ -6,6 +6,7 @@
 
 #include "Misc/FileHelper.h"
 #include "Misc/Paths.h"
+#include "HAL/FileManager.h"
 #include "HAL/PlatformFileManager.h"
 
 #include "Kismet/GameplayStatics.h"
@@ -54,5 +55,20 @@ bool UGI_Main::SaveGameToSlotCustom(USaveGame* SaveGameObject, const FString& Sl
 		return FFileHelper::SaveArrayToFile(ObjectBytes,*savepath);
 	}
 
+	return false;
+}
+
+bool UGI_Main::DoesSaveGameExistCustom(const FString& SlotName, const int32 UserIndex)
+{
+	FString slotpath = FString::Printf(TEXT("%sSaveGames/%s.sav"), *m_SavePath, *SlotName);
+
+	UE_LOG(LogTemp, Warning, TEXT("UGI_Main DoesSaveGameExistCustom"));
+
+	if (IFileManager::Get().FileSize(*slotpath) >= 0)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Succ Calling"));
+		return true;
+	}
+	
 	return false;
 }
