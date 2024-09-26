@@ -41,12 +41,8 @@ void UGI_Main::ReturnDamageIndicator(TObjectPtr<AEnemyDamageWidget> In_Object)
 bool UGI_Main::SaveGameToSlotCustom(USaveGame* SaveGameObject, const FString& SlotName, const int32 UserIndex)
 {
 	/*
-	TArray<uint8> ObjectBytes;
-	if (SaveGameToMemory(SaveGameObject, ObjectBytes))
-	{
-		return SaveDataToSlot(ObjectBytes, SlotName, UserIndex);
-	}
-	return false;
+		저장 Path에 파일 생성 및 저장
+		메모리 공간 확보 및 바이트로 저장 -> 저장된 바이트를 해당 경로에 저장 
 	*/
 	TArray<uint8> ObjectBytes;
 	if (UGameplayStatics::SaveGameToMemory(SaveGameObject, ObjectBytes))
@@ -71,4 +67,11 @@ bool UGI_Main::DoesSaveGameExistCustom(const FString& SlotName, const int32 User
 	}
 	
 	return false;
+}
+
+bool UGI_Main::DeleteSaveGameSlotCustom(const FString& SlotName, const int32 UserIndex)
+{
+	FString deleteslotpath = FString::Printf(TEXT("%sSaveGames/%s.sav"), *m_SavePath, *SlotName);
+
+	return IFileManager::Get().Delete(*deleteslotpath, true, false, true);
 }

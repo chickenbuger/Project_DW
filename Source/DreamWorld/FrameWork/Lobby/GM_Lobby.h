@@ -20,11 +20,14 @@ public:
 	AGM_Lobby();
 
 public:
+	//전체 캐릭터 이름이 포함된 세이브 파일 저장
 	UFUNCTION(BlueprintCallable)
 	void Request_Save_CharacterName();
 
+	//캐릭터 생성(월드)
 	UFUNCTION(BlueprintCallable)
 	ACharacter* Request_Create_Character(const int In_Pos);
+
 
 	UFUNCTION(BlueprintCallable)
 	bool Request_Add_NewPlayer_In_SaveData(const FString In_Name, const int In_Pos);

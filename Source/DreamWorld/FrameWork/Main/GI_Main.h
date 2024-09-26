@@ -40,6 +40,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	bool DoesSaveGameExistCustom(const FString& SlotName, const int32 UserIndex);
 
+	UFUNCTION(BlueprintCallable)
+	bool DeleteSaveGameSlotCustom(const FString& SlotName, const int32 UserIndex);
+
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	TArray<TObjectPtr<AEnemyDamageWidget>> m_DamageIndicatorWidgetPooling;
