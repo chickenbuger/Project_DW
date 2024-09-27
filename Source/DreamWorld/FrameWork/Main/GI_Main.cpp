@@ -75,3 +75,26 @@ bool UGI_Main::DeleteSaveGameSlotCustom(const FString& SlotName, const int32 Use
 
 	return IFileManager::Get().Delete(*deleteslotpath, true, false, true);
 }
+
+USaveGame* UGI_Main::LoadGameFromSlotCustom(const FString& SlotName, const int32 UserIndex)
+{
+	TArray<uint8> ObjectBytes;
+	
+	FString loadslotpath = FString::Printf(TEXT("%sSaveGames/%s.sav"), *m_SavePath, *SlotName);
+
+	UE_LOG(LogTemp, Warning, TEXT("UGI_Main LoadGameFromSlotCustom"));
+
+	if (SlotName.Len() > 0)
+	{
+		if (FFileHelper::LoadFileToArray(ObjectBytes, *loadslotpath))
+		{
+			return UGameplayStatics::LoadGameFromMemory(ObjectBytes);
+		}
+		else
+		{
+			ObjectBytes.Reset();
+		}
+	}
+
+	return nullptr;
+}

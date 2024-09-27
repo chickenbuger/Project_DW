@@ -105,7 +105,7 @@ void AGM_Lobby::BeginPlay()
 	{
 		UE_LOG(LogTemp, Log, TEXT("AGM_Lobby::Load Data"));
 
-		m_Sav_CharacterNames = Cast<USav_CharacterNames>(UGameplayStatics::LoadGameFromSlot(TotalCharacterSlotString, 0));
+		m_Sav_CharacterNames = Cast<USav_CharacterNames>(gameinstance->LoadGameFromSlotCustom(TotalCharacterSlotString, 0));
 	}
 	else
 	{
