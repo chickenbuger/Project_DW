@@ -36,14 +36,14 @@ void AGM_Lobby::Request_Save_CharacterName()
 		 return;
 	 }
 
-	if (gameinstance->DoesSaveGameExistCustom("CharactersSlot", 0))
+	if (gameinstance->DoesSaveGameExistCustom(TotalCharacterSlotString, 0))
 	{
-		gameinstance->SaveGameToSlotCustom(m_Sav_CharacterNames, "CharactersSlot", 0);
+		gameinstance->SaveGameToSlotCustom(m_Sav_CharacterNames, TotalCharacterSlotString, 0);
 	}
 	else
 	{
 		m_Sav_CharacterNames = Cast<USav_CharacterNames>(UGameplayStatics::CreateSaveGameObject(USav_CharacterNames::StaticClass()));
-		gameinstance->SaveGameToSlotCustom(m_Sav_CharacterNames, "CharactersSlot", 0);
+		gameinstance->SaveGameToSlotCustom(m_Sav_CharacterNames, TotalCharacterSlotString, 0);
 	}
 }
 
@@ -101,18 +101,18 @@ void AGM_Lobby::BeginPlay()
 		return;
 	}
 	//슬롯 데이터 확인
-	if (gameinstance->DoesSaveGameExistCustom("CharactersSlot", 0))
+	if (gameinstance->DoesSaveGameExistCustom(TotalCharacterSlotString, 0))
 	{
 		UE_LOG(LogTemp, Log, TEXT("AGM_Lobby::Load Data"));
 
-		m_Sav_CharacterNames = Cast<USav_CharacterNames>(UGameplayStatics::LoadGameFromSlot("CharactersSlot", 0));
+		m_Sav_CharacterNames = Cast<USav_CharacterNames>(UGameplayStatics::LoadGameFromSlot(TotalCharacterSlotString, 0));
 	}
 	else
 	{
 		UE_LOG(LogTemp, Log, TEXT("AGM_Lobby::Create Data"));
 
 		m_Sav_CharacterNames = Cast<USav_CharacterNames>(UGameplayStatics::CreateSaveGameObject(USav_CharacterNames::StaticClass()));
-		gameinstance->SaveGameToSlotCustom(m_Sav_CharacterNames, "CharactersSlot", 0);
+		gameinstance->SaveGameToSlotCustom(m_Sav_CharacterNames, TotalCharacterSlotString, 0);
 	}
 }
 

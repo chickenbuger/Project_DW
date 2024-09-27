@@ -44,6 +44,8 @@ private:
 
 	UPROPERTY()
 	TObjectPtr<UClass> m_AppearCharacterClass;
+
+	const FString TotalCharacterSlotString = "CharactersSlot";
 };
 
 /*
