@@ -30,6 +30,26 @@
 		{
 			"Name": "AppleImageUtils",
 			"Enabled": false
+		},
+		{
+			"Name": "AndroidBackgroundService",
+			"Enabled": true,
+			"SupportedTargetPlatforms": [
+				"Android"
+			]
+		},
+		{
+			"Name": "EasyFixAndroidPermission",
+			"Enabled": true,
+			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/65f0c39d150f42499a9c44b2da17eae2"
+		},
+		{
+			"Name": "LocationServicesAndroidImpl",
+			"Enabled": true
+		},
+		{
+			"Name": "OptionalMobileFeaturesBPLibrary",
+			"Enabled": true
 		}
 	],
 	"TargetPlatforms": [

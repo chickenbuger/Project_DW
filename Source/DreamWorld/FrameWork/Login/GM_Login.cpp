@@ -24,7 +24,8 @@ void AGM_Login::BeginPlay()
 	PATH = FString("C:/PROJECT_DW/Saved/");
 	gameInstance->SetSavePath(PATH);
 #elif PLATFORM_ANDROID
-	PATH = FString("/data/user/0/com.Jinsoo.BossArena/files/UnrealGame/DreamWorld/DreamWorld/Saved/");
+	PATH = FString("/storage/Android/data/com.Jinsoo.BossArena/files/UnrealGame/DreamWorld/DreamWorld/Saved/");
 	gameInstance->SetSavePath(PATH);
+
 #endif
 }
