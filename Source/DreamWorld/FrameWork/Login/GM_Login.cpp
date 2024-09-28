@@ -4,6 +4,8 @@
 #include "DreamWorld/FrameWork/Login/GM_Login.h"
 #include "DreamWorld/FrameWork/Main/GI_Main.h"
 
+#include "Kismet/KismetSystemLibrary.h"
+
 AGM_Login::AGM_Login()
 {
 }
