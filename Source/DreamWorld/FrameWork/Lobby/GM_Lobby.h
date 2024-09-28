@@ -47,15 +47,3 @@ private:
 
 	const FString TotalCharacterSlotString = "CharactersSlot";
 };
-
-/*
-private:
-	UFUNCTION()
-	void SaveCompleted(const FString& SlotName, const int32 UserIndex, bool bSuccess);
-
-	UFUNCTION()
-	void NewPlayerSaveCompleted(const FString& SlotName, const int32 UserIndex, bool bSuccess);
-
-	UFUNCTION()
-	void LoadCompleted(const FString& SlotName, const int32 UserIndex, USaveGame* SaveGame);
-	*/
