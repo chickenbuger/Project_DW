@@ -16,41 +16,13 @@
 		}
 	],
 	"Plugins": [
-		{
-			"Name": "ModelingToolsEditorMode",
-			"Enabled": true,
-			"TargetAllowList": [
-				"Editor"
-			]
-		},
-		{
-			"Name": "AppleMoviePlayer",
-			"Enabled": false
-		},
-		{
-			"Name": "AppleImageUtils",
-			"Enabled": false
-		},
-		{
-			"Name": "AndroidBackgroundService",
-			"Enabled": true,
-			"SupportedTargetPlatforms": [
-				"Android"
-			]
-		},
-		{
-			"Name": "EasyFixAndroidPermission",
-			"Enabled": false,
-			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/65f0c39d150f42499a9c44b2da17eae2"
-		},
-		{
-			"Name": "LocationServicesAndroidImpl",
-			"Enabled": true
-		},
-		{
-			"Name": "OptionalMobileFeaturesBPLibrary",
-			"Enabled": true
-		}
+			{
+				"Name": "ModelingToolsEditorMode",
+				"Enabled": true,
+				"TargetAllowList": [
+					"Editor"
+				]
+			}
 	],
 	"TargetPlatforms": [
 		"Android"
