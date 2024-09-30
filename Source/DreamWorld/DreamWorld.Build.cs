@@ -17,12 +17,12 @@ public class DreamWorld : ModuleRules
 			"AIModule",
 			"Niagara", 
 			"EnhancedInput",
-            "SlateCore"
+            "SlateCore",
         });
 
 
-        PrivateDependencyModuleNames.AddRange(new string[] { 
-		
-		});
+        PrivateDependencyModuleNames.AddRange(new string[] {
+            "AndroidPermission",
+        });
     }
 }

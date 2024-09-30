@@ -4,6 +4,8 @@
 #include "DreamWorld/FrameWork/Login/GM_Login.h"
 #include "DreamWorld/FrameWork/Main/GI_Main.h"
 
+#include "AndroidPermissionFunctionLibrary.h"
+
 #include "Kismet/KismetSystemLibrary.h"
 
 AGM_Login::AGM_Login()
@@ -27,5 +29,21 @@ void AGM_Login::BeginPlay()
 	PATH = FString("/storage/Android/data/com.Jinsoo.BossArena/files/UnrealGame/DreamWorld/DreamWorld/Saved/");
 	gameInstance->SetSavePath(PATH);
 
+	//권한 요청
+	TArray<FString> RequestPermissions;
+	if (!UAndroidPermissionFunctionLibrary::CheckPermission("android.permission.READ_EXTERNAL_STORAGE"))
+	{
+		RequestPermissions.Add("android.permission.READ_EXTERNAL_STORAGE");
+	}
+
+	if (!UAndroidPermissionFunctionLibrary::CheckPermission("android.permission.WRITE_EXTERNAL_STORAGE"))
+	{
+		RequestPermissions.Add("android.permission.WRITE_EXTERNAL_STORAGE");
+	}
+
+	if (RequestPermissions.Num() > 0)
+	{
+		UAndroidPermissionFunctionLibrary::AcquirePermissions(RequestPermissions);
+	}
 #endif
 }
