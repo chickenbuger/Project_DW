@@ -21,12 +21,15 @@ void AGM_Login::BeginPlay()
 	{
 		return;
 	}
-
+	FString str = "Test String";//*FPaths::ConvertRelativePathToFull(*FPaths::ProjectSavedDir());
+		//*FPaths::ProjectSavedDir();
 #if PLATFORM_WINDOWS
-	PATH = FString("C:/PROJECT_DW/Saved/");
+	PATH = str;
+		//FString("C:/PROJECT_DW/Saved/");
 	gameInstance->SetSavePath(PATH);
 #elif PLATFORM_ANDROID
-	PATH = FString("/storage/Android/data/com.Jinsoo.BossArena/files/UnrealGame/DreamWorld/DreamWorld/Saved/");
+	PATH = str;
+		//FString("/storage/Android/data/com.Jinsoo.BossArena/files/UnrealGame/DreamWorld/DreamWorld/Saved/");
 	gameInstance->SetSavePath(PATH);
 
 	//권한 요청
