@@ -30,7 +30,7 @@ public:
 
 
 	UFUNCTION(BlueprintCallable)
-	bool Request_Add_NewPlayer_In_SaveData(const FString In_Name, const int In_Pos);
+	bool Request_Add_NewPlayer_In_SaveData(const FString In_Name, const int In_Pos, FString& OuterResult);
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)

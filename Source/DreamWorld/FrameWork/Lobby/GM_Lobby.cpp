@@ -53,7 +53,7 @@ ACharacter* AGM_Lobby::Request_Create_Character(const int In_Pos)
 	return character;
 }
 
-bool AGM_Lobby::Request_Add_NewPlayer_In_SaveData(const FString In_Name, const int In_Pos)
+bool AGM_Lobby::Request_Add_NewPlayer_In_SaveData(const FString In_Name, const int In_Pos, FString& OuterResult)
 {
 	/**
 	* Sav 데이터가 존재해야함(모든 캐릭터 이름을 가진 세이브 파일)
@@ -63,19 +63,24 @@ bool AGM_Lobby::Request_Add_NewPlayer_In_SaveData(const FString In_Name, const i
 	* 
 	* 세이브 파일 생성(해당 캐릭터 이름.sav)
 	*/
+	OuterResult = "";
+
 	if (!m_Sav_CharacterNames)
 	{
+		OuterResult = "111";
 		return false;
 	}
 
 	if (m_Sav_CharacterNames->IsExistName(In_Name))
 	{
+		OuterResult = "222";
 		return false;
 	}
 
 	TObjectPtr<UGI_Main> gameinstance = Cast<UGI_Main>(GetGameInstance());
 	if (nullptr == gameinstance)
 	{
+		OuterResult = "333";
 		return false;
 	}
 	
@@ -83,6 +88,7 @@ bool AGM_Lobby::Request_Add_NewPlayer_In_SaveData(const FString In_Name, const i
 	{
 		if (!gameinstance->DeleteSaveGameSlotCustom(In_Name, 0))
 		{
+			OuterResult = "444";
 			return false;
 		}
 	}
