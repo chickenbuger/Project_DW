@@ -9,6 +9,8 @@
 
 #include "Kismet/GameplayStatics.h"
 
+#include "DreamWorld/Widget/Test/W_TestText.h"
+
 AGM_Lobby::AGM_Lobby()
 {
 	m_Sav_CharacterNames = nullptr;
@@ -22,6 +24,14 @@ AGM_Lobby::AGM_Lobby()
 	{
 		return;
 	}
+}
+
+void AGM_Lobby::Testprint(FString str, int data)
+{
+	UE_LOG(LogTemp, Warning, TEXT("AGM_TestPrint"));
+	TObjectPtr<UW_TestText> widget = Cast<UW_TestText>(CreateWidget<UUserWidget>(GetWorld(), TestWidget));
+	widget->SetTestText(str + FString::Printf(TEXT(" %d"), data));
+	widget->AddToViewport(1);
 }
 
 void AGM_Lobby::Request_Save_CharacterName()
@@ -68,12 +78,14 @@ bool AGM_Lobby::Request_Add_NewPlayer_In_SaveData(const FString In_Name, const i
 	if (!m_Sav_CharacterNames)
 	{
 		OuterResult = "111";
+		Checkstr += "111";
 		return false;
 	}
 
 	if (m_Sav_CharacterNames->IsExistName(In_Name))
 	{
 		OuterResult = "222";
+		Checkstr += "222";
 		return false;
 	}
 
@@ -81,6 +93,7 @@ bool AGM_Lobby::Request_Add_NewPlayer_In_SaveData(const FString In_Name, const i
 	if (nullptr == gameinstance)
 	{
 		OuterResult = "333";
+		Checkstr += "333";
 		return false;
 	}
 	
@@ -89,6 +102,7 @@ bool AGM_Lobby::Request_Add_NewPlayer_In_SaveData(const FString In_Name, const i
 		if (!gameinstance->DeleteSaveGameSlotCustom(In_Name, 0))
 		{
 			OuterResult = "444";
+			Checkstr += "444";
 			return false;
 		}
 	}
@@ -101,21 +115,28 @@ bool AGM_Lobby::Request_Add_NewPlayer_In_SaveData(const FString In_Name, const i
 
 void AGM_Lobby::BeginPlay()
 {
+	Super::BeginPlay();
+
+	Checkstr += "a";
 	TObjectPtr<UGI_Main> gameinstance = Cast<UGI_Main>(GetGameInstance());
 	if (nullptr == gameinstance)
 	{
+		Checkstr += "b";
 		return;
 	}
+	Checkstr += "c";
 	//슬롯 데이터 확인
 	if (gameinstance->DoesSaveGameExistCustom(TotalCharacterSlotString, 0))
 	{
-		UE_LOG(LogTemp, Log, TEXT("AGM_Lobby::Load Data"));
+		Checkstr += "d";
+		//UE_LOG(LogTemp, Log, TEXT("AGM_Lobby::Load Data"));
 
 		m_Sav_CharacterNames = Cast<USav_CharacterNames>(gameinstance->LoadGameFromSlotCustom(TotalCharacterSlotString, 0));
 	}
 	else
 	{
-		UE_LOG(LogTemp, Log, TEXT("AGM_Lobby::Create Data"));
+		Checkstr += "e";
+		//UE_LOG(LogTemp, Log, TEXT("AGM_Lobby::Create Data"));
 
 		m_Sav_CharacterNames = Cast<USav_CharacterNames>(UGameplayStatics::CreateSaveGameObject(USav_CharacterNames::StaticClass()));
 		gameinstance->SaveGameToSlotCustom(m_Sav_CharacterNames, TotalCharacterSlotString, 0);

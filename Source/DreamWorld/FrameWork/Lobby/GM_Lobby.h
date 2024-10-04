@@ -20,6 +20,16 @@ public:
 	AGM_Lobby();
 
 public:
+	//Test
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString Checkstr;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TSubclassOf<UUserWidget> TestWidget;
+
+	void Testprint(FString str, int data);
+
+public:
 	//전체 캐릭터 이름이 포함된 세이브 파일 저장
 	UFUNCTION(BlueprintCallable)
 	void Request_Save_CharacterName();
