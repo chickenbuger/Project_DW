@@ -130,8 +130,32 @@ void AGM_Lobby::BeginPlay()
 	{
 		Checkstr += "d";
 		//UE_LOG(LogTemp, Log, TEXT("AGM_Lobby::Load Data"));
-
-		m_Sav_CharacterNames = Cast<USav_CharacterNames>(gameinstance->LoadGameFromSlotCustom(TotalCharacterSlotString, 0));
+		USav_CharacterNames* savegame = gameinstance->LoadGameFromSlotTemp<USav_CharacterNames>(TotalCharacterSlotString, 0);
+		if (savegame == nullptr)
+		{
+			Testprint("sav x", 11);
+		}
+		else
+		{
+			Testprint("sav o", 11);
+		}
+		m_Sav_CharacterNames = savegame;
+		if (m_Sav_CharacterNames == nullptr)
+		{
+			Testprint("m_Sav_ x", 12);
+		}
+		else
+		{
+			Testprint("m_Sav_ o", m_Sav_CharacterNames->TotalPlayerNames.Num());
+			for (int i = 0; i < 3; i++)
+			{
+				if (m_Sav_CharacterNames->TotalPlayerNames.Find(i + 1))
+				{
+					Testprint(*m_Sav_CharacterNames->TotalPlayerNames.Find(i + 1), 15);
+				}
+			}
+		}
+		//m_Sav_CharacterNames = gameinstance->LoadGameFromSlotCustom(TotalCharacterSlotString, 0);
 	}
 	else
 	{

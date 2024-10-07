@@ -46,6 +46,10 @@ public:
 	UFUNCTION(BlueprintCallable)
 	USaveGame* LoadGameFromSlotCustom(const FString& SlotName, const  int32 UserIndex);
 
+public:
+	template<typename T>
+	T* LoadGameFromSlotTemp(const FString& SlotName, const  int32 UserIndex);
+
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	TArray<TObjectPtr<AEnemyDamageWidget>> m_DamageIndicatorWidgetPooling;
@@ -57,6 +61,20 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	FString m_PlayerName;
 
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	FString m_SavePath;
 };
+
+template<typename T>
+inline T* UGI_Main::LoadGameFromSlotTemp(const FString& SlotName, const int32 UserIndex)
+{
+	USaveGame* savegame = LoadGameFromSlotCustom(SlotName, UserIndex);
+	return Cast<T>(savegame);
+}
+
+template<>
+inline USaveGame* UGI_Main::LoadGameFromSlotTemp<USaveGame>(const FString& SlotName, const int32 UserIndex)
+{
+	USaveGame* savegame = LoadGameFromSlotCustom(SlotName, UserIndex);
+	return savegame;
+}

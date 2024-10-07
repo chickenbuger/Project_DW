@@ -23,7 +23,7 @@ void AGM_Login::BeginPlay()
 	}
 
 #if PLATFORM_WINDOWS
-	PATH = IFileManager::Get().ConvertToAbsolutePathForExternalAppForRead(*FPaths::ProjectSavedDir()); //FString("C:/PROJECT_DW/Saved/");
+	PATH = IFileManager::Get().ConvertToAbsolutePathForExternalAppForRead(*FPaths::ProjectSavedDir());
 	gameInstance->SetSavePath(PATH);
 #else
 	PATH = IFileManager::Get().ConvertToAbsolutePathForExternalAppForRead(*FPaths::ProjectSavedDir());

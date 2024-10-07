@@ -3,6 +3,7 @@
 
 #include "DreamWorld/FrameWork/Main/GI_Main.h"
 #include "DreamWorld/Enemy/EnemyDamageWidget.h"
+#include "DreamWorld/SaveGame/Sav_CharacterNames.h"
 
 #include "Misc/FileHelper.h"
 #include "Misc/Paths.h"
@@ -85,14 +86,15 @@ USaveGame* UGI_Main::LoadGameFromSlotCustom(const FString& SlotName, const int32
 	
 	FString loadslotpath = FString::Printf(TEXT("%sSaveGames/%s.sav"), *m_SavePath, *SlotName);
 
-	Cast<AGM_Lobby>(GetWorld()->GetAuthGameMode())->Testprint("LoadGame", SlotName.Len());
+	//Cast<AGM_Lobby>(GetWorld()->GetAuthGameMode())->Testprint("LoadGame", SlotName.Len());
 	//UE_LOG(LogTemp, Warning, TEXT("UGI_Main LoadGameFromSlotCustom"));
 
 	if (SlotName.Len() > 0)
 	{
 		if (FFileHelper::LoadFileToArray(ObjectBytes, *loadslotpath))
 		{
-			return UGameplayStatics::LoadGameFromMemory(ObjectBytes);
+			USaveGame* sav = UGameplayStatics::LoadGameFromMemory(ObjectBytes);
+			return sav;//UGameplayStatics::LoadGameFromMemory(ObjectBytes);
 		}
 		else
 		{

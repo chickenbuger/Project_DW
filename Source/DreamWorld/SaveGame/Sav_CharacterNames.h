@@ -16,16 +16,10 @@
  * IsExistIndex - 해당 index값이 존재하는지 확인
  */
 
-UCLASS()
+UCLASS(Blueprintable)
 class DREAMWORLD_API USav_CharacterNames : public USaveGame
 {
 	GENERATED_BODY()
-	
-public:
-	UFUNCTION(BlueprintCallable)
-	bool IsExistName(const FString In_Name);
-	UFUNCTION(BlueprintCallable)
-	bool IsExistIndex(const int In_Index);
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -33,4 +27,10 @@ public:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool IsExist;
+
+public:
+	UFUNCTION(BlueprintCallable)
+	bool IsExistName(const FString In_Name);
+	UFUNCTION(BlueprintCallable)
+	bool IsExistIndex(const int In_Index);
 };
