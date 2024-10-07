@@ -23,11 +23,9 @@ void AGM_Login::BeginPlay()
 	}
 
 #if PLATFORM_WINDOWS
-	PATH = IFileManager::Get().ConvertToAbsolutePathForExternalAppForRead(*FPaths::ProjectSavedDir());
-	gameInstance->SetSavePath(PATH);
+	gameInstance->SetSavePath(IFileManager::Get().ConvertToAbsolutePathForExternalAppForRead(*FPaths::ProjectSavedDir()));
 #else
-	PATH = IFileManager::Get().ConvertToAbsolutePathForExternalAppForRead(*FPaths::ProjectSavedDir());
-	gameInstance->SetSavePath(PATH);
+	gameInstance->SetSavePath(IFileManager::Get().ConvertToAbsolutePathForExternalAppForRead(*FPaths::ProjectSavedDir()));
 
 	//권한 요청
 	TArray<FString> RequestPermissions;

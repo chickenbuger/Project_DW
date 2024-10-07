@@ -22,9 +22,6 @@ public:
 public:
 	//Test
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FString Checkstr;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TSubclassOf<UUserWidget> TestWidget;
 
 	void Testprint(FString str, int data);
@@ -40,7 +37,7 @@ public:
 
 
 	UFUNCTION(BlueprintCallable)
-	bool Request_Add_NewPlayer_In_SaveData(const FString In_Name, const int In_Pos, FString& OuterResult);
+	bool Request_Add_NewPlayer_In_SaveData(const FString In_Name, const int In_Pos);
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)

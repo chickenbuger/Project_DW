@@ -16,9 +16,6 @@ class DREAMWORLD_API AGM_Login : public AGameModeBase
 
 public:
 	AGM_Login();
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FString PATH;
 	
 protected:
 	virtual void BeginPlay();

@@ -46,6 +46,8 @@ void AGM_Lobby::Request_Save_CharacterName()
 		 return;
 	 }
 
+	 Testprint("Request_Save_CharacterName", 21);
+
 	if (gameinstance->DoesSaveGameExistCustom(TotalCharacterSlotString, 0))
 	{
 		gameinstance->SaveGameToSlotCustom(m_Sav_CharacterNames, TotalCharacterSlotString, 0);
@@ -60,10 +62,12 @@ void AGM_Lobby::Request_Save_CharacterName()
 ACharacter* AGM_Lobby::Request_Create_Character(const int In_Pos)
 {
 	TObjectPtr<ACharacter> character = GetWorld()->SpawnActor<ACharacter>(m_AppearCharacterClass, m_PlayerSpawnTransform[In_Pos]);
+	Testprint("Request_Create_Character", 20);
+	Testprint(FString::Printf(TEXT("loc %.1f %.1f %.1f"), m_PlayerSpawnTransform[In_Pos].GetLocation().X, m_PlayerSpawnTransform[In_Pos].GetLocation().Y, m_PlayerSpawnTransform[In_Pos].GetLocation().Z),20);
 	return character;
 }
 
-bool AGM_Lobby::Request_Add_NewPlayer_In_SaveData(const FString In_Name, const int In_Pos, FString& OuterResult)
+bool AGM_Lobby::Request_Add_NewPlayer_In_SaveData(const FString In_Name, const int In_Pos)
 {
 	/**
 	* Sav 데이터가 존재해야함(모든 캐릭터 이름을 가진 세이브 파일)
@@ -73,27 +77,20 @@ bool AGM_Lobby::Request_Add_NewPlayer_In_SaveData(const FString In_Name, const i
 	* 
 	* 세이브 파일 생성(해당 캐릭터 이름.sav)
 	*/
-	OuterResult = "";
 
 	if (!m_Sav_CharacterNames)
 	{
-		OuterResult = "111";
-		Checkstr += "111";
 		return false;
 	}
 
 	if (m_Sav_CharacterNames->IsExistName(In_Name))
 	{
-		OuterResult = "222";
-		Checkstr += "222";
 		return false;
 	}
 
 	TObjectPtr<UGI_Main> gameinstance = Cast<UGI_Main>(GetGameInstance());
 	if (nullptr == gameinstance)
 	{
-		OuterResult = "333";
-		Checkstr += "333";
 		return false;
 	}
 	
@@ -101,8 +98,6 @@ bool AGM_Lobby::Request_Add_NewPlayer_In_SaveData(const FString In_Name, const i
 	{
 		if (!gameinstance->DeleteSaveGameSlotCustom(In_Name, 0))
 		{
-			OuterResult = "444";
-			Checkstr += "444";
 			return false;
 		}
 	}
@@ -117,50 +112,23 @@ void AGM_Lobby::BeginPlay()
 {
 	Super::BeginPlay();
 
-	Checkstr += "a";
 	TObjectPtr<UGI_Main> gameinstance = Cast<UGI_Main>(GetGameInstance());
 	if (nullptr == gameinstance)
 	{
-		Checkstr += "b";
 		return;
 	}
-	Checkstr += "c";
+
 	//슬롯 데이터 확인
 	if (gameinstance->DoesSaveGameExistCustom(TotalCharacterSlotString, 0))
 	{
-		Checkstr += "d";
-		//UE_LOG(LogTemp, Log, TEXT("AGM_Lobby::Load Data"));
-		USav_CharacterNames* savegame = gameinstance->LoadGameFromSlotTemp<USav_CharacterNames>(TotalCharacterSlotString, 0);
-		if (savegame == nullptr)
-		{
-			Testprint("sav x", 11);
-		}
-		else
-		{
-			Testprint("sav o", 11);
-		}
-		m_Sav_CharacterNames = savegame;
-		if (m_Sav_CharacterNames == nullptr)
-		{
-			Testprint("m_Sav_ x", 12);
-		}
-		else
-		{
-			Testprint("m_Sav_ o", m_Sav_CharacterNames->TotalPlayerNames.Num());
-			for (int i = 0; i < 3; i++)
-			{
-				if (m_Sav_CharacterNames->TotalPlayerNames.Find(i + 1))
-				{
-					Testprint(*m_Sav_CharacterNames->TotalPlayerNames.Find(i + 1), 15);
-				}
-			}
-		}
-		//m_Sav_CharacterNames = gameinstance->LoadGameFromSlotCustom(TotalCharacterSlotString, 0);
+
+		UE_LOG(LogTemp, Log, TEXT("AGM_Lobby::Load Data"));
+		m_Sav_CharacterNames = gameinstance->LoadGameFromSlotTemp<USav_CharacterNames>(TotalCharacterSlotString, 0);
+
 	}
 	else
 	{
-		Checkstr += "e";
-		//UE_LOG(LogTemp, Log, TEXT("AGM_Lobby::Create Data"));
+		UE_LOG(LogTemp, Log, TEXT("AGM_Lobby::Create Data"));
 
 		m_Sav_CharacterNames = Cast<USav_CharacterNames>(UGameplayStatics::CreateSaveGameObject(USav_CharacterNames::StaticClass()));
 		gameinstance->SaveGameToSlotCustom(m_Sav_CharacterNames, TotalCharacterSlotString, 0);
