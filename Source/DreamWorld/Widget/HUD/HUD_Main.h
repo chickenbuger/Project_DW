@@ -23,6 +23,9 @@ public:
 	TArray<TSubclassOf<UUserWidget>> m_UiWidgets;
 
 public:
+	void Init();
+
+public:
 	//EX) Widget Name : BW_Main -> Param(Main)
 	UFUNCTION(BlueprintCallable)
 	UUserWidget* GetWidgetFromName(const FString& In_WidgetName);

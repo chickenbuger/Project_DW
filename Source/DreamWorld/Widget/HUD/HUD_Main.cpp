@@ -11,6 +11,44 @@ AHUD_Main::AHUD_Main()
 {
 }
 
+void AHUD_Main::Init()
+{
+	TObjectPtr<AGameModeBase> gamemode = GetWorld()->GetAuthGameMode();
+	if (nullptr == gamemode) return;
+
+	TObjectPtr<AGM_Main> maingamemode = Cast<AGM_Main>(gamemode);
+	if (nullptr == maingamemode) return;
+
+	for (TSubclassOf<UUserWidget> widgetclass : m_UiWidgets)
+	{
+		//설정된 Widget 추가
+		TObjectPtr<UUserWidget> newWidget = CreateWidget<UUserWidget>(GetWorld(), widgetclass);
+		if (nullptr == newWidget) return;
+
+		newWidget->AddToViewport();
+		newWidget->SetVisibility(ESlateVisibility::Collapsed);
+		m_Widgets.Add(newWidget);
+
+		//Widget에 대한 이름 추가
+		FString newWidgetName = newWidget->GetClass()->GetName();
+		newWidgetName.RemoveAt(0, 3);
+		newWidgetName.RemoveAt(newWidgetName.Len() - 2, newWidgetName.Len());
+		m_WidgetNames.Add(newWidgetName);
+	}
+
+	m_UsingWidget.Init(false, m_Widgets.Num());
+
+	TObjectPtr<UUserWidget> mainwidget = GetWidgetFromName(TEXT("PlayerMain"));
+	if (nullptr == mainwidget) return;
+
+	TObjectPtr<UW_PlayerMain> playermainwidget = Cast<UW_PlayerMain>(mainwidget);
+	if (nullptr == playermainwidget) return;
+
+	playermainwidget->Init();
+
+	ShowWidgetFromName(TEXT("PlayerMain"));
+}
+
 UUserWidget* AHUD_Main::GetWidgetFromName(const FString& In_WidgetName)
 {
 	const int32 findPos = m_WidgetNames.Find(In_WidgetName);
@@ -125,41 +163,6 @@ void AHUD_Main::SelfHitTestInvisibleWidget(UUserWidget* In_Widget)
 void AHUD_Main::BeginPlay()
 {
 	Super::BeginPlay();
-
-	TObjectPtr<AGameModeBase> gamemode = GetWorld()->GetAuthGameMode();
-	if (nullptr == gamemode) return; 
-
-	TObjectPtr<AGM_Main> maingamemode = Cast<AGM_Main>(gamemode);
-	if (nullptr == maingamemode) return; 
-
-	for(TSubclassOf<UUserWidget> widgetclass : m_UiWidgets)
-	{
-		//설정된 Widget 추가
-		TObjectPtr<UUserWidget> newWidget = CreateWidget<UUserWidget>(GetWorld(), widgetclass);
-		if (nullptr == newWidget) return;
-
-		newWidget->AddToViewport();
-		newWidget->SetVisibility(ESlateVisibility::Collapsed);
-		m_Widgets.Add(newWidget);
-
-		//Widget에 대한 이름 추가
-		FString newWidgetName = newWidget->GetClass()->GetName();
-		newWidgetName.RemoveAt(0, 3);
-		newWidgetName.RemoveAt(newWidgetName.Len() - 2, newWidgetName.Len());
-		m_WidgetNames.Add(newWidgetName);
-	}
-
-	m_UsingWidget.Init(false, m_Widgets.Num());
-
-	TObjectPtr<UUserWidget> mainwidget =  GetWidgetFromName(TEXT("PlayerMain"));
-	if (nullptr == mainwidget) return;
-
-	TObjectPtr<UW_PlayerMain> playermainwidget = Cast<UW_PlayerMain>(mainwidget);
-	if (nullptr == playermainwidget) return;
-
-	playermainwidget->Init();
-
-	ShowWidgetFromName(TEXT("PlayerMain"));
 }
 
 void AHUD_Main::EndPlay(const EEndPlayReason::Type EndPlayReason)
