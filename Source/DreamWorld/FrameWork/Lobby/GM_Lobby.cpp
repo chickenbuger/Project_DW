@@ -62,8 +62,6 @@ void AGM_Lobby::Request_Save_CharacterName()
 ACharacter* AGM_Lobby::Request_Create_Character(const int In_Pos)
 {
 	TObjectPtr<ACharacter> character = GetWorld()->SpawnActor<ACharacter>(m_AppearCharacterClass, m_PlayerSpawnTransform[In_Pos]);
-	Testprint("Request_Create_Character", 20);
-	Testprint(FString::Printf(TEXT("loc %.1f %.1f %.1f"), m_PlayerSpawnTransform[In_Pos].GetLocation().X, m_PlayerSpawnTransform[In_Pos].GetLocation().Y, m_PlayerSpawnTransform[In_Pos].GetLocation().Z),20);
 	return character;
 }
 
@@ -133,4 +131,6 @@ void AGM_Lobby::BeginPlay()
 		m_Sav_CharacterNames = Cast<USav_CharacterNames>(UGameplayStatics::CreateSaveGameObject(USav_CharacterNames::StaticClass()));
 		gameinstance->SaveGameToSlotCustom(m_Sav_CharacterNames, TotalCharacterSlotString, 0);
 	}
+
+	afterbeginplay();
 }

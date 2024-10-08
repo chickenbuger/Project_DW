@@ -12,9 +12,6 @@
 
 #include "Kismet/GameplayStatics.h"
 
-//юс╫ц
-#include "DreamWorld/FrameWork/Lobby/GM_Lobby.h"
-
 UGI_Main::UGI_Main()
 {
 	static ConstructorHelpers::FClassFinder<AActor> DamageIndicatorRef = TEXT("Blueprint'/Game/Character/Enemy/BA_EnemyDamageWidget.BA_EnemyDamageWidget_C'");
@@ -85,7 +82,6 @@ USaveGame* UGI_Main::LoadGameFromSlotCustom(const FString& SlotName, const int32
 	
 	FString loadslotpath = FString::Printf(TEXT("%sSaveGames/%s.sav"), *m_SavePath, *SlotName);
 
-	//Cast<AGM_Lobby>(GetWorld()->GetAuthGameMode())->Testprint("LoadGame", SlotName.Len());
 	UE_LOG(LogTemp, Warning, TEXT("UGI_Main LoadGameFromSlotCustom"));
 
 	if (SlotName.Len() > 0)
