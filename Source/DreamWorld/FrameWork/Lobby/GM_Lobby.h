@@ -20,7 +20,8 @@ public:
 	AGM_Lobby();
 
 public:
-	//Test
+	/** 삭제 예정 */
+	//Test 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TSubclassOf<UUserWidget> TestWidget;
 

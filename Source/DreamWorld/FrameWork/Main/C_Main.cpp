@@ -96,49 +96,6 @@ void AC_Main::RequestAnimationMontage(TObjectPtr<UAnimMontage> in_AnimMontage, f
 	GetMesh()->GetAnimInstance()->Montage_SetEndDelegate(EndDelegate, in_AnimMontage);
 }
 
-void AC_Main::RequestAnimationMontage(TObjectPtr<UAnimMontage> in_AnimMontage)
-{
-	if (nullptr == in_AnimMontage)
-	{
-		return;
-	}
-
-	if (!(GetMesh() && GetMesh()->GetAnimInstance()))
-	{
-		return;
-	}
-
-	// 애니메이션 종료 델리게이션
-	FOnMontageEnded EndDelegate;
-	EndDelegate.BindUObject<AC_Main>(this, &AC_Main::OnMontageEnded);
-
-	// Mesh가 Part로 분할되어있기에 모두 애니메이션을 설정해줘야함
-	TArray<TObjectPtr<USceneComponent>> children;
-	GetMesh()->GetChildrenComponents(true, children);
-
-	//for-each 모든 Part 순환
-	for (TObjectPtr<USceneComponent> child : children)
-	{
-		// SkeletalMesh Component 확인
-		if (TObjectPtr<USkeletalMeshComponent> childMesh = Cast<USkeletalMeshComponent>(child))
-		{
-			if (nullptr == childMesh)
-			{
-				return;
-			}
-			if (nullptr == childMesh->GetAnimInstance())
-			{
-				continue;
-			}
-
-			childMesh->GetAnimInstance()->Montage_Play(in_AnimMontage);
-		}
-	}
-
-	GetMesh()->GetAnimInstance()->Montage_Play(in_AnimMontage);
-	GetMesh()->GetAnimInstance()->Montage_SetEndDelegate(EndDelegate, in_AnimMontage);
-}
-
 // Called when the game starts or when spawned
 void AC_Main::BeginPlay()
 {

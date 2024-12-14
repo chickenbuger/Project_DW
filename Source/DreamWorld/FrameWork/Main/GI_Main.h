@@ -31,22 +31,45 @@ public:
 	void SetSavePath(const FString In_SavePath) { m_SavePath = In_SavePath; }
 
 public:
+	/**
+	* 데미지 Widget을 반환
+	* Widget을 저장하는 배열이 비어있을 경우 SpawnActor를 통해 Object를 생성 후 반환
+	*/
 	TObjectPtr<AEnemyDamageWidget> RequestDamageIndicator();
+
+	/**
+	* 데미지 인디게이터를 배열로 반환
+	*/
 	void ReturnDamageIndicator(TObjectPtr<AEnemyDamageWidget> In_Object);
 
+	/**
+	* SaveGame을 통하여 데이터 저장
+	*/
 	UFUNCTION(BlueprintCallable)
 	bool SaveGameToSlotCustom(USaveGame* SaveGameObject, const FString& SlotName, const int32 UserIndex);
 
+	/**
+	* 동일한 이름의 SaveGame 파일이 존재하는지 확인
+	*/
 	UFUNCTION(BlueprintCallable)
 	bool DoesSaveGameExistCustom(const FString& SlotName, const int32 UserIndex);
 
+	/**
+	* 존재하는 세이브 파일 제거
+	*/
 	UFUNCTION(BlueprintCallable)
 	bool DeleteSaveGameSlotCustom(const FString& SlotName, const int32 UserIndex);
 
+	/**
+	* 데이터 세이브 파일 불러오기
+	*/
 	UFUNCTION(BlueprintCallable)
 	USaveGame* LoadGameFromSlotCustom(const FString& SlotName, const  int32 UserIndex);
 
 public:
+	/**
+	* 데이터 세이브 파일 Template
+	*/
 	template<typename T>
 	T* LoadGameFromSlotTemp(const FString& SlotName, const  int32 UserIndex);
 

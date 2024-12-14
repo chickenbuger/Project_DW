@@ -13,7 +13,15 @@ UENUM(BlueprintType)
 enum class EPlayerWeaponState : uint8
 {
 	None				UMETA(DisplayName = "None"),
-	NoWeapon		UMETA(DisplayName = "NoWeapon"),
+	NoWeapon			UMETA(DisplayName = "NoWeapon"),
+};
+
+UENUM(BlueprintType)
+enum class EAttackCheckType : uint8
+{
+	Box					UMETA(DisplayName = "Box"),
+	Circle				UMETA(DisplayName = "Circle"),
+	Arc					UMETA(DisplayName = "Arc"),
 };
 
 UCLASS()

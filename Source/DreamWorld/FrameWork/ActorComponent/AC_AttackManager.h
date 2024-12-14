@@ -2,6 +2,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "../../ENUM/PlayerEnum.h"
 #include "Components/ActorComponent.h"
 #include "AC_AttackManager.generated.h"
 
@@ -42,5 +43,8 @@ private:
 	TObjectPtr<APawn> m_OwnerCharacter;
 
 private:
+	//
+	bool CheckAttackRange(const FVector In_BoxHalfSize, const uint32 In_Range, TArray<FHitResult>& OutHits);
+
 	bool CheckTheScopeOfTheBoxAttack(const FVector In_BoxHalfSize, const uint32 In_Range, TArray<FHitResult>& OutHits);
 };

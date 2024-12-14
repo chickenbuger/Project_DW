@@ -26,8 +26,7 @@ public:
 	void ReceiveDamage(float In_Damage);
 
 	//Animation
-	void RequestAnimationMontage(TObjectPtr<UAnimMontage> in_AnimMontage);
-	void RequestAnimationMontage(TObjectPtr<UAnimMontage> in_AnimMontage, float In_AttackSpeed);
+	void RequestAnimationMontage(TObjectPtr<UAnimMontage> in_AnimMontage, float In_AttackSpeed=1.f);
 
 public:	
 	// Called every frame

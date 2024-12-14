@@ -26,6 +26,7 @@ AGM_Lobby::AGM_Lobby()
 	}
 }
 
+//삭제 예정
 void AGM_Lobby::Testprint(FString str, int data)
 {
 	UE_LOG(LogTemp, Warning, TEXT("AGM_TestPrint"));
@@ -38,15 +39,12 @@ void AGM_Lobby::Request_Save_CharacterName()
 {
 	/**
 	* 캐릭터 슬롯 불러와서 저장하기
-	* 
 	*/
-	 TObjectPtr<UGI_Main> gameinstance = Cast<UGI_Main>(GetGameInstance());
-	 if (nullptr == gameinstance)
-	 {
-		 return;
-	 }
-
-	 Testprint("Request_Save_CharacterName", 21);
+	TObjectPtr<UGI_Main> gameinstance = Cast<UGI_Main>(GetGameInstance());
+	if (nullptr == gameinstance)
+	{
+		return;
+	}
 
 	if (gameinstance->DoesSaveGameExistCustom(TotalCharacterSlotString, 0))
 	{
@@ -61,6 +59,9 @@ void AGM_Lobby::Request_Save_CharacterName()
 
 ACharacter* AGM_Lobby::Request_Create_Character(const int In_Pos)
 {
+	/**
+	* 지정된 위치(0,1,2)에 플레이어 캐릭터를 소환
+	*/
 	TObjectPtr<ACharacter> character = GetWorld()->SpawnActor<ACharacter>(m_AppearCharacterClass, m_PlayerSpawnTransform[In_Pos]);
 	return character;
 }

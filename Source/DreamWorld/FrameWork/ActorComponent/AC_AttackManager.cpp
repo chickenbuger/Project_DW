@@ -74,9 +74,6 @@ bool UAC_AttackManager::CheckTheScopeOfTheBoxAttack(const FVector In_BoxHalfSize
 		Params
 	);
 
-	DrawDebugBox(GetWorld(), Start, BoxHalfSize, Orientation.Quaternion(), FColor::Green, false, 2.0f);
-	//DrawDebugBox(GetWorld(), End, BoxHalfSize, Orientation.Quaternion(), FColor::Blue, false, 2.0f);z
-
 	if (bHit)
 	{
 		for (const FHitResult& OutHit : OutHits)

@@ -30,10 +30,10 @@ public:
 
 public:
 	/** Getter */
-	TObjectPtr<UNiagaraSystem> GetCursorEffect() const { return m_VFX_Cursor; }
+	TObjectPtr<UNiagaraSystem> GetCursorEffect() const				{ return m_VFX_Cursor; }
 
 	/** Setter */
-	void SetCursorEffect(TObjectPtr<UNiagaraSystem> _VFX_Cursor) { m_VFX_Cursor = _VFX_Cursor; }
+	void SetCursorEffect(TObjectPtr<UNiagaraSystem> _VFX_Cursor)	{ m_VFX_Cursor = _VFX_Cursor; }
 
 protected:
 	virtual void BeginPlay();

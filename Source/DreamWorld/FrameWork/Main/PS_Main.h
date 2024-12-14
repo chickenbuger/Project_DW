@@ -36,7 +36,7 @@ public:
 
 public:
 	//Getter
-	FName			GetCharacterName() const				{ return m_PlayerName; }
+	FName				GetCharacterName() const				{ return m_PlayerName; }
 
 	//Setter
 	void				SetCharacterName(FName In_PlayerName)			{ m_PlayerName = In_PlayerName; }
