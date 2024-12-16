@@ -4,6 +4,7 @@
 #include "DreamWorld/FrameWork/Main/GI_Main.h"
 #include "DreamWorld/Enemy/EnemyDamageWidget.h"
 #include "DreamWorld/SaveGame/Sav_CharacterNames.h"
+#include "DreamWorld/Struct/SkillStruct.h"
 
 #include "Misc/FileHelper.h"
 #include "Misc/Paths.h"
@@ -97,4 +98,11 @@ USaveGame* UGI_Main::LoadGameFromSlotCustom(const FString& SlotName, const int32
 	}
 
 	return nullptr;
+}
+
+FSkillData* UGI_Main::LoadSkillDataTable(int In_Code)
+{
+	if (nullptr == m_DT_Skill) return nullptr;
+
+	return m_DT_Skill->FindRow<FSkillData>(*FString::FromInt(In_Code),TEXT(""));
 }

@@ -6,6 +6,7 @@
 /** Components */
 #include "Components/CapsuleComponent.h"
 #include "DreamWorld/FrameWork/ActorComponent/AC_AttackManager.h"
+#include "DreamWorld/FrameWork/ActorComponent/AC_SkillManager.h"
 
 // Sets default values
 AC_Main::AC_Main()
@@ -17,6 +18,13 @@ AC_Main::AC_Main()
 	if (nullptr == m_AttackManager)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("AC_Main :: m_AttackManager is NULL"));
+		return;
+	}
+
+	m_SkillManager = CreateDefaultSubobject<UAC_SkillManager>(TEXT("SkillManager"));
+	if (nullptr == m_SkillManager)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("PlayerState_Main :: SkillManger is NULL"));
 		return;
 	}
 
@@ -34,6 +42,7 @@ void AC_Main::RequestedAttack(const int32 in_SkillID)
 	//Basic Attack
 	if (0 == in_SkillID)
 	{
+		//m_AttackManager->CallAttemptAttack(in_SkillID);
 		m_AttackManager->CallAttemptBoxAttack(this, FVector{ 50.f,50.f,50.f }, 10.f);
 		playerstate->RequestBasicAttackAnimation();
 	}
@@ -96,12 +105,36 @@ void AC_Main::RequestAnimationMontage(TObjectPtr<UAnimMontage> in_AnimMontage, f
 	GetMesh()->GetAnimInstance()->Montage_SetEndDelegate(EndDelegate, in_AnimMontage);
 }
 
+TObjectPtr<UAC_AttackManager> AC_Main::GetAttackManager() const
+{
+	if (nullptr == m_AttackManager)
+	{
+		return nullptr;
+	}
+
+	return m_AttackManager;
+}
+
+TObjectPtr<UAC_SkillManager> AC_Main::GetSkillManager() const
+{
+	if (nullptr == m_SkillManager)
+	{
+		return nullptr;
+	}
+
+	return m_SkillManager;
+}
+
 // Called when the game starts or when spawned
 void AC_Main::BeginPlay()
 {
 	Super::BeginPlay();
-	
-	m_AttackManager->SetOwnerCharacter(this);
+
+	//NewObject 이후에 무조건 필요, 생성된 컴포넌트를 활성화 하는데 필수
+	m_AttackManager->RegisterComponent();
+	m_AttackManager->SetOwnerCharacter(*this);
+	m_SkillManager->RegisterComponent();
+	m_SkillManager->SetOwnerCharacter(*this);
 }
 
 void AC_Main::OnMontageEnded(UAnimMontage* in_Montage, bool bInterrupted)

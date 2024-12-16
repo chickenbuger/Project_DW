@@ -9,8 +9,10 @@
 /**
  * 
  */
-class AEnemyDamageWidget;
-class USaveGame;
+class	AEnemyDamageWidget;
+class	USaveGame;
+class	UDataTable;
+struct	FSkillData;
 
 UCLASS()
 class DREAMWORLD_API UGI_Main : public UGameInstance
@@ -31,6 +33,8 @@ public:
 	void SetSavePath(const FString In_SavePath) { m_SavePath = In_SavePath; }
 
 public:
+	/* 데미지 위젯 처리 */
+
 	/**
 	* 데미지 Widget을 반환
 	* Widget을 저장하는 배열이 비어있을 경우 SpawnActor를 통해 Object를 생성 후 반환
@@ -41,6 +45,10 @@ public:
 	* 데미지 인디게이터를 배열로 반환
 	*/
 	void ReturnDamageIndicator(TObjectPtr<AEnemyDamageWidget> In_Object);
+
+
+
+	/* 데이터 저장 관련 처리 */
 
 	/**
 	* SaveGame을 통하여 데이터 저장
@@ -66,26 +74,36 @@ public:
 	UFUNCTION(BlueprintCallable)
 	USaveGame* LoadGameFromSlotCustom(const FString& SlotName, const  int32 UserIndex);
 
+	/* 데이터 테이블 가져오기 */
+	FSkillData* LoadSkillDataTable(int In_Code);
+
 public:
-	/**
-	* 데이터 세이브 파일 Template
-	*/
+	/* 데이터 세이브 파일 Template */
 	template<typename T>
 	T* LoadGameFromSlotTemp(const FString& SlotName, const  int32 UserIndex);
 
 private:
+	/* 데미지 관련 */
+	//데미지 위젯 풀링
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	TArray<TObjectPtr<AEnemyDamageWidget>> m_DamageIndicatorWidgetPooling;
 
+	//데미지 위젯 Class
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<AActor> m_DamageIndicatorClass;
 
+	/* 플레이어 이름 */
 	//캐릭터 이름 지정(남은 데이터 파일을 찾는데 사용)
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	FString m_PlayerName;
 
+	/* Save Game 데이터 저장 경로 */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	FString m_SavePath;
+
+	/* Data Table */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UDataTable>	m_DT_Skill;
 };
 
 template<typename T>

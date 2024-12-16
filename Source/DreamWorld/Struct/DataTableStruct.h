@@ -41,16 +41,16 @@ public:
 UENUM()
 enum class ECharacterPartType : uint8
 {
-	E_NONE			UMETA(DisplayName = "None"),
+	E_NONE				UMETA(DisplayName = "None"),
 
-	E_Helm			UMETA(DisplayName = "Helm"),
+	E_Helm				UMETA(DisplayName = "Helm"),
 	E_Hair				UMETA(DisplayName = "Hair"),
 	E_Face				UMETA(DisplayName = "Face"),
-	E_Shoulder		UMETA(DisplayName = "Shoulder"),
-	E_Cloth			UMETA(DisplayName = "Cloth"),
-	E_Glove			UMETA(DisplayName = "Glove"),
+	E_Shoulder			UMETA(DisplayName = "Shoulder"),
+	E_Cloth				UMETA(DisplayName = "Cloth"),
+	E_Glove				UMETA(DisplayName = "Glove"),
 	E_Belt				UMETA(DisplayName = "Belt"),
-	E_Shoes			UMETA(DisplayName = "Shoes"),
+	E_Shoes				UMETA(DisplayName = "Shoes"),
 };
 
 USTRUCT()

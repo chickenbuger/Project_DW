@@ -6,6 +6,9 @@
 #include "Components/ActorComponent.h"
 #include "AC_AttackManager.generated.h"
 
+#ifndef DEBUGMODE
+#define DEBUGMODE 1
+#endif
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class DREAMWORLD_API UAC_AttackManager : public UActorComponent
@@ -23,11 +26,13 @@ public:
 	*/
 	void CallAttemptBoxAttack(TObjectPtr<AActor> in_Player, const FVector in_AttackArea,  float in_Damage);
 
+	void CallAttemptAttack(const int In_SkillID);
+
 public:
 	/** Getter */
 	TObjectPtr<APawn> GetOwnerCharacter() const { return m_OwnerCharacter; }
-	/** Setter */
 
+	/** Setter */
 	void SetOwnerCharacter(TObjectPtr<APawn> in_OwnerChacter) { m_OwnerCharacter = in_OwnerChacter; }
 
 public:	
@@ -43,8 +48,15 @@ private:
 	TObjectPtr<APawn> m_OwnerCharacter;
 
 private:
-	//
-	bool CheckAttackRange(const FVector In_BoxHalfSize, const uint32 In_Range, TArray<FHitResult>& OutHits);
+	/* Attack Check */
+	//Box
+	bool CheckBoxTypeAttack(const FVector In_BoxHalfSize, const uint32 In_Range, TArray<FHitResult>& OutHits);
+
+	//Circle
+	bool CheckCircleTypeAttack(const float In_Radius,const FVector& In_AttackPoint ,TArray<FHitResult>& OutHits);
+
+	//Arc
+	bool CheckArcTypeAttack(const FVector In_BoxHalfSize, const uint32 In_Range, TArray<FHitResult>& OutHits);
 
 	bool CheckTheScopeOfTheBoxAttack(const FVector In_BoxHalfSize, const uint32 In_Range, TArray<FHitResult>& OutHits);
 };

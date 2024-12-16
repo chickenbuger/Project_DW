@@ -9,7 +9,7 @@
 /**
  * 
  */
-class UAC_SkillManager;
+
 class UAC_PlayerAnimation;
 
 UCLASS()
@@ -36,7 +36,7 @@ public:
 
 public:
 	//Getter
-	FName				GetCharacterName() const				{ return m_PlayerName; }
+	FName				GetCharacterName() const						{ return m_PlayerName; }
 
 	//Setter
 	void				SetCharacterName(FName In_PlayerName)			{ m_PlayerName = In_PlayerName; }
@@ -46,9 +46,6 @@ private:
 	FName m_PlayerName;
 	
 	/** Actor Components */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Skill", meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UAC_SkillManager> m_SkillManager;
-
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Animation", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UAC_PlayerAnimation> m_PlayerAnimationManager;
 };

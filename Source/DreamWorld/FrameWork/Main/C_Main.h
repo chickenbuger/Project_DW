@@ -7,6 +7,7 @@
 #include "GameFramework/Character.h"
 #include "C_Main.generated.h"
 
+class UAC_SkillManager;
 class UAC_AttackManager;
 
 UCLASS()
@@ -28,6 +29,9 @@ public:
 	//Animation
 	void RequestAnimationMontage(TObjectPtr<UAnimMontage> in_AnimMontage, float In_AttackSpeed=1.f);
 
+	TObjectPtr<UAC_AttackManager>	GetAttackManager()		const;
+	TObjectPtr<UAC_SkillManager>	GetSkillManager()		const;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -42,6 +46,9 @@ protected:
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Manager", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UAC_AttackManager> m_AttackManager;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Manager", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UAC_SkillManager> m_SkillManager;
 
 private:
 	UFUNCTION()
