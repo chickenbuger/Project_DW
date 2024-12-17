@@ -36,6 +36,9 @@ public:
 	TArray<FVector>				m_Attack_Range;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float						m_Attack_Damage;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FName						m_SkillName;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)

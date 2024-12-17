@@ -10,6 +10,10 @@
 #define DEBUGMODE 1
 #endif
 
+#ifndef LOGMODE
+#define LOGMODE 1
+#endif
+
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class DREAMWORLD_API UAC_AttackManager : public UActorComponent
 {
@@ -50,7 +54,7 @@ private:
 private:
 	/* Attack Check */
 	//Box
-	bool CheckBoxTypeAttack(const FVector In_BoxHalfSize, const uint32 In_Range, TArray<FHitResult>& OutHits);
+	bool CheckBoxTypeAttack(const FVector In_BoxHalfSize, TArray<FHitResult>& OutHits);
 
 	//Circle
 	bool CheckCircleTypeAttack(const float In_Radius,const FVector& In_AttackPoint ,TArray<FHitResult>& OutHits);

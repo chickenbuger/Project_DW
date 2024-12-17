@@ -61,27 +61,55 @@ void UAC_AttackManager::CallAttemptAttack(const int In_SkillID)
 	FSkillData* DT_skill = gameInstance->LoadSkillDataTable(In_SkillID);
 	if (nullptr == DT_skill) return;
 
-	/*
+	TSet<TObjectPtr<ANC_EnemyBase>> TotalEnemys;
+
 	for (int index = 0; index < DT_skill->m_Attack_Type.Num(); index++)
 	{
 		//index번 째 공격 타입
 		const EAttackCheckType& attacktype = DT_skill->m_Attack_Type[index]; 
 		FVector range = DT_skill->m_Attack_Range[index];
+		TArray<FHitResult>	OutHits;
+
+		//HitActor가 존재하는지 체크
+		bool isSucc = false;
 		if (attacktype == EAttackCheckType::Box)
 		{
 			//range : x,y,z
-			//CheckBoxTypeAttack(range,)
+			if (CheckBoxTypeAttack(range, OutHits)) isSucc = true;
 		}
 		else if (attacktype == EAttackCheckType::Circle)
 		{
 			//range : r
+			//if (CheckBoxTypeAttack(range, OutHits)) isSucc = true;
 		}
 		else if (attacktype == EAttackCheckType::Arc)
 		{
 			//range : r, start angle, end angle
+			//if (CheckBoxTypeAttack(range, OutHits)) isSucc = true;
+		}
+
+		if (isSucc)
+		{
+			for (const FHitResult& OutHit : OutHits)
+			{
+				TObjectPtr<ANC_EnemyBase> enemy = Cast<ANC_EnemyBase>(OutHit.GetActor());
+				if (nullptr == enemy)
+				{
+					continue;
+				}
+				
+				if (!TotalEnemys.Contains(enemy))
+				{
+					TotalEnemys.Add(enemy);
+				}
+			}
 		}
 	}
-	*/
+
+	for (const TObjectPtr<ANC_EnemyBase>& enemy : TotalEnemys)
+	{
+		enemy->RecieveDamage(DT_skill->m_Attack_Damage);
+	}
 }
 
 // Called when the game starts
@@ -93,12 +121,12 @@ void UAC_AttackManager::BeginPlay()
 	
 }
 
-bool UAC_AttackManager::CheckBoxTypeAttack(const FVector In_BoxHalfSize, const uint32 In_Range, TArray<FHitResult>& OutHits)
+bool UAC_AttackManager::CheckBoxTypeAttack(const FVector In_BoxHalfSize, TArray<FHitResult>& OutHits)
 {
 	const FVector Location = m_OwnerCharacter->GetActorLocation();
 	const FVector Forward = m_OwnerCharacter->GetActorForwardVector();
-	const FVector Start = Location + Forward * 100.f;
-	const FVector End = Start + Forward * In_Range;
+	const FVector Start = Location;
+	const FVector End = Location + Forward * In_BoxHalfSize.X;
 
 	const FVector BoxHalfSize = In_BoxHalfSize;
 	const FRotator Orientation = m_OwnerCharacter->GetActorRotation();
@@ -183,10 +211,10 @@ bool UAC_AttackManager::CheckArcTypeAttack(const FVector In_BoxHalfSize, const u
 //Box
 bool UAC_AttackManager::CheckTheScopeOfTheBoxAttack(const FVector In_BoxHalfSize, const uint32 In_Range, TArray<FHitResult>& OutHits)
 {
-	const FVector Location= m_OwnerCharacter->GetActorLocation();
+	const FVector Location	= m_OwnerCharacter->GetActorLocation();
 	const FVector Forward	= m_OwnerCharacter->GetActorForwardVector();
-	const FVector Start		= Location + Forward;// *100.f;
-	const FVector End		= Start + Forward * In_Range;
+	const FVector Start		= Location;
+	const FVector End		= Location + Forward * In_BoxHalfSize.X;
 
 	const FVector BoxHalfSize = In_BoxHalfSize;
 	const FRotator Orientation = m_OwnerCharacter->GetActorRotation();
@@ -205,7 +233,11 @@ bool UAC_AttackManager::CheckTheScopeOfTheBoxAttack(const FVector In_BoxHalfSize
 		Params
 	);
 
-	DrawDebugBox(GetWorld(), Start, BoxHalfSize, Orientation.Quaternion(), FColor::Green, false, 2.0f);
+	UE_LOG(LogTemp, Warning, TEXT("start : %s  End : %s"), *Start.ToString(),*End.ToString());
+
+	FVector draw(Start.X+(End.X - Start.X)/2, Start.Y+(End.Y - Start.Y)/2, Start.Z);
+
+	DrawDebugBox(GetWorld(), draw, BoxHalfSize, Orientation.Quaternion(), FColor::Green, false, 2.0f);
 	//DrawDebugBox(GetWorld(), End, BoxHalfSize, Orientation.Quaternion(), FColor::Blue, false, 2.0f);
 
 	if (bHit)
