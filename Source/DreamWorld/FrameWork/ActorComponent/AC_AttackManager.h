@@ -24,12 +24,6 @@ public:
 	UAC_AttackManager();
 
 public:
-	/**
-	* 인자 : 공격 시도자, 데미지
-	* 공격 범위 체크 및 데미지 처리
-	*/
-	void CallAttemptBoxAttack(TObjectPtr<AActor> in_Player, const FVector in_AttackArea,  float in_Damage);
-
 	void CallAttemptAttack(const int In_SkillID);
 
 public:
@@ -61,6 +55,4 @@ private:
 
 	//Arc
 	bool CheckArcTypeAttack(const FVector In_BoxHalfSize, const uint32 In_Range, TArray<FHitResult>& OutHits);
-
-	bool CheckTheScopeOfTheBoxAttack(const FVector In_BoxHalfSize, const uint32 In_Range, TArray<FHitResult>& OutHits);
 };
