@@ -21,16 +21,20 @@ public:
 
 public:
 	//Offense
-	void RequestedAttack(const int32 in_SkillID);
+	void RequestedAttack(const int32& in_SkillID);
 
 	//Take Damage
 	void ReceiveDamage(float In_Damage);
 
 	//Animation
 	void RequestAnimationMontage(TObjectPtr<UAnimMontage> in_AnimMontage, float In_AttackSpeed=1.f);
+	void RequestAttackTimeOff();
+	void ReqeustAttackCheck();
 
+	//Getter
 	TObjectPtr<UAC_AttackManager>	GetAttackManager()		const;
 	TObjectPtr<UAC_SkillManager>	GetSkillManager()		const;
+	bool							GetAttackTiming()		const;
 
 public:	
 	// Called every frame
@@ -45,10 +49,16 @@ protected:
 
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Manager", meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UAC_AttackManager> m_AttackManager;
+	TObjectPtr<UAC_AttackManager>	m_AttackManager;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Manager", meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UAC_SkillManager> m_SkillManager;
+	TObjectPtr<UAC_SkillManager>	m_SkillManager;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Attack", meta = (AllowPrivateAccess = "true"))
+	int								m_current_skill_Id;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Attack", meta = (AllowPrivateAccess = "true"))
+	bool							m_AttackTime;
 
 private:
 	UFUNCTION()

@@ -15,7 +15,7 @@ class DREAMWORLD_API UAI_Player : public UAnimInstance
 	GENERATED_BODY()
 	
 public:
-
+	UAI_Player() : m_PlayerPawn(nullptr), m_Velocity(FVector()), m_Speed(0.f) {}
 
 protected:
 	//Init
@@ -32,4 +32,8 @@ protected:
 
 	UPROPERTY(Transient, EditAnywhere, BlueprintReadOnly, Category = "Pawn | Speed", meta = (AllowPrivateAccess = "true"))
 	double									m_Speed;
+
+private:
+	UFUNCTION()
+	void AnimNotify_AttackTiming();
 };

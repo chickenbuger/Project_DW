@@ -9,7 +9,7 @@
 #include "DreamWorld/FrameWork/ActorComponent/AC_SkillManager.h"
 
 // Sets default values
-AC_Main::AC_Main()
+AC_Main::AC_Main() : m_AttackManager(nullptr), m_SkillManager(nullptr), m_current_skill_Id(-1), m_AttackTime(false)
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
@@ -31,7 +31,7 @@ AC_Main::AC_Main()
 	GetCapsuleComponent()->SetCollisionProfileName(TEXT("PlayerCharacter"));
 }
 
-void AC_Main::RequestedAttack(const int32 in_SkillID)
+void AC_Main::RequestedAttack(const int32& in_SkillID)
 {
 	TObjectPtr<APS_Main> playerstate = GetPlayerState<APS_Main>();
 	if (nullptr == playerstate) { return; }
@@ -40,7 +40,10 @@ void AC_Main::RequestedAttack(const int32 in_SkillID)
 	if (nullptr == m_AttackManager) { return; }
 
 
-	m_AttackManager->CallAttemptAttack(in_SkillID);
+	//m_AttackManager->CallAttemptAttack(in_SkillID);
+	m_AttackTime = true;
+	m_current_skill_Id = in_SkillID;
+
 	playerstate->RequestBasicAttackAnimation();
 }
 
@@ -95,6 +98,16 @@ void AC_Main::RequestAnimationMontage(TObjectPtr<UAnimMontage> in_AnimMontage, f
 	GetMesh()->GetAnimInstance()->Montage_SetEndDelegate(EndDelegate, in_AnimMontage);
 }
 
+void AC_Main::RequestAttackTimeOff()
+{
+	m_AttackTime = false;
+}
+
+void AC_Main::ReqeustAttackCheck()
+{
+	m_AttackManager->CallAttemptAttack(m_current_skill_Id);
+}
+
 TObjectPtr<UAC_AttackManager> AC_Main::GetAttackManager() const
 {
 	if (nullptr == m_AttackManager)
@@ -115,6 +128,11 @@ TObjectPtr<UAC_SkillManager> AC_Main::GetSkillManager() const
 	return m_SkillManager;
 }
 
+bool AC_Main::GetAttackTiming() const
+{
+	return m_AttackTime;
+}
+
 // Called when the game starts or when spawned
 void AC_Main::BeginPlay()
 {
@@ -125,6 +143,8 @@ void AC_Main::BeginPlay()
 	m_AttackManager->SetOwnerCharacter(*this);
 	m_SkillManager->RegisterComponent();
 	m_SkillManager->SetOwnerCharacter(*this);
+
+
 }
 
 void AC_Main::OnMontageEnded(UAnimMontage* in_Montage, bool bInterrupted)

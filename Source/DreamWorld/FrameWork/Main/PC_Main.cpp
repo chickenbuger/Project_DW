@@ -205,7 +205,7 @@ void APC_Main::OnBasicAttackStarted()
 		return;
 	}
 
-	ControlledCharacter->RequestedAttack(1);
+	ControlledCharacter->RequestedAttack(0);
 }
 
 void APC_Main::OnBasicAttackTriggered()
