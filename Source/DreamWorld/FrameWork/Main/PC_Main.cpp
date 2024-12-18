@@ -205,8 +205,7 @@ void APC_Main::OnBasicAttackStarted()
 		return;
 	}
 
-	ControlledCharacter->RequestedAttack(0);
-	//UE_LOG(LogTemp, Warning, TEXT("APC_Main::OnBasicAttackStarted"));
+	ControlledCharacter->RequestedAttack(1);
 }
 
 void APC_Main::OnBasicAttackTriggered()

@@ -25,27 +25,6 @@ UAC_AttackManager::UAC_AttackManager()
 	// ...
 }
 
-void UAC_AttackManager::CallAttemptBoxAttack(TObjectPtr<AActor> in_Player,const FVector in_AttackArea, float in_Damage)
-{
-	TArray<FHitResult> OutHits;
-
-	if (!CheckTheScopeOfTheBoxAttack(in_AttackArea, 100.f, OutHits))
-	{
-		return;
-	}
-
-	for (const FHitResult& OutHit : OutHits)
-	{
-		TObjectPtr<ANC_EnemyBase> enemy = Cast<ANC_EnemyBase>(OutHit.GetActor());
-		if (nullptr == enemy)
-		{
-			continue;
-		}
-
-		enemy->RecieveDamage(in_Damage);
-	}
-}
-
 void UAC_AttackManager::CallAttemptAttack(const int In_SkillID)
 {
 	// CSV 파일을 기반으로 Data Table을 제작하여 Skill에 대한 데이터 추가 필요
@@ -80,7 +59,7 @@ void UAC_AttackManager::CallAttemptAttack(const int In_SkillID)
 		else if (attacktype == EAttackCheckType::Circle)
 		{
 			//range : r
-			//if (CheckBoxTypeAttack(range, OutHits)) isSucc = true;
+			if (CheckCircleTypeAttack(range.X, OutHits)) isSucc = true;
 		}
 		else if (attacktype == EAttackCheckType::Arc)
 		{
@@ -123,17 +102,17 @@ void UAC_AttackManager::BeginPlay()
 
 bool UAC_AttackManager::CheckBoxTypeAttack(const FVector In_BoxHalfSize, TArray<FHitResult>& OutHits)
 {
-	const FVector Location = m_OwnerCharacter->GetActorLocation();
-	const FVector Forward = m_OwnerCharacter->GetActorForwardVector();
-	const FVector Start = Location;
-	const FVector End = Location + Forward * In_BoxHalfSize.X;
+	const FVector Location			= m_OwnerCharacter->GetActorLocation();
+	const FVector Forward			= m_OwnerCharacter->GetActorForwardVector();
+	const FVector Start				= Location;
+	const FVector End				= Location + Forward * In_BoxHalfSize.X;
 
-	const FVector BoxHalfSize = In_BoxHalfSize;
-	const FRotator Orientation = m_OwnerCharacter->GetActorRotation();
+	const FVector BoxHalfSize		= In_BoxHalfSize;
+	const FRotator Orientation		= m_OwnerCharacter->GetActorRotation();
 
-	ECollisionChannel TraceChannel = ECC_GameTraceChannel4;
+	ECollisionChannel TraceChannel	= ECC_GameTraceChannel4;
 
-	FCollisionShape CollisionShape = FCollisionShape::MakeBox(BoxHalfSize);
+	FCollisionShape CollisionShape	= FCollisionShape::MakeBox(BoxHalfSize);
 
 	FCollisionQueryParams Params;
 
@@ -151,29 +130,35 @@ bool UAC_AttackManager::CheckBoxTypeAttack(const FVector In_BoxHalfSize, TArray<
 	DrawDebugBox(GetWorld(), Start, BoxHalfSize, Orientation.Quaternion(), FColor::Green, false, 2.0f);
 #endif
 
+#if LOGMODE
+	UE_LOG(LogTemp,Warning,TEXT("Start : %s  End : %s"),*Start.ToString(),*End.ToString())
+#endif
+
 	if (bHit)
 	{
+#if DEBUGMODE 
 		for (const FHitResult& OutHit : OutHits)
 		{
-#if DEBUGMODE 
 			DrawDebugBox(GetWorld(), OutHit.ImpactPoint, BoxHalfSize, Orientation.Quaternion(), FColor::Red, false, 2.0f);
-#endif
 		}
+#endif
 		return true;
 	}
 
 	return false;
 }
 
-bool UAC_AttackManager::CheckCircleTypeAttack(const float In_Radius, const FVector& In_AttackPoint, TArray<FHitResult>& OutHits)
+bool UAC_AttackManager::CheckCircleTypeAttack(const float In_Radius, TArray<FHitResult>& OutHits)
 {
-	ECollisionChannel TraceChannel = ECC_GameTraceChannel4;
-	FCollisionShape CollisionShape = FCollisionShape::MakeSphere(In_Radius);
+	const FVector AttackPoint = m_OwnerCharacter->GetActorLocation();
+
+	ECollisionChannel TraceChannel	= ECC_GameTraceChannel4;
+	FCollisionShape CollisionShape	= FCollisionShape::MakeSphere(In_Radius);
 
 	bool bHit = GetWorld()->SweepMultiByChannel(
 		OutHits,
-		In_AttackPoint,
-		In_AttackPoint,
+		AttackPoint,
+		AttackPoint,
 		FQuat::Identity,
 		TraceChannel,
 		CollisionShape
@@ -181,8 +166,8 @@ bool UAC_AttackManager::CheckCircleTypeAttack(const float In_Radius, const FVect
 
 #if DEBUGMODE 
 	FRotator DesiredAngleZ = m_OwnerCharacter->GetActorRotation();
-	DrawCircle(GetWorld(), In_AttackPoint, 
-		DesiredAngleZ.RotateVector(FVector(0, 1, 0)), DesiredAngleZ.RotateVector(FVector(0, 0, 1)), 
+	DrawCircle(GetWorld(), AttackPoint,
+		DesiredAngleZ.RotateVector(FVector(1, 0, 0)), DesiredAngleZ.RotateVector(FVector(0, 1, 0)), 
 		FColor::Green, In_Radius, 50, false, 2.0f);
 #endif
 
@@ -192,8 +177,8 @@ bool UAC_AttackManager::CheckCircleTypeAttack(const float In_Radius, const FVect
 		{
 #if DEBUGMODE 
 			DesiredAngleZ = OutHit.GetActor()->GetActorRotation();
-			DrawCircle(GetWorld(), In_AttackPoint,
-				DesiredAngleZ.RotateVector(FVector(0, 1, 0)), DesiredAngleZ.RotateVector(FVector(0, 0, 1)),
+			DrawCircle(GetWorld(), AttackPoint,
+				DesiredAngleZ.RotateVector(FVector(1, 0, 0)), DesiredAngleZ.RotateVector(FVector(0, 1, 0)),
 				FColor::Red, In_Radius, 50, false, 2.0f);
 #endif
 		}
@@ -205,50 +190,6 @@ bool UAC_AttackManager::CheckCircleTypeAttack(const float In_Radius, const FVect
 
 bool UAC_AttackManager::CheckArcTypeAttack(const FVector In_BoxHalfSize, const uint32 In_Range, TArray<FHitResult>& OutHits)
 {
-	return false;
-}
-
-//Box
-bool UAC_AttackManager::CheckTheScopeOfTheBoxAttack(const FVector In_BoxHalfSize, const uint32 In_Range, TArray<FHitResult>& OutHits)
-{
-	const FVector Location	= m_OwnerCharacter->GetActorLocation();
-	const FVector Forward	= m_OwnerCharacter->GetActorForwardVector();
-	const FVector Start		= Location;
-	const FVector End		= Location + Forward * In_BoxHalfSize.X;
-
-	const FVector BoxHalfSize = In_BoxHalfSize;
-	const FRotator Orientation = m_OwnerCharacter->GetActorRotation();
-
-	ECollisionChannel TraceChannel = ECC_GameTraceChannel4;
-
-	FCollisionQueryParams Params;
-	
-	bool bHit = GetWorld()->SweepMultiByChannel(
-		OutHits,
-		Start,
-		End,
-		Orientation.Quaternion(),
-		TraceChannel,
-		FCollisionShape::MakeBox(BoxHalfSize),
-		Params
-	);
-
-	UE_LOG(LogTemp, Warning, TEXT("start : %s  End : %s"), *Start.ToString(),*End.ToString());
-
-	FVector draw(Start.X+(End.X - Start.X)/2, Start.Y+(End.Y - Start.Y)/2, Start.Z);
-
-	DrawDebugBox(GetWorld(), draw, BoxHalfSize, Orientation.Quaternion(), FColor::Green, false, 2.0f);
-	//DrawDebugBox(GetWorld(), End, BoxHalfSize, Orientation.Quaternion(), FColor::Blue, false, 2.0f);
-
-	if (bHit)
-	{
-		for (const FHitResult& OutHit : OutHits)
-		{
-			DrawDebugBox(GetWorld(), OutHit.ImpactPoint, BoxHalfSize, Orientation.Quaternion(), FColor::Red, false, 2.0f);
-		}
-		return true;
-	}
-
 	return false;
 }
 

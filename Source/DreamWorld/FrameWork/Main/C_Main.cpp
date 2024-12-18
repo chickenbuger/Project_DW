@@ -39,19 +39,9 @@ void AC_Main::RequestedAttack(const int32 in_SkillID)
 	if (0 > in_SkillID) { return; }
 	if (nullptr == m_AttackManager) { return; }
 
-	//Basic Attack
-	if (0 == in_SkillID)
-	{
-		//m_AttackManager->CallAttemptAttack(in_SkillID);
-		m_AttackManager->CallAttemptBoxAttack(this, FVector{ 50.f,50.f,50.f }, 10.f);
-		playerstate->RequestBasicAttackAnimation();
-	}
-	else
-	{
-		//To Do.. 데미지 체크
-		/* --------------- */
-		playerstate->RequestPlayerSkill(in_SkillID);
-	}
+
+	m_AttackManager->CallAttemptAttack(in_SkillID);
+	playerstate->RequestBasicAttackAnimation();
 }
 
 void AC_Main::ReceiveDamage(float In_Damage)
