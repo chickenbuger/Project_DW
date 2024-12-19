@@ -104,10 +104,13 @@ bool UAC_AttackManager::CheckBoxTypeAttack(const FVector In_BoxHalfSize, TArray<
 {
 	const FVector Location			= m_OwnerCharacter->GetActorLocation();
 	const FVector Forward			= m_OwnerCharacter->GetActorForwardVector();
-	const FVector Start				= Location;
-	const FVector End				= Location + Forward * In_BoxHalfSize.X;
+	
+	const FVector ModifyLoc			= Forward * 5.f;
 
-	const FVector BoxHalfSize		= In_BoxHalfSize;
+	const FVector Start				= Location + ModifyLoc;
+	const FVector End				= Location + Forward * In_BoxHalfSize.X * 2 + ModifyLoc;
+
+	const FVector BoxHalfSize		= FVector(0.f,In_BoxHalfSize.Y, In_BoxHalfSize.Z);//In_BoxHalfSize;
 	const FRotator Orientation		= m_OwnerCharacter->GetActorRotation();
 
 	ECollisionChannel TraceChannel	= ECC_GameTraceChannel4;
@@ -118,7 +121,7 @@ bool UAC_AttackManager::CheckBoxTypeAttack(const FVector In_BoxHalfSize, TArray<
 
 	bool bHit = GetWorld()->SweepMultiByChannel(
 		OutHits,
-		Start,
+		Start, 
 		End,
 		Orientation.Quaternion(),
 		TraceChannel,
@@ -127,7 +130,14 @@ bool UAC_AttackManager::CheckBoxTypeAttack(const FVector In_BoxHalfSize, TArray<
 	);
 
 #if DEBUGMODE 
-	DrawDebugBox(GetWorld(), Start, BoxHalfSize, Orientation.Quaternion(), FColor::Green, false, 2.0f);
+	//Box Size
+	const FVector DrawPos(Start.X + (End.X - Start.X) / 2.0f, Start.Y + (End.Y - Start.Y) / 2.0f, Start.Z);
+	DrawDebugBox(GetWorld(), DrawPos, In_BoxHalfSize, Orientation.Quaternion(), FColor::Green, false, 2.0f);
+
+	//Line Check
+	DrawDebugLine(GetWorld(), Start		, FVector(Start.X, Start.Y, Start.Z + 100)			, FColor::Red, false, 2.0f);
+	DrawDebugLine(GetWorld(), DrawPos	, FVector(DrawPos.X, DrawPos.Y, DrawPos.Z + 100)	, FColor::Red, false, 2.0f);
+	DrawDebugLine(GetWorld(), End		, FVector(End.X, End.Y, End.Z + 100)				, FColor::Red, false, 2.0f);
 #endif
 
 #if LOGMODE
