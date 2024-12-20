@@ -47,26 +47,35 @@ void UAC_AttackManager::CallAttemptAttack(const int In_SkillID)
 		//index번 째 공격 타입
 		const EAttackCheckType& attacktype = DT_skill->m_Attack_Type[index]; 
 		FVector range = DT_skill->m_Attack_Range[index];
-		TArray<FHitResult>	OutHits;
+		
+		//Box, Circle 체크용
+		TArray<FHitResult>				OutHits;
+		//Arc 체크용
+		TArray<TObjectPtr<AActor>>		OutArcHits;
 
 		//HitActor가 존재하는지 체크
-		bool isSucc = false;
+		bool isSucc		= false;
+		bool isArcSucc	= false;
 		if (attacktype == EAttackCheckType::Box)
 		{
+			//Box 검사
 			//range : x,y,z
 			if (CheckBoxTypeAttack(range, OutHits)) isSucc = true;
 		}
 		else if (attacktype == EAttackCheckType::Circle)
 		{
+			//Circle 검사
 			//range : r
 			if (CheckCircleTypeAttack(range.X, OutHits)) isSucc = true;
 		}
 		else if (attacktype == EAttackCheckType::Arc)
 		{
-			//range : r, start angle, end angle
-			//if (CheckBoxTypeAttack(range, OutHits)) isSucc = true;
+			//Arc 검사
+			//range : r, angle
+			if (CheckArcTypeAttack(range, OutArcHits)) isArcSucc = true;
 		}
 
+		//Box, Circle 검사
 		if (isSucc)
 		{
 			for (const FHitResult& OutHit : OutHits)
@@ -77,6 +86,24 @@ void UAC_AttackManager::CallAttemptAttack(const int In_SkillID)
 					continue;
 				}
 				
+				if (!TotalEnemys.Contains(enemy))
+				{
+					TotalEnemys.Add(enemy);
+				}
+			}
+		}
+
+		//Arc 검사
+		if (isArcSucc)
+		{
+			for (const TObjectPtr<AActor>& HitActor : OutArcHits)
+			{
+				TObjectPtr<ANC_EnemyBase> enemy = Cast<ANC_EnemyBase>(HitActor);
+				if (nullptr == enemy)
+				{
+					continue;
+				}
+
 				if (!TotalEnemys.Contains(enemy))
 				{
 					TotalEnemys.Add(enemy);
@@ -138,24 +165,18 @@ bool UAC_AttackManager::CheckBoxTypeAttack(const FVector In_BoxHalfSize, TArray<
 	DrawDebugLine(GetWorld(), Start		, FVector(Start.X, Start.Y, Start.Z + 100)			, FColor::Red, false, 2.0f);
 	DrawDebugLine(GetWorld(), DrawPos	, FVector(DrawPos.X, DrawPos.Y, DrawPos.Z + 100)	, FColor::Red, false, 2.0f);
 	DrawDebugLine(GetWorld(), End		, FVector(End.X, End.Y, End.Z + 100)				, FColor::Red, false, 2.0f);
+
+	for (const FHitResult& OutHit : OutHits)
+	{
+		DrawDebugBox(GetWorld(), OutHit.ImpactPoint, BoxHalfSize, Orientation.Quaternion(), FColor::Red, false, 2.0f);
+	}
 #endif
 
 #if LOGMODE
 	UE_LOG(LogTemp,Warning,TEXT("Start : %s  End : %s"),*Start.ToString(),*End.ToString())
 #endif
 
-	if (bHit)
-	{
-#if DEBUGMODE 
-		for (const FHitResult& OutHit : OutHits)
-		{
-			DrawDebugBox(GetWorld(), OutHit.ImpactPoint, BoxHalfSize, Orientation.Quaternion(), FColor::Red, false, 2.0f);
-		}
-#endif
-		return true;
-	}
-
-	return false;
+	return bHit;
 }
 
 bool UAC_AttackManager::CheckCircleTypeAttack(const float In_Radius, TArray<FHitResult>& OutHits)
@@ -179,27 +200,61 @@ bool UAC_AttackManager::CheckCircleTypeAttack(const float In_Radius, TArray<FHit
 	DrawCircle(GetWorld(), AttackPoint,
 		DesiredAngleZ.RotateVector(FVector(1, 0, 0)), DesiredAngleZ.RotateVector(FVector(0, 1, 0)), 
 		FColor::Green, In_Radius, 50, false, 2.0f);
+
+	for (const FHitResult& OutHit : OutHits)
+	{
+		DesiredAngleZ = OutHit.GetActor()->GetActorRotation();
+		DrawCircle(GetWorld(), AttackPoint,
+			DesiredAngleZ.RotateVector(FVector(1, 0, 0)), DesiredAngleZ.RotateVector(FVector(0, 1, 0)),
+			FColor::Red, In_Radius, 50, false, 2.0f);
+	}
 #endif
 
-	if (bHit)
+	return bHit;
+}
+
+bool UAC_AttackManager::CheckArcTypeAttack(const FVector In_BoxHalfSize, TArray<TObjectPtr<AActor>>& OutArcHits)
+{
+	TArray<FHitResult> CircleHits;
+	if (CheckCircleTypeAttack(In_BoxHalfSize.X, CircleHits))
 	{
-		for (const FHitResult& OutHit : OutHits)
-		{
+		const FVector PlayerDir				= m_OwnerCharacter->GetActorForwardVector();
+		const FVector PlayerLoc				= m_OwnerCharacter->GetActorLocation();
+
 #if DEBUGMODE 
-			DesiredAngleZ = OutHit.GetActor()->GetActorRotation();
-			DrawCircle(GetWorld(), AttackPoint,
-				DesiredAngleZ.RotateVector(FVector(1, 0, 0)), DesiredAngleZ.RotateVector(FVector(0, 1, 0)),
-				FColor::Red, In_Radius, 50, false, 2.0f);
+		const FVector PlayerRightVector		= m_OwnerCharacter->GetActorRightVector();
+		const FVector StartDir				= PlayerDir.RotateAngleAxis(-In_BoxHalfSize.Y, FVector::UpVector);
+		const FVector EndDir				= PlayerDir.RotateAngleAxis(In_BoxHalfSize.Y, FVector::UpVector);
+
+		const FVector StartPoint			= PlayerLoc + StartDir	* In_BoxHalfSize.X;
+		const FVector EndPoint				= PlayerLoc + EndDir	* In_BoxHalfSize.X;
+
+		DrawDebugLine(GetWorld(), PlayerLoc, StartPoint	, FColor::Black, false, 2.0f);
+		DrawDebugLine(GetWorld(), PlayerLoc, EndPoint	, FColor::Black, false, 2.0f);
 #endif
+
+		for (const FHitResult& Hit : CircleHits)
+		{
+			const FVector OtherActorLoc		= Hit.GetActor()->GetActorLocation();
+			const FVector DirectionToEnemy	= (OtherActorLoc - PlayerLoc).GetSafeNormal();
+
+			const float DotProduct			= FVector::DotProduct(PlayerDir, DirectionToEnemy);
+			const float DiffAngle			= FMath::RadiansToDegrees(FMath::Acos(DotProduct));
+
+			if (DiffAngle <= In_BoxHalfSize.Y)
+			{
+				//데이터 추가
+				OutArcHits.Add(Hit.GetActor());
+#if DEBUGMODE 
+				const FVector hitloc = Hit.GetActor()->GetActorLocation();
+				DrawDebugLine(GetWorld(), hitloc, FVector(hitloc.X, hitloc.Y, hitloc.Z + 200), FColor::Red, false, 2.0f);
+#endif
+			}
 		}
+
 		return true;
 	}
 
-	return false;
-}
-
-bool UAC_AttackManager::CheckArcTypeAttack(const FVector In_BoxHalfSize, const uint32 In_Range, TArray<FHitResult>& OutHits)
-{
 	return false;
 }
 

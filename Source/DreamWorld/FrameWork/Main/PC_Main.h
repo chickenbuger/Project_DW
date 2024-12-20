@@ -49,7 +49,7 @@ protected:
 	//JoyStick
 	void CharacterMove(const FInputActionValue& Value);
 
-	//Attack
+	//Attack Test
 	// Delete
 	UFUNCTION(BlueprintCallable)
 	void OnBasicAttackStarted();
