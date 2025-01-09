@@ -129,20 +129,20 @@ void UAC_AttackManager::BeginPlay()
 
 bool UAC_AttackManager::CheckBoxTypeAttack(const FVector In_BoxHalfSize, TArray<FHitResult>& OutHits)
 {
-	const FVector Location			= m_OwnerCharacter->GetActorLocation();
-	const FVector Forward			= m_OwnerCharacter->GetActorForwardVector();
+	const FVector Location				= m_OwnerCharacter->GetActorLocation();
+	const FVector Forward				= m_OwnerCharacter->GetActorForwardVector();
 	
-	const FVector ModifyLoc			= Forward * 5.f;
+	const FVector ModifyLoc				= Forward * 5.f;
 
-	const FVector Start				= Location + ModifyLoc;
-	const FVector End				= Location + Forward * In_BoxHalfSize.X * 2 + ModifyLoc;
+	const FVector Start					= Location + ModifyLoc;
+	const FVector End					= Location + Forward * In_BoxHalfSize.X * 2 + ModifyLoc;
 
-	const FVector BoxHalfSize		= FVector(0.f,In_BoxHalfSize.Y, In_BoxHalfSize.Z);//In_BoxHalfSize;
-	const FRotator Orientation		= m_OwnerCharacter->GetActorRotation();
+	const FVector BoxHalfSize			= FVector(0.f,In_BoxHalfSize.Y, In_BoxHalfSize.Z);//In_BoxHalfSize;
+	const FRotator Orientation			= m_OwnerCharacter->GetActorRotation();
 
-	ECollisionChannel TraceChannel	= ECC_GameTraceChannel4;
+	ECollisionChannel TraceChannel		= ECC_GameTraceChannel4;
 
-	FCollisionShape CollisionShape	= FCollisionShape::MakeBox(BoxHalfSize);
+	FCollisionShape CollisionShape		= FCollisionShape::MakeBox(BoxHalfSize);
 
 	FCollisionQueryParams Params;
 

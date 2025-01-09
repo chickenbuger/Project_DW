@@ -44,6 +44,7 @@ void AC_Main::RequestedAttack(const int32& in_SkillID)
 	m_AttackTime = true;
 	m_current_skill_Id = in_SkillID;
 
+	//해당 애니메이션 호출
 	playerstate->RequestBasicAttackAnimation();
 }
 
@@ -143,8 +144,6 @@ void AC_Main::BeginPlay()
 	m_AttackManager->SetOwnerCharacter(*this);
 	m_SkillManager->RegisterComponent();
 	m_SkillManager->SetOwnerCharacter(*this);
-
-
 }
 
 void AC_Main::OnMontageEnded(UAnimMontage* in_Montage, bool bInterrupted)
